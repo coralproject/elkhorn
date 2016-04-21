@@ -1,0 +1,72 @@
+{
+	"settings": {
+		"saveDestination": "http://coralasks.theguardian.com/ask/44",
+		"showFieldNumbers": true
+	},
+	"page": {
+		"id": 1,
+		"name": "first_page",
+		"children": [
+			{
+				"type": "separator",
+				"component": "Header",
+				"props": {
+					"text": "An amazing Ask."
+				}
+			},
+			{
+				"type": "field",
+				"component": "TextField",
+				"title": "Please type your e-mail",
+				"validationMessage": "Please type a valid e-mail address.",
+				"props": {
+					"maxLength": 100,
+					"required": true,
+					"validateAs": "email"
+				}
+			},
+			{
+				"type": "field",
+				"component": "TextField",
+				"title": "Are you here just to troll or annoy people?",
+				"props": {
+					"maxLength": 100,
+					"required": true
+				}
+			},
+			{
+				"type": "field",
+				"component": "TextField",
+				"title": "Would you reveal other person's personal data?",
+				"props": {
+					"maxLength": 100,
+					"required": true
+				}
+			},
+			{
+				"type": "field",
+				"component": "TextArea",
+				"title": "Please paste a comment from you on another site",
+				"props": {
+					"maxLength": 400
+				}
+			},
+			{
+				"type": "field",
+				"component": "Rating",
+				"title": "Rate yourself as a commenteer",
+				"props": {
+					"steps": 5
+				}
+			},
+			{
+				"type": "field",
+				"component": "Audio",
+				"title": "Explain why should we let yourself comment on our site",
+				"props": {
+					"steps": 5
+				}
+			}
+		]
+	}
+}
