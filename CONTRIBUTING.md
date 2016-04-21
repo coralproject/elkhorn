@@ -24,7 +24,11 @@ They must return a single value, since **value** can be of any kind and hold mul
 
 ## Enabling widgets on Cay's Ask Builder
 
-As a Widget can be anything
+As a Widget can be anything it needs to export some spec (TBD) of the properties that can be configured on the Ask Builder. 
+
+The builder should save an **Ask Spec** which will be read by the Composer to generate the form.
+
+We are currently simulating such a spec in: ![SampleAskSpec](server/sample-form.json "SampleAskSpec")
 
 ## Guidelines
 
