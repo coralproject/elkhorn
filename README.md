@@ -4,6 +4,8 @@ This repository holds both the Ask Composer and the embeddable builder.
 
 ## AskComposer:
 
+![ArchDiagram](docs/arch.png?raw=true "ArchDiagram")
+
 - ...takes an **Ask spec** in some sort of serialization (JSON or any other), and renders it.
 - ...does not know where the serialized spec came from.
 - ...stores the state of the form (completed fields, current progress, etc)
