@@ -2,9 +2,9 @@
 
 This repository holds both the Ask Composer and the embeddable builder.
 
-## AskComposer:
-
 ![ArchDiagram](docs/arch.png?raw=true "ArchDiagram")
+
+## AskComposer:
 
 - ...takes an **Ask spec** in some sort of serialization (JSON or any other), and renders it.
 - ...does not know where the serialized spec came from.
@@ -12,7 +12,7 @@ This repository holds both the Ask Composer and the embeddable builder.
 - ...persists the state by sending the completed form to a server destination
 - ...may persist partial states locally
 
-## Builder:
+## Embed Service:
 
 - ...uses **rollup** (and it's amazing "tree-shaking" feature) to generate a build of minimum size.
 
