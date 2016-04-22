@@ -12,14 +12,15 @@ class AskWidget extends Component {
     }
   }
 
-  save() {
+  save(options = { moveForward: false }) {
     // whitelist state properties for save
     this.props.onSave({
       index: this.props.index,
       value: this.state.value,
       isValid: this.state.isValid,
       completed: this.state.completed,
-      validationMessage: this.props.validationMessage || 'Please check this field'
+      validationMessage: this.props.validationMessage || 'Please check this field',
+      moveForward: options.moveForward || false
     });
   }
 }

@@ -5,6 +5,7 @@ import TextArea from './TextArea';
 import TextField from './TextField';
 import Header from './Header';
 import Drawer from './Drawer';
+import ImageOptions from './ImageOptions';
 
 export {
   Rating,
@@ -12,5 +13,6 @@ export {
   TextArea,
   TextField,
   Header,
-  Drawer
+  Drawer,
+  ImageOptions
 };

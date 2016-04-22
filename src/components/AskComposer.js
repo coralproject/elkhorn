@@ -9,6 +9,8 @@ class AskComposer extends Component {
     this.state = {
       currentStep: 0,
       completedSteps: [],
+      firstFocusable: -1,
+      lastFocusable: -1,
       ...this.props
     }
     this.composerAnimationFrame = (function(){
@@ -41,10 +43,43 @@ class AskComposer extends Component {
       payload
     );
 
-    console.log(pageCopy);
-    
-    this.setState({ page: pageCopy });
+    var nextStep = payload.moveForward ? this.state.currentStep + 1 : this.state.currentStep;
+    this.setState({ page: pageCopy, currentStep: nextStep });
 
+  }
+
+  getFirstFocusable() {
+
+  }
+
+  getLastFocusable() {
+
+  }
+
+  nextStep() {
+    this.setState({ currentStep: this.state.currentStep + 1 });
+  }
+
+  previousStep() {
+
+  }
+
+  onKeyDown(e) {
+    var newStep = this.state.currentStep;
+    switch (e.keyCode) {
+      case 40: // Down arrow
+      newStep = Math.min(this.state.page.children.length, newStep + 1);
+      break; 
+      case 38: // Up arrow
+        newStep = Math.max(0, newStep - 1);
+      break;
+    }
+    this.setState({ currentStep: newStep });
+
+  }
+
+  onClick(index) {
+    this.setState({ currentStep: index });
   }
 
   getQuestionBarStyles(completedCount, fieldCount) {
@@ -61,12 +96,17 @@ class AskComposer extends Component {
     var completedCount = 0;
     return ( 
       <div 
+        onKeyDown={ this.onKeyDown.bind(this) } 
         ref={ (composer) => this._composer = composer } 
         style={ styles.base }>
           {
             this.state.page.children.map((child, index) => {
 
-              if (child.type == 'field') fieldCount++;
+              if (child.type == 'field') { 
+                fieldCount++;
+                if (this.state.firstFocusable === -1) this.state.firstFocusable = index;
+                this.state.lastFocusable = index;
+              }
               if (child.completed && child.isValid) completedCount++;
 
               return <AskWidgetWrapper
@@ -76,6 +116,7 @@ class AskComposer extends Component {
                   hasFocus={ this.state.currentStep == index }
                   onFocus={ this.onFocus.bind(this, index) }
                   onSave={ this.onSave.bind(this) }
+                  onClick={ this.onClick.bind(this, index) }
                   settings={ this.state.settings }
                   { ...child } />;
             })

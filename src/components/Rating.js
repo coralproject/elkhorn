@@ -75,12 +75,6 @@ class Rating extends AskWidget {
     return tokens;
   }
 
-  getTitleStyles() {
-    return Object.assign({}, 
-      this.props.hasFocus ? styles.focusedTitle : {}
-    );
-  }
-
   render() {
 
     return (

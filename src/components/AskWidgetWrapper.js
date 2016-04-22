@@ -35,7 +35,9 @@ class AskWidgetWrapper extends Component {
   render() {
     var widgetSpec = this.props;
     return (
-      <div style={ this.getStyles() }>
+      <div 
+        style={ this.getStyles() }
+        onClick={ this.props.onClick.bind(this, this.props.index) }>
           { 
             this.props.type == 'field' && this.props.settings.showFieldNumbers ?
               <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>

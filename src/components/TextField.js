@@ -17,14 +17,22 @@ class TextField extends AskWidget {
   }
 
   onKeyDown(e) {
-    this.setState({ value: e.target.value });
+    switch (e.keyCode) {
+      case 13: // Enter
+        this.validateAndSave({ moveForward: true });
+      break
+      default:
+        this.setState({ value: e.target.value });
+      break;
+    }
+    
   }
 
   onChange(e) {
     this.setState({ value: e.target.value });
   }
 
-  onBlur() {
+  validateAndSave(options) {
     if (!!this.state.value.length) {
       this.setState({ focused: false, completed: true, isValid: true });
     } else {
@@ -40,7 +48,11 @@ class TextField extends AskWidget {
         break;
       }
     }
-    this.save();
+    this.save(options);
+  }
+
+  onBlur() {
+    this.validateAndSave();
   }
 
   onFocus() {
@@ -68,6 +80,14 @@ class TextField extends AskWidget {
           onChange={this.onChange.bind(this)}
           onKeyDown={this.onKeyDown.bind(this)}
           maxLength={ !!this.props.maxLength ? this.props.maxLength : 'auto' }         
+          ref={ 
+            // Bind *this* to the ref callback
+            // to use state in the condition
+            (function(input) {
+              // if focus has never been set
+              if (this.props.hasFocus) input.focus();
+            }).bind(this)
+          }
         />
         {
           !!this.props.maxLength ?
