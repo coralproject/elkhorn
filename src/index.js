@@ -1,7 +1,7 @@
 import { h, render } from 'preact';
 import './style/index.css';
 
-var SampleFormProps = require('./components/sample-form.json');
+var SampleFormProps = require('../server/sample-form.json');
 
 let root;
 function init() {
@@ -12,8 +12,6 @@ function init() {
 init();
 
 if (module.hot) {
-
-	console.log("Module . hot");
 
 	module.hot.accept('webpack/hot/dev-server', () => requestAnimationFrame( () => {
 		flushLogs();

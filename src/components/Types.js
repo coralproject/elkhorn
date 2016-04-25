@@ -6,6 +6,7 @@ import TextField from './TextField';
 import Header from './Header';
 import Drawer from './Drawer';
 import ImageOptions from './ImageOptions';
+import MultipleChoice from './MultipleChoice';
 
 export {
   Rating,
@@ -14,5 +15,6 @@ export {
   TextField,
   Header,
   Drawer,
-  ImageOptions
+  ImageOptions,
+  MultipleChoice
 };

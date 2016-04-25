@@ -3,7 +3,7 @@ const {Component, h} = preact;
 
 import AskWidget from './AskWidget';
 
-class ImageOptions extends AskWidget {
+class MultipleChoice extends AskWidget {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -52,7 +52,7 @@ class ImageOptions extends AskWidget {
     var newFocus = this.state.focused;
     switch (e.keyCode) {
       case 39: // Right arrow
-      newFocus = Math.min(this.props.images.length - 1, newFocus + 1);
+      newFocus = Math.min(this.props.options.length - 1, newFocus + 1);
       break; 
       case 37: // Left arrow
         newFocus = Math.max(0, newFocus - 1);
@@ -70,7 +70,7 @@ class ImageOptions extends AskWidget {
   }
 
   getOptions() {
-    return this.props.images.map((image, i) => {
+    return this.props.options.map((option, i) => {
       return <button 
           onBlur={ this.onBlur.bind(this) }
           onFocus={ this.onFocus.bind(this, i) }
@@ -89,7 +89,8 @@ class ImageOptions extends AskWidget {
             }).bind(this)
           }
         >
-          <img src={ image.url } />
+          <h2 style={ styles.optionTitle }>{ option.title }</h2>
+          <p style={ styles.optionDescription }>{ option.description }</p>
         </button>;
     });
   }
@@ -118,23 +119,37 @@ const styles = {
     minHeight: '100px'
   },
   option: {
-    fontSize: '50px',
+    fontSize: '12pt',
     cursor: 'pointer',
     color: '#777',
     lineHeight: '50px',
     transition: 'background .2s',
     background: 'white',
     border: '1px solid #ccc',
-    padding: '10px',
+    padding: '20px',
     outline: 'none',
-    margin: '0 10px 10px 0'
+    margin: '0 10px 10px 0',
+    textAlign: 'left'
   },
   clicked: {
-    background: '#F57C00'
+    background: '#F57C00',
+    color: 'white',
   },
   focused: {
-    background: '#FF5722'
+    background: '#FF5722',
+    color: 'white'
+  },
+  optionTitle: {
+    fontSize: '15pt',
+    margin: '0',
+    padding: '0',
+    lineHeight: '1'
+  },
+  optionDescription: {
+    margin: '0',
+    padding: '0',
+    lineHeight: '1'
   }
 }
 
-export default ImageOptions;
+export default MultipleChoice;
