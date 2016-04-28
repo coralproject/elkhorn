@@ -14,8 +14,15 @@ class TextArea extends AskWidget {
   }
 
   onKeyDown(e) {
-    var height = Math.max(parseInt(e.target.style.height), e.target.scrollHeight - 40);
-    this.setState({ value: e.target.value, height: height });
+    e.stopPropagation();
+    console.log(e);
+    if (e.keyCode == 13 && !e.shiftKey) { // ENTER
+      console.log("Saving");
+      this.save({ moveForward: true });
+    } else {
+      var height = Math.max(parseInt(e.target.style.height), e.target.scrollHeight - 40);
+      this.setState({ value: e.target.value, height: height });
+    }
   }
 
   onBlur() {
@@ -67,6 +74,9 @@ class TextArea extends AskWidget {
           :
             null
         }
+        <div style={ styles.keyLegend }>
+          <span style={ styles.keyTag }>ENTER</span> to save, <span style={ styles.keyTag }>SHIFT + ENTER</span> to start a new paragraph.
+        </div>
       </div>
     )
   }
@@ -95,7 +105,20 @@ const styles = {
     fontSize: '10pt',
     textAlign: 'right',
     width: '100%',
-    marginTop: '20px',
+    marginTop: '5px',
+  },
+  keyLegend: {
+    fontSize: '9pt',
+    color: '#999'
+  },
+  keyTag: {
+    display: 'inline-block',
+    padding: '4px 7px',
+    margin: '0 4px',
+    borderRadius: '3px',
+    border: '1px solid #bbb',
+    background: 'white',
+    boxShadow: '0 2px 2px #bbb'
   }
 }
 

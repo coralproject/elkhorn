@@ -9,7 +9,7 @@ class MultipleChoice extends AskWidget {
     this.state = {
       rating: 0,
       focused: -1,
-      value: -1
+      value: []
     }
   }
 
@@ -18,7 +18,7 @@ class MultipleChoice extends AskWidget {
   }
 
   onBlur() {
-    this.setState({ focused: -1 });
+    this.setState({ focused: -1, hovering: -1 });
   }
 
   onFocus(i, e) {
@@ -34,28 +34,39 @@ class MultipleChoice extends AskWidget {
   }
 
   onClick(i, e) {
-    this.setState({ focused: i, value: i });
-    if (this.state.value >= 0) {
-      this.setState({ completed: true, isValid: true });
+    var newValue = this.state.value.slice();
+    if (newValue.indexOf(i) === -1) {
+      if (newValue.length < this.props.pickUpTo) {
+        newValue.push(i);  
+      }
     } else {
-      this.setState({ completed: false });
+      newValue.splice(newValue.indexOf(i), 1);
     }
+    var newState = { focused: i, value: newValue };
+    if (this.state.value.length >= 0) {
+      newState = Object.assign({}, newState, { completed: true, isValid: true });
+    } else {
+      newState = Object.assign({}, newState, { completed: false });
+    }
+    this.setState(newState);
     this.save({ moveForward: true });
   }
 
   onMouseOut() {
-    this.setState({ hovering: -1 });
+    this.setState({ focused: -1 });
   }
 
   onKeyDown(e) {
     if (e.keyCode == 13) return; // skip on Enter
     var newFocus = this.state.focused;
     switch (e.keyCode) {
-      case 39: // Right arrow
-      newFocus = Math.min(this.props.options.length - 1, newFocus + 1);
+      case 40: // Down arrow
+        newFocus = Math.min(this.props.options.length - 1, newFocus + 1);
+        e.stopPropagation();
       break; 
-      case 37: // Left arrow
+      case 38: // Up arrow
         newFocus = Math.max(0, newFocus - 1);
+        e.stopPropagation();
       break;
     }
     this.setState({ focused: newFocus });
@@ -64,7 +75,7 @@ class MultipleChoice extends AskWidget {
   getOptionStyle(i) {
     return Object.assign({}, 
       styles.option, 
-      i === this.state.value ? styles.clicked : {},
+      this.state.value.indexOf(i) > -1 ? styles.clicked : {},
       i === this.state.focused ? styles.focused : {}
     ); 
   }
@@ -119,6 +130,7 @@ const styles = {
     minHeight: '100px'
   },
   option: {
+    display: 'block',
     fontSize: '12pt',
     cursor: 'pointer',
     color: '#777',

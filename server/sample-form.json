@@ -3,6 +3,10 @@
 		"saveDestination": "http://coralasks.theguardian.com/ask/44",
 		"showFieldNumbers": true
 	},
+	"finishedScreen": {
+		"title": "Thanks.",
+		"description": "This is a more verbose thank you message."
+	},
 	"page": {
 		"id": 1,
 		"name": "first_page",
@@ -36,15 +40,6 @@
 			},
 			{
 				"type": "field",
-				"component": "TextField",
-				"title": "Would you reveal other person's personal data?",
-				"props": {
-					"maxLength": 100,
-					"required": true
-				}
-			},
-			{
-				"type": "field",
 				"component": "TextArea",
 				"title": "Please paste a comment from you on another site",
 				"props": {
@@ -53,33 +48,12 @@
 			},
 			{
 				"type": "field",
-				"component": "ImageOptions",
-				"title": "Pick your favorite pic - pun intended",
-				"props": {
-					"images": [
-						{
-							"url": "http://lorempixel.com/100/150/?random1",
-							"title": "Robert",
-							"description": "Lorem ipsum dolor sit amet"
-						},
-						{
-							"url": "http://lorempixel.com/100/150/?random2",
-							"title": "Donna",
-							"description": "Lorem ipsum dolor sit amet"
-						},
-						{
-							"url": "http://lorempixel.com/100/150/?random3",
-							"title": "Nahuel",
-							"description": "Lorem ipsum dolor sit amet"
-						}
-					]
-				}
-			},
-			{
-				"type": "field",
 				"component": "MultipleChoice",
 				"title": "What's your favorite fruit?",
 				"props": {
+					"multipleChoice": true,
+					"pickUpTo": 2,
+					"pickAtLeast": 1,
 					"options": [
 						{
 							"title": "Apple",
@@ -95,28 +69,6 @@
 						}
 					]
 				}
-			},
-			{
-				"type": "field",
-				"component": "Rating",
-				"title": "Rate yourself as a commenteer",
-				"props": {
-					"steps": 5
-				}
-			},
-			{
-				"type": "field",
-				"component": "Audio",
-				"title": "Explain why should we let yourself comment on our site",
-				"props": {
-					"steps": 5
-				}
-			},
-			{
-				"type": "field",
-				"component": "Drawer",
-				"title": "Draw something for us",
-				"props": {}
 			}
 		]
 	}

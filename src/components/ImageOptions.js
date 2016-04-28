@@ -87,9 +87,9 @@ class ImageOptions extends AskWidget {
               // if focus has never been set
               if (this.state.focused === -1 && this.props.hasFocus) button.focus();
             }).bind(this)
-          }
+          } 
         >
-          <img src={ image.url } />
+          <img src={ image.url } alt={ image.alt } />
         </button>;
     });
   }

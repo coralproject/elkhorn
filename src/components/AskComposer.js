@@ -11,11 +11,23 @@ class AskComposer extends Component {
       completedSteps: [],
       firstFocusable: -1,
       lastFocusable: -1,
+      finished: false,
       ...this.props
     }
+
+    this.state.page.children.map((child, index) => {
+      if (child.type == 'field') { 
+        if (this.firstFocusable === -1) this.firstFocusable = index;
+        this.lastFocusable = index;
+      }
+    });
+
     this.composerAnimationFrame = (function(){
-      return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function( callback ){ window.setTimeout(callback, 1000 / 60); };
-    })();
+      return window.requestAnimationFrame || 
+        window.webkitRequestAnimationFrame || 
+        window.mozRequestAnimationFrame;
+    })().bind(window);
+    this._widgetRefs = [];
   }
 
   componentDidMount() {
@@ -32,7 +44,10 @@ class AskComposer extends Component {
   }
 
   onFocus(index) {
-    this.setState({ currentStep: index });
+    if (index != this.state.currentStep) {
+      console.log("on Focus", index);
+      this.setFocus(index);
+    }
   }
 
   onSave(payload) {
@@ -75,11 +90,67 @@ class AskComposer extends Component {
       break;
     }
     this.setState({ currentStep: newStep });
+    this.scrollToStep(newStep);
+  }
 
+  easeInOutQuad(t, b, c, d) {
+    t /= d/2;
+    if (t < 1) {
+      return c/2*t*t + b
+    }
+    t--;
+    return -c/2 * (t*(t-2) - 1) + b;
+  };
+
+  // from Gist: https://gist.github.com/james2doyle/5694700
+  // (with some modifications)
+  scrollTo(to, callback) {
+    var self = this;
+    function move(amount) {
+      self._composer.scrollTop = amount;
+      // don't rely on onScroll only, it will get jumpy
+      self._footer.style.bottom = -self._composer.scrollTop + "px";
+    }
+    var start = self._composer.scrollTop,
+      change = to - start,
+      currentTime = 0,
+      increment = 20,
+      duration = 500;
+    var animateScroll = function() {
+      // increment the time
+      currentTime += increment;
+      // find the value with the quadratic in-out easing function
+      var val = self.easeInOutQuad(currentTime, start, change, duration);
+      // move the document.body
+      move(val);
+      // do the animation unless its over
+      if (currentTime < duration) {
+        self.composerAnimationFrame(animateScroll);
+      } else {
+        if (callback && typeof(callback) === 'function') {
+          // do we need a callback?
+          // callback();
+        }
+      }
+    };
+    animateScroll();
+  }
+
+  scrollToStep(index) {
+    this.scrollTo(this._widgetRefs[index].base.offsetTop - 50);
+  }
+
+  setFocus(index) {
+    this.scrollToStep(index);
+    this.setState({ currentStep: index });
   }
 
   onClick(index) {
-    this.setState({ currentStep: index });
+    //this.setFocus(index);
+  }
+
+  onSendClick(index) {
+    this.setState({ finished: true });
   }
 
   getQuestionBarStyles(completedCount, fieldCount) {
@@ -95,45 +166,52 @@ class AskComposer extends Component {
     var fieldCount = 0;
     var completedCount = 0;
     return ( 
-      <div 
-        onKeyDown={ this.onKeyDown.bind(this) } 
-        ref={ (composer) => this._composer = composer } 
-        style={ styles.base }>
-          {
-            this.state.page.children.map((child, index) => {
+      <div style={ styles.base } ref={ (composer) => this._composer = composer }>
+        { 
+          !this.state.finished ?
+            <div 
+              onKeyDown={ this.onKeyDown.bind(this) }>
+                {
+                  this.state.page.children.map((child, index) => {
 
-              if (child.type == 'field') { 
-                fieldCount++;
-                if (this.state.firstFocusable === -1) this.state.firstFocusable = index;
-                this.state.lastFocusable = index;
-              }
-              if (child.completed && child.isValid) completedCount++;
+                    if (child.type == 'field') { 
+                      fieldCount++;
+                    }
+                    if (child.completed && child.isValid) completedCount++;
 
-              return <AskWidgetWrapper
-                  key={ index }
-                  index={ index }
-                  fieldNumber={ fieldCount }
-                  hasFocus={ this.state.currentStep == index }
-                  onFocus={ this.onFocus.bind(this, index) }
-                  onSave={ this.onSave.bind(this) }
-                  onClick={ this.onClick.bind(this, index) }
-                  settings={ this.state.settings }
-                  { ...child } />;
-            })
-          }
-          <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
-            <div style={ styles.footerContent }>
-              <div style={ styles.answeredQuestions }>
-                <div style={ styles.answeredQuestionsBar }>
-                  <span style={ this.getQuestionBarStyles(completedCount, fieldCount) }></span>
+                    return <AskWidgetWrapper
+                        key={ index }
+                        ref={ (widgetWrapper) => this._widgetRefs[index] = widgetWrapper }
+                        index={ index }
+                        fieldNumber={ fieldCount }
+                        hasFocus={ this.state.currentStep == index }
+                        onFocus={ this.onFocus.bind(this, index) }
+                        onSave={ this.onSave.bind(this) }
+                        onClick={ this.onClick.bind(this, index) }
+                        settings={ this.state.settings }
+                        { ...child } />;
+                  })
+                }
+                <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
+                  <div style={ styles.footerContent }>
+                    <div style={ styles.answeredQuestions }>
+                      <div style={ styles.answeredQuestionsBar }>
+                        <span style={ this.getQuestionBarStyles(completedCount, fieldCount) }></span>
+                      </div>
+                      <span style={ styles.answeredQuestionsText }>{ completedCount } of { fieldCount } questions answered.</span>
+                    </div>
+                    <div style={ styles.footerActions }>
+                      <button style={ styles.submit } onClick={ this.onSendClick.bind(this) }>Send</button>
+                    </div>
+                  </div>
                 </div>
-                <span style={ styles.answeredQuestionsText }>{ completedCount } of { fieldCount } questions answered.</span>
-              </div>
-              <div style={ styles.footerActions }>
-                <button style={ styles.submit }>Send</button>
-              </div>
             </div>
-          </div>
+          :
+            <div style={ styles.finishedScreen }>
+              <h1>{ this.state.finishedScreen.title }</h1>
+              <p>{ this.state.finishedScreen.description }</p>
+            </div>
+        }
       </div>
     )
   }
