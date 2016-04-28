@@ -8,6 +8,7 @@ var babel = require('rollup-plugin-babel')
 var nodeResolve = require('rollup-plugin-node-resolve')
 var uglify = require('rollup-plugin-uglify')
 var postcss = require('rollup-plugin-postcss')
+var babelConf = require('./babel.json')
 
 var app = express()
 app.use(compress())
@@ -17,7 +18,7 @@ app.use('/widgets', express.static('widgets'))
 app.get('/preview.js', function(req, res) {
   try {
     var props = JSON.parse(req.query.props)
-    buildWidget(props)
+    buildWidget(props, true)
     .then(function(code){
       res.send(code)
     })
@@ -28,7 +29,7 @@ app.get('/preview.js', function(req, res) {
 })
 
 app.post('/create', function(req, res){
-  buildWidget(req.body).then(function(code){
+  buildWidget(req.body, false).then(function(code){
     fs.writeFile(path.join(__dirname, 'widgets', '1234.js'), code, function(err){
       res.send('ok')
     })
@@ -38,15 +39,15 @@ app.post('/create', function(req, res){
 
 app.listen(4444)
 
-function buildWidget(props) {
+function buildWidget(props, isPreview) {
   return new Promise(function(resolve, reject){
     rollup.rollup({
       entry: 'main.js',
-      plugins: [ 
+      plugins: [
         postcss(),
-        babel(), 
-        nodeResolve({jsnext: true, main: true}), 
-        uglify({mangle: true})
+        babel(Object.assign({exclude: 'node_modules/**', babelrc: false}, babelConf)),
+        nodeResolve({jsnext: true, main: true}),
+        !isPreview && uglify({mangle: true})
       ],
     }).then(function(bundle){
       var result = bundle.generate({
