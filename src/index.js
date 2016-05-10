@@ -6,7 +6,7 @@ var SampleFormProps = require('../server/sample-form.json');
 let root;
 function init() {
 	let AskComposer = require('./components/AskComposer').default;
-	root = render(<AskComposer {...SampleFormProps} />, document.body, root);
+	root = render(<AskComposer {...SampleFormProps} />, document.getElementById("ask-form"), root);
 }
 
 init();

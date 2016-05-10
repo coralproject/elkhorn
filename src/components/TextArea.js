@@ -14,10 +14,7 @@ class TextArea extends AskWidget {
   }
 
   onKeyDown(e) {
-    e.stopPropagation();
-    console.log(e);
     if (e.keyCode == 13 && !e.shiftKey) { // ENTER
-      console.log("Saving");
       this.save({ moveForward: true });
     } else {
       var height = Math.max(parseInt(e.target.style.height), e.target.scrollHeight - 40);
@@ -31,7 +28,7 @@ class TextArea extends AskWidget {
     } else {
       this.setState({ focused: false, completed: false });
     }
-    this.save();
+    this.save({ moveForward: true });
   }
 
   onFocus() {
@@ -40,9 +37,9 @@ class TextArea extends AskWidget {
   }
 
   getStyles() {
-    return Object.assign({}, 
-      styles.base, 
-      this.props.isValid ? styles.valid : styles.error, 
+    return Object.assign({},
+      styles.base,
+      this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {},
       { height: this.state.height }
     );
@@ -59,7 +56,7 @@ class TextArea extends AskWidget {
           onFocus={ this.onFocus.bind(this) }
           onKeyDown={this.onKeyDown.bind(this)}
           maxLength={ !!this.props.maxLength ? this.props.maxLength : 'auto' }
-          ref={ 
+          ref={
             // Bind *this* to the ref callback
             // to use state in the condition
             (function(textarea) {
@@ -87,18 +84,15 @@ const styles = {
     display: 'block',
     fontSize: '14pt',
     color: 'black',
-    padding: '0 0 10px 0',
+    padding: '10px',
     width: '100%',
     outline: 'none',
     resize: 'none',
-    borderTop: 'none',
-    borderLeft: 'none',
-    borderRight: 'none',
-    borderBottom: '2px solid #999',
+    border: '1px solid #ccc',
     transition: 'border .5s'
   },
   focused: {
-    borderBottom: '2px solid #009688'  
+    //borderBottom: '2px solid #009688'
   },
   remaining: {
     color: '#999',

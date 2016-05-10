@@ -15,24 +15,53 @@
 				"type": "separator",
 				"component": "Header",
 				"props": {
-					"text": "An amazing Ask."
+					"text": "Share Your Story.",
+					"description": "As part of our ​Op-Docs ​series​ Conversation​s​ ​on Race​,​​ we ​want to hear your​​ ​​experiences ​confronting issues of race in your life. We invite you to share your stories, some of which we are featuring on a page of readers’ contributions."
 				}
 			},
 			{
 				"type": "field",
-				"component": "TextField",
-				"title": "Please type your e-mail",
-				"validationMessage": "Please type a valid e-mail address.",
+				"component": "MultipleChoice",
+				"title": "Select one or several themes for your story:",
+				"pseudoLabel": true,
 				"props": {
-					"maxLength": 100,
-					"required": true,
-					"validateAs": "email"
+					"multipleChoice": true,
+					"pickUpTo": 2,
+					"pickAtLeast": 1,
+					"options": [
+						{
+							"title": "Family Life"
+						},
+						{
+							"title": "Friendship/Love"
+						},
+						{
+							"title": "School"
+						},
+						{
+							"title": "Law Enforcement"
+						},
+						{
+							"title": "Work"
+						},
+						{
+							"title": "Other"
+						}
+					]
+				}
+			},
+			{
+				"type": "field",
+				"component": "TextArea",
+				"title": "Write your story",
+				"props": {
+					"maxLength": 400
 				}
 			},
 			{
 				"type": "field",
 				"component": "TextField",
-				"title": "Are you here just to troll or annoy people?",
+				"title": "Name",
 				"props": {
 					"maxLength": 100,
 					"required": true
@@ -40,34 +69,22 @@
 			},
 			{
 				"type": "field",
-				"component": "TextArea",
-				"title": "Please paste a comment from you on another site",
+				"component": "TextField",
+				"title": "Age",
 				"props": {
-					"maxLength": 400
+					"maxLength": 100,
+					"required": true
 				}
 			},
 			{
 				"type": "field",
-				"component": "MultipleChoice",
-				"title": "What's your favorite fruit?",
+				"component": "TextField",
+				"title": "E-mail",
+				"validationMessage": "Please type a valid e-mail address.",
 				"props": {
-					"multipleChoice": true,
-					"pickUpTo": 2,
-					"pickAtLeast": 1,
-					"options": [
-						{
-							"title": "Apple",
-							"description": "Lorem ipsum dolor sit amet"
-						},
-						{
-							"title": "Banana",
-							"description": "Lorem ipsum dolor sit amet"
-						},
-						{
-							"title": "Pear",
-							"description": "Lorem ipsum dolor sit amet"
-						}
-					]
+					"maxLength": 100,
+					"required": true,
+					"validateAs": "email"
 				}
 			}
 		]

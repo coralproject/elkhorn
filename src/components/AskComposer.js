@@ -16,15 +16,15 @@ class AskComposer extends Component {
     }
 
     this.state.page.children.map((child, index) => {
-      if (child.type == 'field') { 
+      if (child.type == 'field') {
         if (this.firstFocusable === -1) this.firstFocusable = index;
         this.lastFocusable = index;
       }
     });
 
     this.composerAnimationFrame = (function(){
-      return window.requestAnimationFrame || 
-        window.webkitRequestAnimationFrame || 
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame;
     })().bind(window);
     this._widgetRefs = [];
@@ -45,7 +45,6 @@ class AskComposer extends Component {
 
   onFocus(index) {
     if (index != this.state.currentStep) {
-      console.log("on Focus", index);
       this.setFocus(index);
     }
   }
@@ -53,8 +52,8 @@ class AskComposer extends Component {
   onSave(payload) {
 
     var pageCopy = Object.assign({}, this.state.page);
-    pageCopy.children[payload.index] = Object.assign({}, 
-      pageCopy.children[payload.index], 
+    pageCopy.children[payload.index] = Object.assign({},
+      pageCopy.children[payload.index],
       payload
     );
 
@@ -84,7 +83,7 @@ class AskComposer extends Component {
     switch (e.keyCode) {
       case 40: // Down arrow
       newStep = Math.min(this.state.page.children.length, newStep + 1);
-      break; 
+      break;
       case 38: // Up arrow
         newStep = Math.max(0, newStep - 1);
       break;
@@ -154,8 +153,8 @@ class AskComposer extends Component {
   }
 
   getQuestionBarStyles(completedCount, fieldCount) {
-    var widthPercent = Math.ceil(completedCount / fieldCount * 100);    
-    return Object.assign({}, 
+    var widthPercent = Math.ceil(completedCount / fieldCount * 100);
+    return Object.assign({},
       styles.answeredQuestionsBarComplete,
       { width: widthPercent + '%' }
     );
@@ -165,33 +164,36 @@ class AskComposer extends Component {
     // field count is artificial, not the widget index
     var fieldCount = 0;
     var completedCount = 0;
-    return ( 
+    return (
       <div style={ styles.base } ref={ (composer) => this._composer = composer }>
-        { 
+        {
           !this.state.finished ?
-            <div 
-              onKeyDown={ this.onKeyDown.bind(this) }>
-                {
-                  this.state.page.children.map((child, index) => {
+            <div
+              onKeyDown={ this.onKeyDown.bind(this) }
+              >
+                <ul style={ styles.fieldList }>
+                  {
+                    this.state.page.children.map((child, index) => {
 
-                    if (child.type == 'field') { 
-                      fieldCount++;
-                    }
-                    if (child.completed && child.isValid) completedCount++;
+                      if (child.type == 'field') {
+                        fieldCount++;
+                      }
+                      if (child.completed && child.isValid) completedCount++;
 
-                    return <AskWidgetWrapper
-                        key={ index }
-                        ref={ (widgetWrapper) => this._widgetRefs[index] = widgetWrapper }
-                        index={ index }
-                        fieldNumber={ fieldCount }
-                        hasFocus={ this.state.currentStep == index }
-                        onFocus={ this.onFocus.bind(this, index) }
-                        onSave={ this.onSave.bind(this) }
-                        onClick={ this.onClick.bind(this, index) }
-                        settings={ this.state.settings }
-                        { ...child } />;
-                  })
-                }
+                      return <AskWidgetWrapper
+                          key={ index }
+                          ref={ (widgetWrapper) => this._widgetRefs[index] = widgetWrapper }
+                          index={ index }
+                          fieldNumber={ fieldCount }
+                          hasFocus={ this.state.currentStep == index }
+                          onFocus={ this.onFocus.bind(this, index) }
+                          onSave={ this.onSave.bind(this) }
+                          onClick={ this.onClick.bind(this, index) }
+                          settings={ this.state.settings }
+                          { ...child } />;
+                    })
+                  }
+                </ul>
                 <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
                   <div style={ styles.footerContent }>
                     <div style={ styles.answeredQuestions }>
@@ -275,6 +277,11 @@ const styles = {
     color: 'white',
     textTransform: 'uppercase',
     cursor: 'pointer'
+  },
+  fieldList: {
+    listStyleType: 'none',
+    padding: '0',
+    margin: '0'
   }
 }
 

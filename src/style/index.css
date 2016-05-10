@@ -1,20 +1,20 @@
-* { font-family: 'Roboto', Helvetica, arial, sans-serif; }
-   
-html, body { 
-	height: 100%;      
-	width: 100%;    
+@import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
+@import url(https://fonts.googleapis.com/css?family=Martel:400,700);
+
+* { font-family: 'News Cycle', Helvetica, arial, sans-serif; }
+
+html, body {
+	height: 100%;
+	width: 100%;
 	padding: 40px;
-	margin: 0;    
-	font-family: 'Roboto', Helvetica, arial, sans-serif;
+	margin: 0;
+	font-family: 'News Cycle', Helvetica, arial, sans-serif;
 	font-weight: 400;
 	color: #444;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-  
-	background: #2c3e50; /* fallback for old browsers */
-	background: -webkit-linear-gradient(to left, #2c3e50 , #3498db); /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to left, #2c3e50 , #3498db); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #fafafa;
 }
 
 h3 {
@@ -29,4 +29,10 @@ h3 {
 
 #app {
 	height: 100%;
+}
+
+#ask-form {
+  max-width: 700px;
+  margin: auto;
+  box-shadow: 0 0 20px #777;
 }

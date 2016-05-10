@@ -15,17 +15,17 @@ class AskWidgetWrapper extends Component {
         fieldStyles,
         this.props.hasFocus ? styles.focused : styles.blurred,
         this.props.settings.showFieldNumbers ? styles.withNumber : ''
-      )  
+      )
     }
 
-    return Object.assign({}, 
-      styles.formFieldWrapper, 
+    return Object.assign({},
+      styles.formFieldWrapper,
       fieldStyles
     );
   }
 
   getTitleStyles() {
-    return Object.assign({}, 
+    return Object.assign({},
       styles.fieldTitle,
       this.props.hasFocus ? styles.focusedTitle : {},
       this.state.completed && !this.state.isValid ? styles.invalidTitle : {},
@@ -34,39 +34,48 @@ class AskWidgetWrapper extends Component {
 
   render() {
     var widgetSpec = this.props;
+    var innerWidget = h(
+      Types[widgetSpec.component],
+      Object.assign({},
+        widgetSpec.props,
+        this.props
+      )
+    );
     return (
-      <div 
+      <li
         style={ this.getStyles() }
         onClick={ this.props.onClick.bind(this, this.props.index) }>
-          { 
+          {
             this.props.type == 'field' && this.props.settings.showFieldNumbers ?
               <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>
             : null
           }
-          { 
+          {
             this.props.completed && this.props.isValid ?
               <span style={ styles.completedValid }>&#x2714;</span>
             : null
           }
-          { 
+          {
             this.props.completed && !this.props.isValid ?
               <span style={ styles.completedInvalid }>&#x2718;</span>
             : null
           }
-          { 
-            this.props.type == 'field' && !!this.props.title ? 
-              <h3 style={ this.getTitleStyles() }>{ this.props.title }</h3>
-            : null
-          }
           {
-            h(
-              Types[widgetSpec.component],
-              Object.assign({}, 
-                widgetSpec.props,
-                this.props
-              )
-            )
+            this.props.type == 'field' && !!this.props.title ?
+              this.props.pseudoLabel ?
+                <fieldset tabindex="0" style={ styles.fieldsetReset }>
+                  <legend style={ this.getTitleStyles() }>{ this.props.title }</legend>
+                  { innerWidget }
+                </fieldset>
+              :
+                <label>
+                  <span style={ this.getTitleStyles() }>{ this.props.title }</span>
+                  { innerWidget }
+                </label>
+            :
+              innerWidget
           }
+
           {
             this.props.completed && !this.props.isValid ?
               <div style={ styles.validation }>
@@ -74,7 +83,7 @@ class AskWidgetWrapper extends Component {
               </div>
             : null
           }
-      </div>
+      </li>
     )
   }
 
@@ -100,7 +109,11 @@ const styles = {
     fontSize: '14pt'
   },
   fieldTitle: {
-    fontSize: '14pt'
+    display: 'block',
+    fontSize: '14pt',
+    color: '#444',
+    fontWeight: '700',
+    marginBottom: '10px'
   },
   completedValid: {
     color: 'green',
@@ -127,7 +140,7 @@ const styles = {
     opacity: 1
   },
   focusedTitle: {
-    color: '#009688'
+    color: 'black'
   },
   invalidTitle: {
     color: '#900'
@@ -135,6 +148,13 @@ const styles = {
   validation: {
     color: 'red',
     padding: '10px 0'
+  },
+  fieldsetReset: {
+    border: '0',
+    padding: '0.01em 0 0 0',
+    margin: '0',
+    minWidth: '0',
+    display: 'table-cell'
   }
 }
 

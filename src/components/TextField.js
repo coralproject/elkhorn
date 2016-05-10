@@ -25,7 +25,7 @@ class TextField extends AskWidget {
         this.setState({ value: e.target.value });
       break;
     }
-    
+
   }
 
   onChange(e) {
@@ -61,8 +61,8 @@ class TextField extends AskWidget {
   }
 
   getStyles() {
-    return Object.assign({}, 
-      styles.base, 
+    return Object.assign({},
+      styles.base,
       this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {}
     );
@@ -72,6 +72,7 @@ class TextField extends AskWidget {
     return (
       <div>
         <input type="text"
+          title={ this.props.title }
           style={ this.getStyles() }
           placeholder={this.props.placeholder}
           defaultValue={ this.state.value }
@@ -79,8 +80,8 @@ class TextField extends AskWidget {
           onBlur={ this.onBlur.bind(this) }
           onChange={this.onChange.bind(this)}
           onKeyDown={this.onKeyDown.bind(this)}
-          maxLength={ !!this.props.maxLength ? this.props.maxLength : 'auto' }         
-          ref={ 
+          maxLength={ !!this.props.maxLength ? this.props.maxLength : 'auto' }
+          ref={
             // Bind *this* to the ref callback
             // to use state in the condition
             (function(input) {
@@ -105,18 +106,15 @@ const styles = {
     display: 'block',
     fontSize: '14pt',
     color: 'black',
-    padding: '0 0 10px 0',
+    padding: '10px',
     width: '100%',
     outline: 'none',
     resize: 'none',
-    borderLeft: 'none',
-    borderRight: 'none',
-    borderTop: 'none',
-    borderBottom: '2px solid #999',
+    border: '1px solid #ccc',
     transition: 'border .5s'
   },
   focused: {
-    borderBottom: '2px solid #009688'  
+    //borderBottom: '2px solid #009688'
   },
   remaining: {
     color: '#999',
