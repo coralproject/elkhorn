@@ -70,7 +70,7 @@ class AskWidgetWrapper extends Component {
                 </fieldset>
               :
                 <div>
-                  <h3 tabindex="0" style={ this.getTitleStyles() }>{ this.props.title }</h3>
+                  <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>{ this.props.title }</h3>
                   { innerWidget }
                 </div>
             :

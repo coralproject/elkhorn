@@ -59,7 +59,7 @@ class AskComposer extends Component {
     );
 
     var nextStep = payload.moveForward ? this.state.currentStep + 1 : this.state.currentStep;
-    //this.setState({ currentStep: nextStep });
+    this.setState({ page: pageCopy, currentStep: nextStep });
 
   }
 

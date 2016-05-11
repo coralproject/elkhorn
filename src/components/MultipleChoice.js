@@ -27,14 +27,14 @@ class MultipleChoice extends AskWidget {
 
   onFocus(i, e) {
     this.setState({ focused: i });
-    this.props.onFocus();
+    //this.props.onFocus();
   }
 
   onHover(i, e) {
     this.setState({ focused: i });
     e.target.focus();
     // sets focus on hover! looks weird otherwise
-    this.props.onFocus();
+    //this.props.onFocus();
   }
 
   onClick(i, e) {
