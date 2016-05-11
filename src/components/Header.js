@@ -11,7 +11,7 @@ class Header extends Component {
     return (
       <header style={ styles.base } tabindex="0">
         <h1 tabindex="0" style={ styles.h1 }>{ this.props.text }</h1>
-        <h4 tabindex="0" style={ styles.description }>{ this.props.description }</h4>
+        <h2 tabindex="0" style={ styles.description }>{ this.props.description }</h2>
       </header>
     )
   }

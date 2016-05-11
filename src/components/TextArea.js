@@ -49,6 +49,7 @@ class TextArea extends AskWidget {
     return (
       <div>
         <textarea
+          title={ this.props.title }
           style={ this.getStyles() }
           placeholder={this.props.placeholder}
           defaultValue={ this.state.value }
@@ -61,7 +62,7 @@ class TextArea extends AskWidget {
             // to use state in the condition
             (function(textarea) {
               // if focus has never been set
-              if (this.props.hasFocus) textarea.focus();
+              //if (this.props.hasFocus) textarea.focus();
             }).bind(this)
           }
         ></textarea>

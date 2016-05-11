@@ -68,10 +68,10 @@ class AskWidgetWrapper extends Component {
                   { innerWidget }
                 </fieldset>
               :
-                <label>
-                  <span style={ this.getTitleStyles() }>{ this.props.title }</span>
+                <div>
+                  <h3 tabindex="0" style={ this.getTitleStyles() }>{ this.props.title }</h3>
                   { innerWidget }
-                </label>
+                </div>
             :
               innerWidget
           }
@@ -97,7 +97,7 @@ const styles = {
     background: 'white'
   },
   withNumber: {
-    padding: '15px 15px 15px 40px',
+    padding: '15px 30px 20px 40px',
   },
   fieldNumber: {
     color: '#777',

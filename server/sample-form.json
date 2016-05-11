@@ -3,6 +3,9 @@
 		"saveDestination": "http://coralasks.theguardian.com/ask/44",
 		"showFieldNumbers": true
 	},
+	"footer": {
+		"conditions": "By submitting to us, you are promising that the content is original, doesn’t plagiarize from anyone or infringe a copyright or trademark, doesn’t violate anybody’s rights and isn’t libelous or otherwise unlawful or misleading. You are agreeing that we can use your submission in all manner and media of The New York Times and that we shall have the right to authorize third parties to do so. And you agree to the rules of our Member Agreement, found online at our website."
+	},
 	"finishedScreen": {
 		"title": "Thanks.",
 		"description": "This is a more verbose thank you message."
@@ -73,7 +76,8 @@
 				"title": "Age",
 				"props": {
 					"maxLength": 100,
-					"required": true
+					"required": true,
+					"validateAs": "number"
 				}
 			},
 			{

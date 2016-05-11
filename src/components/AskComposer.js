@@ -28,6 +28,7 @@ class AskComposer extends Component {
         window.mozRequestAnimationFrame;
     })().bind(window);
     this._widgetRefs = [];
+    this.scrollingTo = -1;
   }
 
   componentDidMount() {
@@ -82,7 +83,7 @@ class AskComposer extends Component {
     var newStep = this.state.currentStep;
     switch (e.keyCode) {
       case 40: // Down arrow
-      newStep = Math.min(this.state.page.children.length, newStep + 1);
+        newStep = Math.min(this.state.page.children.length, newStep + 1);
       break;
       case 38: // Up arrow
         newStep = Math.max(0, newStep - 1);
@@ -104,7 +105,9 @@ class AskComposer extends Component {
   // from Gist: https://gist.github.com/james2doyle/5694700
   // (with some modifications)
   scrollTo(to, callback) {
+    return;
     var self = this;
+    // Early return if it is a repeat call
     function move(amount) {
       self._composer.scrollTop = amount;
       // don't rely on onScroll only, it will get jumpy
@@ -136,7 +139,11 @@ class AskComposer extends Component {
   }
 
   scrollToStep(index) {
-    this.scrollTo(this._widgetRefs[index].base.offsetTop - 50);
+    var target = this._widgetRefs[index].base.offsetTop - (index > 0 ? 50 : 0);
+    // Scroll only if needed
+    if (target + this._composer.offsetHeight < this._composer.scrollHeight) {
+      this.scrollTo(target);
+    }
   }
 
   setFocus(index) {
@@ -169,7 +176,7 @@ class AskComposer extends Component {
         {
           !this.state.finished ?
             <div
-              onKeyDown={ this.onKeyDown.bind(this) }
+              //onKeyDown={ this.onKeyDown.bind(this) }
               >
                 <ul style={ styles.fieldList }>
                   {
@@ -194,19 +201,24 @@ class AskComposer extends Component {
                     })
                   }
                 </ul>
-                <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
+                <footer style={ styles.footer } ref={ (footer) => this._footer = footer }>
                   <div style={ styles.footerContent }>
                     <div style={ styles.answeredQuestions }>
                       <div style={ styles.answeredQuestionsBar }>
                         <span style={ this.getQuestionBarStyles(completedCount, fieldCount) }></span>
                       </div>
-                      <span style={ styles.answeredQuestionsText }>{ completedCount } of { fieldCount } questions answered.</span>
+                      <span tabindex="0" style={ styles.answeredQuestionsText }>{ completedCount } of { fieldCount } questions answered.</span>
                     </div>
-                    <div style={ styles.footerActions }>
-                      <button style={ styles.submit } onClick={ this.onSendClick.bind(this) }>Send</button>
+                    <div style={ styles.footerConditionsAndActions }>
+                      <h4 tabindex="0" style={ styles.footerConditions }>
+                        { this.props.footer.conditions }
+                      </h4>
+                      <div style={ styles.footerActions }>
+                        <button style={ styles.submit } onClick={ this.onSendClick.bind(this) }>Submit</button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </footer>
             </div>
           :
             <div style={ styles.finishedScreen }>
@@ -224,26 +236,18 @@ const styles = {
   base: {
     background: '#eee',
     position: 'relative',
-    paddingBottom: '150px',
-    height: '700px',
-    overflowY: 'auto'
+    paddingBottom: '200px'
   },
   footer: {
-    position: 'absolute',
-    bottom: '0',
     width: '100%',
-    height: '70px',
     background: '#eee',
     borderTop: '1px solid #ccc'
   },
   footerContent: {
-    padding: '15px',
-    display: 'flex'
+    padding: '30px',
   },
   answeredQuestions: {
     color: '#222',
-    width: '400px',
-    flexGrow: '1'
   },
   answeredQuestionsBar: {
     background: '#999',
@@ -264,12 +268,25 @@ const styles = {
   answeredQuestionsText: {
     fontSize: '10pt'
   },
+  footerConditionsAndActions: {
+    display: 'flex',
+    width: '100%',
+    paddingTop: '10px',
+    marginTop: '10px',
+    borderTop: '1px solid #999'
+  },
   footerActions: {
-    flexGrow: '1',
-    textAlign: 'right'
+    textAlign: 'right',
+    width: '30%'
+  },
+  footerConditions: {
+    width: '70%',
+    fontSize: '9pt',
+    paddingRight: '20px'
   },
   submit: {
     background: '#00897B',
+    width: '200px',
     padding: '10px 40px',
     boxShadow: '0 2px 2px #555',
     borderRadius: '2px',

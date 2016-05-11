@@ -14,7 +14,7 @@ class MultipleChoice extends AskWidget {
   }
 
   componentWillUpdate() {
-    console.log("will");
+    //console.log("will update");
   }
 
   getStyles() {
@@ -56,10 +56,10 @@ class MultipleChoice extends AskWidget {
     }
     this.setState(newState);
     this.save({ moveForward: false });
+    this.props.onFocus();
   }
 
   onMouseOut() {
-    console.log("Mouseout?")
     this.setState({ focused: -1 });
   }
 
@@ -68,19 +68,21 @@ class MultipleChoice extends AskWidget {
     var newFocus = this.state.focused;
     switch (e.keyCode) {
       case 40: // Down arrow
-        newFocus++;
+        e.preventDefault();
+        /*newFocus++;
         if (newFocus < this.props.options.length) {
           e.stopPropagation();
         }
-        //newFocus = Math.min(this.props.options.length - 1, newFocus + 1);
-        //e.stopPropagation();
+        newFocus = Math.min(this.props.options.length - 1, newFocus + 1);
+        e.stopPropagation();*/
       break;
       case 38: // Up arrow
-        newFocus--;
+        e.preventDefault();
+        /*newFocus--;
         if (newFocus >= 0) {
           e.stopPropagation();
         }
-        //newFocus = Math.max(0, newFocus - 1);
+        newFocus = Math.max(0, newFocus - 1);*/
       break;
     }
     this.setState({ focused: newFocus });
@@ -100,8 +102,7 @@ class MultipleChoice extends AskWidget {
           //onMouseOver={ this.onHover.bind(this, i) }
           style={ this.getOptionStyle(i) }
           key={ i }
-        >
-          <input
+        ><input
             style={ styles.optionCheck }
             onBlur={ this.onBlur.bind(this) }
             onFocus={ this.onFocus.bind(this, i) }
@@ -117,11 +118,7 @@ class MultipleChoice extends AskWidget {
                 //if (this.state.focused === -1 && this.props.hasFocus) checkbox.focus();
               }).bind(this)
             }
-          />
-          <h2 style={ styles.optionTitle }>{ option.title }</h2>
-          <p style={ styles.optionDescription }>{ option.description }</p>
-        </label>
-    });
+          />{ option.title }</label>});
   }
 
   render() {
@@ -129,10 +126,13 @@ class MultipleChoice extends AskWidget {
       <div
         style={ styles.base }
         onMouseOut={ this.onMouseOut.bind(this) }
-        onKeyDown={ this.onKeyDown.bind(this) }>
-        <input type="hidden" tabindex="0" />
+        onKeyDown={ this.onKeyDown.bind(this) }
+        >{ this.getOptions() }
         {
-          this.getOptions()
+          !!this.props.pickUpTo ?
+            <div style={ styles.bottomLegend }>{ this.state.value.length } of { this.props.pickUpTo } selected.</div>
+          :
+            null
         }
       </div>
     )
@@ -185,6 +185,14 @@ const styles = {
     position: 'absolute',
     top: '20px',
     left: '20px'
+  },
+  bottomLegend: {
+    color: '#999',
+    fontSize: '10pt',
+    padding: '0px',
+    textAlign: 'right',
+    width: '100%',
+    marginTop: '5px',
   }
 }
 

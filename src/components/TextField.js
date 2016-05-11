@@ -86,7 +86,7 @@ class TextField extends AskWidget {
             // to use state in the condition
             (function(input) {
               // if focus has never been set
-              if (this.props.hasFocus) input.focus();
+              //if (this.props.hasFocus) input.focus();
             }).bind(this)
           }
         />
