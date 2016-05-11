@@ -150,25 +150,26 @@ const styles = {
   },
   option: {
     display: 'inline-block',
-    fontSize: '12pt',
+    fontSize: '14pt',
     cursor: 'pointer',
     color: '#777',
     lineHeight: '50px',
     transition: 'background .2s',
     background: 'white',
     border: '1px solid #ccc',
-    padding: '20px 20px 20px 50px',
+    padding: '0px 20px 0px 50px',
     outline: 'none',
     margin: '0 10px 10px 0',
     textAlign: 'left',
-    position: 'relative'
+    position: 'relative',
+    fontWeight: 'bold'
   },
   clicked: {
-    background: '#ccc',
+    background: '#222',
     color: 'white',
   },
   focused: {
-    border: '1px solid blue',
+    border: '1px solid #47a',
   },
   optionTitle: {
     fontSize: '15pt',
@@ -183,7 +184,7 @@ const styles = {
   },
   optionCheck: {
     position: 'absolute',
-    top: '20px',
+    top: '18px',
     left: '20px'
   },
   bottomLegend: {
