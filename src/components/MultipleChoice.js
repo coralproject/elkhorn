@@ -56,7 +56,7 @@ class MultipleChoice extends AskWidget {
     }
     this.setState(newState);
     this.save({ moveForward: false });
-    this.props.onFocus();
+    //this.props.onFocus();
   }
 
   onMouseOut() {
@@ -107,7 +107,8 @@ class MultipleChoice extends AskWidget {
             onBlur={ this.onBlur.bind(this) }
             onFocus={ this.onFocus.bind(this, i) }
             onClick={ this.onClick.bind(this, i) }
-            type="checkbox" key={ i }
+            type="checkbox"
+            key={ i }
             ref={
               // Bind *this* to the ref callback
               // to use state in the condition

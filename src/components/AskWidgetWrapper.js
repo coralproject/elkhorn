@@ -43,6 +43,7 @@ class AskWidgetWrapper extends Component {
     );
     return (
       <li
+        key={ this.props.index }
         style={ this.getStyles() }
         onClick={ this.props.onClick.bind(this, this.props.index) }>
           {
@@ -76,13 +77,17 @@ class AskWidgetWrapper extends Component {
               innerWidget
           }
 
-          {
-            this.props.completed && !this.props.isValid ?
-              <div style={ styles.validation }>
-                { this.props.validationMessage }
-              </div>
-            : null
-          }
+          <div role="alert" aria-atomic="true">
+            {
+              this.props.completed && !this.props.isValid ?
+                <div
+                  tabindex="0"
+                  style={ styles.validation }>
+                  { this.props.validationMessage }
+                </div>
+              : null
+            }
+          </div>
       </li>
     )
   }
