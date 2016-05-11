@@ -123,11 +123,15 @@ class MultipleChoice extends AskWidget {
 
   render() {
     return (
-      <div
-        style={ styles.base }
-        onMouseOut={ this.onMouseOut.bind(this) }
-        onKeyDown={ this.onKeyDown.bind(this) }
-        >{ this.getOptions() }
+      <div>
+        <fieldset
+          style={ styles.base }
+          onMouseOut={ this.onMouseOut.bind(this) }
+          onKeyDown={ this.onKeyDown.bind(this) }
+          >
+          <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
+          { this.getOptions() }
+        </fieldset>
         {
           !!this.props.pickUpTo ?
             <div style={ styles.bottomLegend }>{ this.state.value.length } of { this.props.pickUpTo } selected.</div>
@@ -147,6 +151,10 @@ const styles = {
     outline: 'none',
     border: 'none',
     minHeight: '100px'
+  },
+  accesibleLegend: {
+    position: 'fixed',
+    left: '-5000px'
   },
   option: {
     display: 'inline-block',

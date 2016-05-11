@@ -62,7 +62,7 @@ class AskWidgetWrapper extends Component {
           }
           {
             this.props.type == 'field' && !!this.props.title ?
-              this.props.pseudoLabel ?
+              false && this.props.pseudoLabel ?
                 <fieldset tabindex="0" style={ styles.fieldsetReset }>
                   <legend style={ this.getTitleStyles() }>{ this.props.title }</legend>
                   { innerWidget }
