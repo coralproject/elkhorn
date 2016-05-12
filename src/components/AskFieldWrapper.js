@@ -1,8 +1,8 @@
 import preact from 'preact'
-import * as Types from './Types'
+import * as Types from './fields/Types'
 const { h, Component } = preact
 
-class AskWidgetWrapper extends Component {
+class AskFieldWrapper extends Component {
 
   constructor(props, context) {
     super(props, context)
@@ -177,4 +177,4 @@ const styles = {
   }
 }
 
-export default AskWidgetWrapper;
+export default AskFieldWrapper;

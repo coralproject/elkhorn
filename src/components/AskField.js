@@ -1,7 +1,7 @@
 import preact from 'preact'
 const { h, Component } = preact
 
-class AskWidget extends Component {
+class AskField extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -35,4 +35,4 @@ class AskWidget extends Component {
   }
 }
 
-export default AskWidget;
+export default AskField;

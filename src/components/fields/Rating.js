@@ -1,9 +1,9 @@
 import preact from 'preact';
 const {Component, h} = preact;
 
-import AskWidget from './AskWidget';
+import AskField from '../AskField';
 
-class Rating extends AskWidget {
+class Rating extends AskField {
   constructor(props, context) {
     super(props, context)
     this.state = {

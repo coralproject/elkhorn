@@ -1,6 +1,6 @@
 import preact from 'preact'
 const { h, Component } = preact
-import AskWidgetWrapper from './AskWidgetWrapper'
+import AskFieldWrapper from './AskFieldWrapper'
 
 class AskComposer extends Component {
 
@@ -118,7 +118,7 @@ class AskComposer extends Component {
                       }
                       if (child.completed && child.isValid) completedCount++;
 
-                      return <AskWidgetWrapper
+                      return <AskFieldWrapper
                           key={ index }
                           ref={ (widgetWrapper) => this._widgetRefs[index] = widgetWrapper }
                           index={ index }
