@@ -51,19 +51,26 @@ class TextField extends AskField {
     );
   }
 
-  validate() {
+  validate(validateRequired = false) {
+    let isValid = false, isCompleted = true;
     if (this.props.validateAs) {
       switch (this.props.validateAs) {
         case "email":
           var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          this.setState({ isValid: emailRegex.test(this.state.value) });
+          isValid = emailRegex.test(this.state.value);
         break;
         case "number":
-          var isNumber = !isNaN(parseFloat(this.state.value)) && isFinite(this.state.value);
-          this.setState({ isValid: isNumber });
+          isValid = !isNaN(parseFloat(this.state.value)) && isFinite(this.state.value);
         break;
       }
     }
+
+    if (validateRequired) {
+      isCompleted = !!this.state.value.length;
+    }
+
+    this.setState({ isValid: isValid, completed: isCompleted });
+
   }
 
   validateAndSave(options) {

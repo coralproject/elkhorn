@@ -6,6 +6,7 @@ class AskFieldWrapper extends Component {
 
   constructor(props, context) {
     super(props, context)
+    this._field = null;
   }
 
   getStyles() {
@@ -32,13 +33,20 @@ class AskFieldWrapper extends Component {
     );
   }
 
+  saveRef(component) {
+    this._field = component;
+  }
+
   render() {
     var widgetSpec = this.props;
-    var innerWidget = h(
+    var wrappedField = h(
       Types[widgetSpec.component],
       Object.assign({},
         widgetSpec.props,
-        this.props
+        this.props,
+        // What? See: https://github.com/developit/preact/blob/4de2fb9be5201b84f281d0f9d2fcef1017bedd11/src/vdom/component.js#L65
+        //    ...and: https://github.com/developit/preact/blob/master/src/hooks.js
+        { ref: this.saveRef.bind(this) }
       )
     );
     return (
@@ -74,7 +82,7 @@ class AskFieldWrapper extends Component {
                         null
                     }
                   </legend>
-                  { innerWidget }
+                  { wrappedField }
                 </fieldset>
               :
                 <div>
@@ -87,12 +95,13 @@ class AskFieldWrapper extends Component {
                         null
                     }
                   </h3>
-                  { innerWidget }
+                  { wrappedField }
                 </div>
             :
-              innerWidget
+              wrappedField
           }
 
+          { /* TODO: move this alerts into a component */ }
           <div role="alert" aria-atomic="true">
             {
               this.props.completed && !this.props.isValid ?
@@ -104,6 +113,19 @@ class AskFieldWrapper extends Component {
               : null
             }
           </div>
+
+          <div role="alert" aria-atomic="true">
+            {
+              !this.props.completed && this.state.submitted ?
+                <div
+                  tabindex="0"
+                  style={ styles.validation }>
+                  This field is required.
+                </div>
+              : null
+            }
+          </div>
+
       </li>
     )
   }

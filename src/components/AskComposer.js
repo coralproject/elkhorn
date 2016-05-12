@@ -9,25 +9,11 @@ class AskComposer extends Component {
     this.state = {
       currentStep: 0,
       completedSteps: [],
-      firstFocusable: -1,
-      lastFocusable: -1,
       finished: false,
       ...this.props
     }
 
-    this.state.page.children.map((child, index) => {
-      if (child.type == 'field') {
-        if (this.firstFocusable === -1) this.firstFocusable = index;
-        this.lastFocusable = index;
-      }
-    });
-
-    this.composerAnimationFrame = (function(){
-      return window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame;
-    })().bind(window);
-    this._widgetRefs = [];
+    this._fieldRefs = [];
   }
 
   onFocus(index) {
@@ -54,7 +40,9 @@ class AskComposer extends Component {
 
     var pageCopy = Object.assign({}, this.state.page);
     pageCopy.children.map((child, index) => {
-      console.log(this._widgetRefs[index]);
+      if (typeof this._fieldRefs[index]._field.validate == "function") {
+        this._fieldRefs[index]._field.validate(true);
+      }
     });
     return false;
   }
@@ -120,7 +108,7 @@ class AskComposer extends Component {
 
                       return <AskFieldWrapper
                           key={ index }
-                          ref={ (widgetWrapper) => this._widgetRefs[index] = widgetWrapper }
+                          ref={ (widgetWrapper) => this._fieldRefs[index] = widgetWrapper }
                           index={ index }
                           fieldNumber={ fieldCount }
                           hasFocus={ this.state.currentStep == index }
@@ -132,6 +120,8 @@ class AskComposer extends Component {
                     })
                   }
                 </ul>
+
+                { /* TODO: move the footer into a component */ }
                 <footer style={ styles.footer } ref={ (footer) => this._footer = footer }>
                   <div style={ styles.footerContent }>
                     <div style={ styles.answeredQuestions }>
