@@ -15,7 +15,7 @@ class TextArea extends AskField {
 
   onKeyDown(e) {
     if (e.keyCode == 13 && !e.shiftKey) { // ENTER
-      this.save({ moveForward: true });
+      this.update({ moveForward: true });
     } else {
       var height = Math.max(parseInt(e.target.style.height), e.target.scrollHeight - 40);
       this.setState({ value: e.target.value, height: height });
@@ -28,7 +28,7 @@ class TextArea extends AskField {
     } else {
       this.setState({ focused: false, completed: false });
     }
-    this.save({ moveForward: true });
+    this.update({ moveForward: true });
   }
 
   onFocus() {

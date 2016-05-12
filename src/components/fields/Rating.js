@@ -40,7 +40,7 @@ class Rating extends AskField {
     } else {
       this.setState({ focused: false, completed: false });
     }
-    this.save();
+    this.update();
   }
 
   onMouseOut() {

@@ -52,7 +52,7 @@ class TextField extends AskField {
   }
 
   validate(validateRequired = false) {
-    let isValid = false, isCompleted = true;
+    let isValid = true, isCompleted = false;
     if (this.props.validateAs) {
       switch (this.props.validateAs) {
         case "email":
@@ -65,22 +65,17 @@ class TextField extends AskField {
       }
     }
 
-    if (validateRequired) {
-      isCompleted = !!this.state.value.length;
-    }
+    isCompleted = !!this.state.value.length;
 
     this.setState({ isValid: isValid, completed: isCompleted });
+
+    return isValid && isCompleted;
 
   }
 
   validateAndSave(options) {
-    if (!!this.state.value.length) {
-      this.setState({ focused: false, completed: true, isValid: true });
-    } else {
-      this.setState({ focused: false, completed: false, isValid: false });
-    }
     this.validate();
-    this.save(options);
+    this.update(options);
   }
 
   render() {

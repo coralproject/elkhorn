@@ -59,7 +59,7 @@ class MultipleChoice extends AskField {
       newState = Object.assign({}, newState, { completed: false });
     }
     this.setState(newState);
-    this.save({ moveForward: false });
+    this.update({ moveForward: false });
     //this.props.onFocus();
   }
 

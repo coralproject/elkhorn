@@ -22,7 +22,7 @@ class AskField extends Component {
     });
   }
 
-  save(options = { moveForward: false }) {
+  update(options = { moveForward: false }) {
     // whitelist state properties for save
     this.props.onSave({
       index: this.props.index,

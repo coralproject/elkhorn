@@ -40,7 +40,7 @@ class ImageOptions extends AskField {
     } else {
       this.setState({ completed: false });
     }
-    this.save({ moveForward: true });
+    this.update({ moveForward: true });
   }
 
   onMouseOut() {
