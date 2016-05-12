@@ -27,7 +27,7 @@ class MultipleChoice extends AskWidget {
 
   onFocus(i, e) {
     this.setState({ focused: i });
-    //this.props.onFocus();
+    this.props.onFocus();
   }
 
   onHover(i, e) {
@@ -40,10 +40,14 @@ class MultipleChoice extends AskWidget {
   onClick(i, e) {
     var newValue = this.state.value.slice();
     if (newValue.indexOf(i) === -1) {
-      if (newValue.length < this.props.pickUpTo) {
-        newValue.push(i);
+      if (this.props.pickUpTo) {
+        if (newValue.length < this.props.pickUpTo) {
+          newValue.push(i);
+        } else {
+          e.preventDefault();
+        }
       } else {
-        e.preventDefault();
+        newValue.push(i);
       }
     } else {
       newValue.splice(newValue.indexOf(i), 1);
@@ -107,6 +111,7 @@ class MultipleChoice extends AskWidget {
             onBlur={ this.onBlur.bind(this) }
             onFocus={ this.onFocus.bind(this, i) }
             onClick={ this.onClick.bind(this, i) }
+            tabindex="0"
             type="checkbox"
             key={ i }
             ref={

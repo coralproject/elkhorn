@@ -10,6 +10,16 @@ class AskWidget extends Component {
       completed: false,
       focused: false
     }
+    this.checkInterface();
+  }
+
+  checkInterface() {
+    let interfaceMethods = ['validate'];
+    interfaceMethods.map((method) => {
+      if ((typeof this[method]) != 'function') {
+        console.warn(`Warning: [${this.constructor.name}] has no [${method}] method.`);
+      }
+    });
   }
 
   save(options = { moveForward: false }) {

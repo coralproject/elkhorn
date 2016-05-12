@@ -28,20 +28,6 @@ class AskComposer extends Component {
         window.mozRequestAnimationFrame;
     })().bind(window);
     this._widgetRefs = [];
-    this.scrollingTo = -1;
-  }
-
-  componentDidMount() {
-    this._composer.addEventListener('scroll', this.onScroll.bind(this));
-  }
-
-  componentWillUnMount() {
-    this._composer.addEventListener('scroll', this.onScroll.bind(this));
-  }
-
-  onScroll(e) {
-    // pseudo fixed position, wouldn't be necessary on iframes
-    this._footer.style.bottom = -e.target.scrollTop + "px";
   }
 
   onFocus(index) {
@@ -63,20 +49,18 @@ class AskComposer extends Component {
 
   }
 
-  getFirstFocusable() {
+  validate() {
+    let askIsValid = false;
 
-  }
-
-  getLastFocusable() {
-
+    var pageCopy = Object.assign({}, this.state.page);
+    pageCopy.children.map((child, index) => {
+      console.log(this._widgetRefs[index]);
+    });
+    return false;
   }
 
   nextStep() {
     this.setState({ currentStep: this.state.currentStep + 1 });
-  }
-
-  previousStep() {
-
   }
 
   onKeyDown(e) {
@@ -90,64 +74,9 @@ class AskComposer extends Component {
       break;
     }
     this.setState({ currentStep: newStep });
-    this.scrollToStep(newStep);
-  }
-
-  easeInOutQuad(t, b, c, d) {
-    t /= d/2;
-    if (t < 1) {
-      return c/2*t*t + b
-    }
-    t--;
-    return -c/2 * (t*(t-2) - 1) + b;
-  };
-
-  // from Gist: https://gist.github.com/james2doyle/5694700
-  // (with some modifications)
-  scrollTo(to, callback) {
-    return;
-    var self = this;
-    // Early return if it is a repeat call
-    function move(amount) {
-      self._composer.scrollTop = amount;
-      // don't rely on onScroll only, it will get jumpy
-      self._footer.style.bottom = -self._composer.scrollTop + "px";
-    }
-    var start = self._composer.scrollTop,
-      change = to - start,
-      currentTime = 0,
-      increment = 20,
-      duration = 500;
-    var animateScroll = function() {
-      // increment the time
-      currentTime += increment;
-      // find the value with the quadratic in-out easing function
-      var val = self.easeInOutQuad(currentTime, start, change, duration);
-      // move the document.body
-      move(val);
-      // do the animation unless its over
-      if (currentTime < duration) {
-        self.composerAnimationFrame(animateScroll);
-      } else {
-        if (callback && typeof(callback) === 'function') {
-          // do we need a callback?
-          // callback();
-        }
-      }
-    };
-    animateScroll();
-  }
-
-  scrollToStep(index) {
-    var target = this._widgetRefs[index].base.offsetTop - (index > 0 ? 50 : 0);
-    // Scroll only if needed
-    if (target + this._composer.offsetHeight < this._composer.scrollHeight) {
-      this.scrollTo(target);
-    }
   }
 
   setFocus(index) {
-    this.scrollToStep(index);
     this.setState({ currentStep: index });
   }
 
@@ -155,8 +84,10 @@ class AskComposer extends Component {
     //this.setFocus(index);
   }
 
-  onSendClick(index) {
-    this.setState({ finished: true });
+  onSubmit(index) {
+    if (this.validate()) {
+      this.setState({ finished: true });
+    }
   }
 
   getQuestionBarStyles(completedCount, fieldCount) {
@@ -207,14 +138,14 @@ class AskComposer extends Component {
                       <div style={ styles.answeredQuestionsBar }>
                         <span style={ this.getQuestionBarStyles(completedCount, fieldCount) }></span>
                       </div>
-                      <span tabindex="0" style={ styles.answeredQuestionsText }>{ completedCount } of { fieldCount } questions answered.</span>
+                      <span role="progressbar" aria-valuenow={ completedCount } aria-valuemin="0" aria-valuemax={ fieldCount } tabindex="0" style={ styles.answeredQuestionsText }>{ completedCount } of { fieldCount } questions answered.</span>
                     </div>
                     <div style={ styles.footerConditionsAndActions }>
                       <h4 tabindex="0" style={ styles.footerConditions }>
                         { this.props.footer.conditions }
                       </h4>
                       <div style={ styles.footerActions }>
-                        <button style={ styles.submit } onClick={ this.onSendClick.bind(this) }>Submit</button>
+                        <button style={ styles.submit } onClick={ this.onSubmit.bind(this) }>Submit</button>
                       </div>
                     </div>
                   </div>

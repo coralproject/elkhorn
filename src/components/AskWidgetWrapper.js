@@ -65,12 +65,28 @@ class AskWidgetWrapper extends Component {
             this.props.type == 'field' && !!this.props.title ?
               false && this.props.pseudoLabel ?
                 <fieldset tabindex="0" style={ styles.fieldsetReset }>
-                  <legend style={ this.getTitleStyles() }>{ this.props.title }</legend>
+                  <legend style={ this.getTitleStyles() }>
+                    { this.props.title }
+                    {
+                      this.props.required ?
+                        <span aria-label="This field is required." style={ styles.requiredAsterisk }>*</span>
+                      :
+                        null
+                    }
+                  </legend>
                   { innerWidget }
                 </fieldset>
               :
                 <div>
-                  <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>{ this.props.title }</h3>
+                  <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
+                    { this.props.title }
+                    {
+                      this.props.required ?
+                        <span aria-label="This field is required." style={ styles.requiredAsterisk }>*</span>
+                      :
+                        null
+                    }
+                  </h3>
                   { innerWidget }
                 </div>
             :
@@ -97,7 +113,6 @@ class AskWidgetWrapper extends Component {
 const styles = {
   formFieldWrapper: {
     borderBottom: '1px solid #999',
-    transition: 'opacity .5s',
     position: 'relative',
     background: 'white'
   },
@@ -116,7 +131,7 @@ const styles = {
   fieldTitle: {
     display: 'block',
     fontSize: '14pt',
-    color: '#444',
+    color: 'black',
     fontWeight: '700',
     marginBottom: '10px'
   },
@@ -138,12 +153,6 @@ const styles = {
     textAlign: 'right',
     fontSize: '16pt'
   },
-  blurred: {
-    opacity: .4
-  },
-  focused: {
-    opacity: 1
-  },
   focusedTitle: {
     color: 'black'
   },
@@ -160,6 +169,11 @@ const styles = {
     margin: '0',
     minWidth: '0',
     display: 'table-cell'
+  },
+  requiredAsterisk: {
+    color: '#E55',
+    fontSize: '20pt',
+    lineHeight: '10px'
   }
 }
 

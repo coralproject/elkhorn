@@ -72,9 +72,6 @@ class TextArea extends AskWidget {
           :
             null
         }
-        <div style={ styles.keyLegend }>
-          <span style={ styles.keyTag }>ENTER</span> to save, <span style={ styles.keyTag }>SHIFT + ENTER</span> to start a new paragraph.
-        </div>
       </div>
     )
   }
@@ -102,19 +99,6 @@ const styles = {
     width: '100%',
     marginTop: '5px',
   },
-  keyLegend: {
-    fontSize: '9pt',
-    color: '#999'
-  },
-  keyTag: {
-    display: 'inline-block',
-    padding: '4px 7px',
-    margin: '0 4px',
-    borderRadius: '3px',
-    border: '1px solid #bbb',
-    background: 'white',
-    boxShadow: '0 2px 2px #bbb'
-  }
 }
 
 export default TextArea;
