@@ -116,7 +116,7 @@ class AskFieldWrapper extends Component {
 
           <div role="alert" aria-atomic="true">
             {
-              !this.props.completed && this.state.submitted ?
+              this.props.required && !this.props.completed && this.props.submitted ?
                 <div
                   tabindex="0"
                   style={ styles.validation }>

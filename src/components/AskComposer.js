@@ -73,6 +73,7 @@ class AskComposer extends Component {
   }
 
   onSubmit(index) {
+    this.setState({ submitted: true });
     if (this.validate()) {
       this.setState({ finished: true });
     }
@@ -116,6 +117,7 @@ class AskComposer extends Component {
                           onSave={ this.onSave.bind(this) }
                           onClick={ this.onClick.bind(this, index) }
                           settings={ this.state.settings }
+                          submitted={ this.state.submitted }
                           { ...child } />;
                     })
                   }
