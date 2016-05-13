@@ -51,12 +51,23 @@ class TextField extends AskField {
     );
   }
 
+  validateAndSave(options) {
+    this.validate();
+    this.update(options);
+  }
+
+  // Interface methods
+
   validate() {
+
     let isValid = true, isCompleted = false;
-    if (this.props.validateAs) {
+
+    isCompleted = !!this.state.value.length;
+
+    if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
         case "email":
-          var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))?$/;
           isValid = emailRegex.test(this.state.value);
         break;
         case "number":
@@ -65,17 +76,14 @@ class TextField extends AskField {
       }
     }
 
-    isCompleted = !!this.state.value.length;
-
     this.setState({ isValid: isValid, completed: isCompleted });
 
-    return isValid && isCompleted;
+    return this.props.required ? isValid : isValid && isCompleted;
 
   }
 
-  validateAndSave(options) {
-    this.validate();
-    this.update(options);
+  getValue() {
+    return { text: this.state.value.length ? this.state.value : '' };
   }
 
   render() {

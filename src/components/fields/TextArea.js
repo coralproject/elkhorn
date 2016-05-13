@@ -45,6 +45,25 @@ class TextArea extends AskField {
     );
   }
 
+  // Interface methods
+
+  validate() {
+
+    let isValid = true, isCompleted = false;
+
+    isCompleted = !!this.state.value.length;
+
+    this.setState({ isValid: isValid, completed: isCompleted });
+
+    return this.props.required ? isValid : isValid && isCompleted;
+
+  }
+
+  getValue() {
+    return { text: this.state.value.length ? this.state.value : '' };
+  }
+
+
   render() {
     return (
       <div>

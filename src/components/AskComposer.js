@@ -1,6 +1,8 @@
 import preact from 'preact'
 const { h, Component } = preact
 import AskFieldWrapper from './AskFieldWrapper'
+import Header from './Header'
+import FinishedScreen from './FinishedScreen'
 
 class AskComposer extends Component {
 
@@ -36,32 +38,25 @@ class AskComposer extends Component {
   }
 
   validate() {
-    let askIsValid = false;
+    // Assume valid until proven otherwise
+    let askIsValid = true;
+    var fieldIsValid = true;
 
-    var pageCopy = Object.assign({}, this.state.page);
-    pageCopy.children.map((child, index) => {
+    this.state.page.children.map((child, index) => {
+      // Type checking before calling
       if (typeof this._fieldRefs[index]._field.validate == "function") {
-        this._fieldRefs[index]._field.validate(true);
+        // We delegate validation to the components
+        fieldIsValid = this._fieldRefs[index]._field.validate(true);
+        // If any of the fields is invalid, the form is invalid
+        if (fieldIsValid === false) askIsValid = false;
       }
     });
-    return false;
+
+    return askIsValid;
   }
 
   nextStep() {
     this.setState({ currentStep: this.state.currentStep + 1 });
-  }
-
-  onKeyDown(e) {
-    var newStep = this.state.currentStep;
-    switch (e.keyCode) {
-      case 40: // Down arrow
-        newStep = Math.min(this.state.page.children.length, newStep + 1);
-      break;
-      case 38: // Up arrow
-        newStep = Math.max(0, newStep - 1);
-      break;
-    }
-    this.setState({ currentStep: newStep });
   }
 
   setFocus(index) {
@@ -93,11 +88,11 @@ class AskComposer extends Component {
     var completedCount = 0;
     return (
       <div style={ styles.base } ref={ (composer) => this._composer = composer }>
+        <Header title={ this.props.header.title } description={ this.props.header.description } />
+
         {
           !this.state.finished ?
-            <div
-              //onKeyDown={ this.onKeyDown.bind(this) }
-              >
+            <div>
                 <ul style={ styles.fieldList }>
                   {
                     this.state.page.children.map((child, index) => {
@@ -144,10 +139,9 @@ class AskComposer extends Component {
                 </footer>
             </div>
           :
-            <div style={ styles.finishedScreen }>
-              <h1>{ this.state.finishedScreen.title }</h1>
-              <p>{ this.state.finishedScreen.description }</p>
-            </div>
+            <FinishedScreen
+              title={ this.state.finishedScreen.title }
+              description={ this.state.finishedScreen.description } />
         }
       </div>
     )

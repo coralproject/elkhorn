@@ -44,6 +44,7 @@ class AskFieldWrapper extends Component {
       Object.assign({},
         widgetSpec.props,
         this.props,
+        // Ref takes a callback and passes the component as an argument.
         // What? See: https://github.com/developit/preact/blob/4de2fb9be5201b84f281d0f9d2fcef1017bedd11/src/vdom/component.js#L65
         //    ...and: https://github.com/developit/preact/blob/master/src/hooks.js
         { ref: this.saveRef.bind(this) }
@@ -117,11 +118,11 @@ class AskFieldWrapper extends Component {
           <div role="alert" aria-atomic="true">
             {
               this.props.required && !this.props.completed && this.props.submitted ?
-                <div
+                <span
                   tabindex="0"
                   style={ styles.validation }>
-                  This field is required.
-                </div>
+                  The field <strong>{ this.props.title }</strong> is required.
+                </span>
               : null
             }
           </div>
@@ -182,7 +183,7 @@ const styles = {
     color: '#900'
   },
   validation: {
-    color: 'red',
+    color: '#900',
     padding: '10px 0'
   },
   fieldsetReset: {

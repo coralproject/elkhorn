@@ -14,24 +14,6 @@ class MultipleChoice extends AskField {
     }
   }
 
-  // Event listeners
-
-  onBlur() {
-    this.setState({ focused: -1, hovering: -1 });
-  }
-
-  onFocus(i, e) {
-    this.setState({ focused: i });
-    this.props.onFocus();
-  }
-
-  onHover(i, e) {
-    this.setState({ focused: i });
-    e.target.focus();
-    // sets focus on hover! looks weird otherwise
-    //this.props.onFocus();
-  }
-
   onClick(i, e) {
     var newValue = this.state.value.slice();
     if (newValue.indexOf(i) === -1) {
@@ -56,11 +38,6 @@ class MultipleChoice extends AskField {
     this.setState(newState);
     this.validate();
     this.update({ moveForward: false });
-    //this.props.onFocus();
-  }
-
-  onMouseOut() {
-    this.setState({ focused: -1 });
   }
 
   // Style computing
@@ -87,8 +64,6 @@ class MultipleChoice extends AskField {
           key={ i }
         ><input
             style={ styles.optionCheck }
-            onBlur={ this.onBlur.bind(this) }
-            onFocus={ this.onFocus.bind(this, i) }
             onClick={ this.onClick.bind(this, i) }
             tabindex="0"
             type="checkbox"
@@ -97,6 +72,7 @@ class MultipleChoice extends AskField {
   }
 
   // Interface Methods
+
   validate(validateRequired = false) {
 
     let isValid = true, isCompleted = false;
@@ -109,13 +85,15 @@ class MultipleChoice extends AskField {
 
   }
 
+  getValue() {
+    return { options: this.state.value.length ? this.state.value : [] };
+  }
+
   render() {
     return (
       <div>
         <fieldset
-          style={ styles.base }
-          onMouseOut={ this.onMouseOut.bind(this) }
-          >
+          style={ styles.base }>
           <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
           { this.getOptions() }
         </fieldset>

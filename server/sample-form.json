@@ -3,6 +3,10 @@
 		"saveDestination": "http://coralasks.theguardian.com/ask/44",
 		"showFieldNumbers": true
 	},
+	"header": {
+		"title": "Share Your Story.",
+		"description": "As part of our ​Op-Docs ​series​ Conversation​s​ ​on Race​,​​ we ​want to hear your​​ ​​experiences ​confronting issues of race in your life. We invite you to share your stories, some of which we are featuring on a page of readers’ contributions."
+	},
 	"footer": {
 		"conditions": "By submitting to us, you are promising that the content is original, doesn’t plagiarize from anyone or infringe a copyright or trademark, doesn’t violate anybody’s rights and isn’t libelous or otherwise unlawful or misleading. You are agreeing that we can use your submission in all manner and media of The New York Times and that we shall have the right to authorize third parties to do so. And you agree to the rules of our Member Agreement, found online at our website."
 	},
@@ -14,14 +18,6 @@
 		"id": 1,
 		"name": "first_page",
 		"children": [
-			{
-				"type": "separator",
-				"component": "Header",
-				"props": {
-					"text": "Share Your Story.",
-					"description": "As part of our ​Op-Docs ​series​ Conversation​s​ ​on Race​,​​ we ​want to hear your​​ ​​experiences ​confronting issues of race in your life. We invite you to share your stories, some of which we are featuring on a page of readers’ contributions."
-				}
-			},
 			{
 				"type": "field",
 				"component": "MultipleChoice",
