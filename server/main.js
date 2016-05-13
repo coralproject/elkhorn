@@ -8,4 +8,4 @@ preact.render((
   <div>
     <AskComposer {...props} />
   </div>
-), document.body);
+), document.querySelector(renderTarget));

@@ -51,7 +51,7 @@ class TextField extends AskField {
     );
   }
 
-  validate(validateRequired = false) {
+  validate() {
     let isValid = true, isCompleted = false;
     if (this.props.validateAs) {
       switch (this.props.validateAs) {

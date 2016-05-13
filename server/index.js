@@ -51,7 +51,7 @@ function buildWidget(props, isPreview) {
       ],
     }).then(function(bundle){
       var result = bundle.generate({
-        intro: 'var props = ' + JSON.stringify(props) + ';',
+        intro: 'var props = ' + JSON.stringify(props) + ', renderTarget = "#ask-form";',
         format: 'iife'
       })
       resolve(result.code)

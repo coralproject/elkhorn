@@ -14,10 +14,10 @@ class AskField extends Component {
   }
 
   checkInterface() {
-    let interfaceMethods = ['validate'];
+    let interfaceMethods = ['validate', 'getValue'];
     interfaceMethods.map((method) => {
       if ((typeof this[method]) != 'function') {
-        console.warn(`Warning: [${this.constructor.name}] has no [${method}] method.`);
+        console.warn(`Warning: [${this.constructor.name}] has no [${method}] method. See: https://github.com/coralproject/elkhorn/blob/master/docs/warnings/askfieldinterface.md`);
       }
     });
   }

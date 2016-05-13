@@ -4,6 +4,7 @@ const {Component, h} = preact;
 import AskField from '../AskField';
 
 class MultipleChoice extends AskField {
+
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -13,13 +14,7 @@ class MultipleChoice extends AskField {
     }
   }
 
-  componentWillUpdate() {
-    //console.log("will update");
-  }
-
-  getStyles() {
-    return Object.assign({}, styles.base, this.props.isValid ? styles.valid : styles.error);
-  }
+  // Event listeners
 
   onBlur() {
     this.setState({ focused: -1, hovering: -1 });
@@ -59,6 +54,7 @@ class MultipleChoice extends AskField {
       newState = Object.assign({}, newState, { completed: false });
     }
     this.setState(newState);
+    this.validate();
     this.update({ moveForward: false });
     //this.props.onFocus();
   }
@@ -67,30 +63,7 @@ class MultipleChoice extends AskField {
     this.setState({ focused: -1 });
   }
 
-  onKeyDown(e) {
-    if (e.keyCode == 13) return; // skip on Enter
-    var newFocus = this.state.focused;
-    switch (e.keyCode) {
-      case 40: // Down arrow
-        e.preventDefault();
-        /*newFocus++;
-        if (newFocus < this.props.options.length) {
-          e.stopPropagation();
-        }
-        newFocus = Math.min(this.props.options.length - 1, newFocus + 1);
-        e.stopPropagation();*/
-      break;
-      case 38: // Up arrow
-        e.preventDefault();
-        /*newFocus--;
-        if (newFocus >= 0) {
-          e.stopPropagation();
-        }
-        newFocus = Math.max(0, newFocus - 1);*/
-      break;
-    }
-    this.setState({ focused: newFocus });
-  }
+  // Style computing
 
   getOptionStyle(i) {
     return Object.assign({},
@@ -99,6 +72,12 @@ class MultipleChoice extends AskField {
       i === this.state.focused ? styles.focused : {}
     );
   }
+
+  getStyles() {
+    return Object.assign({}, styles.base, this.props.isValid ? styles.valid : styles.error);
+  }
+
+  // Template partials
 
   getOptions() {
     return this.props.options.map((option, i) => {
@@ -114,17 +93,20 @@ class MultipleChoice extends AskField {
             tabindex="0"
             type="checkbox"
             key={ i }
-            ref={
-              // Bind *this* to the ref callback
-              // to use state in the condition
-              (function(checkbox) {
-                // set native focus
-                //if (this.props.hasFocus && checkbox.key === this.state.focused) checkbox.focus();
-                // if focus has never been set
-                //if (this.state.focused === -1 && this.props.hasFocus) checkbox.focus();
-              }).bind(this)
-            }
           />{ option.title }</label>});
+  }
+
+  // Interface Methods
+  validate(validateRequired = false) {
+
+    let isValid = true, isCompleted = false;
+
+    isCompleted = !!this.state.value.length;
+
+    this.setState({ isValid: isValid, completed: isCompleted });
+
+    return isValid && isCompleted;
+
   }
 
   render() {
@@ -133,7 +115,6 @@ class MultipleChoice extends AskField {
         <fieldset
           style={ styles.base }
           onMouseOut={ this.onMouseOut.bind(this) }
-          onKeyDown={ this.onKeyDown.bind(this) }
           >
           <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
           { this.getOptions() }
