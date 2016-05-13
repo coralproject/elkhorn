@@ -77,7 +77,6 @@
 				"title": "Age",
 				"validationMessage": "Please type a valid number.",
 				"props": {
-					"required": true,
 					"validateAs": "number"
 				}
 			},
@@ -89,7 +88,6 @@
 				"validationMessage": "Please type a valid e-mail address.",
 				"props": {
 					"maxLength": 100,
-					"required": true,
 					"validateAs": "email"
 				}
 			}

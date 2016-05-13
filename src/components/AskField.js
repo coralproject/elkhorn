@@ -24,7 +24,7 @@ class AskField extends Component {
 
   update(options = { moveForward: false }) {
     // whitelist state properties for save
-    this.props.onSave({
+    this.props.onUpdate({
       index: this.props.index,
       value: this.state.value,
       isValid: this.state.isValid,

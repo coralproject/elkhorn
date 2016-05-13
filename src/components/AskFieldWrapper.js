@@ -54,7 +54,7 @@ class AskFieldWrapper extends Component {
       <li
         key={ this.props.index }
         style={ this.getStyles() }
-        onClick={ this.props.onClick.bind(this, this.props.index) }>
+        >
           {
             this.props.type == 'field' && this.props.settings.showFieldNumbers ?
               <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>

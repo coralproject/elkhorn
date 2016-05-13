@@ -19,7 +19,7 @@ class AskComposer extends Component {
     this._fieldRefs = [];
   }
 
-  onSave(payload) {
+  onUpdate(payload) {
 
     var pageCopy = Object.assign({}, this.state.page);
     pageCopy.children[payload.index] = Object.assign({},
@@ -56,10 +56,6 @@ class AskComposer extends Component {
 
   setFocus(index) {
     this.setState({ currentStep: index });
-  }
-
-  onClick(index) {
-    //this.setFocus(index);
   }
 
   onSubmit(index) {
@@ -112,8 +108,7 @@ class AskComposer extends Component {
                           index={ index }
                           fieldNumber={ fieldCount }
                           hasFocus={ this.state.currentStep == index }
-                          onSave={ this.onSave.bind(this) }
-                          onClick={ this.onClick.bind(this, index) }
+                          onUpdate={ this.onUpdate.bind(this) }
                           settings={ this.state.settings }
                           submitted={ this.state.submitted }
                           { ...child } />;
