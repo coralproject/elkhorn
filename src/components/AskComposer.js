@@ -66,7 +66,24 @@ class AskComposer extends Component {
     this.setState({ submitted: true });
     if (this.validate()) {
       this.setState({ finished: true });
+      this.send();
     }
+  }
+
+  send() {
+    var payload = [], field, fieldValue;
+    this.state.page.children.map((child, index) => {
+      field = this._fieldRefs[index]._field;
+      if (typeof field.getValue == "function") {
+        fieldValue = field.getValue();
+        payload.push({
+          id: field.props.id,
+          title: field.props.title,
+          value: fieldValue
+        });
+      }
+    });
+    console.info("Payload to be sent to the server", payload);
   }
 
   render() {

@@ -86,7 +86,15 @@ class MultipleChoice extends AskField {
   }
 
   getValue() {
-    return { options: this.state.value.length ? this.state.value : [] };
+    var selectedOptions = [], optionTitle;
+    this.state.value.map((index) => {
+      optionTitle = this.props.options[index].title;
+      selectedOptions.push({
+        index: index,
+        title: optionTitle
+      });
+    });
+    return { options: selectedOptions };
   }
 
   render() {

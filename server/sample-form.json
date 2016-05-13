@@ -1,4 +1,5 @@
 {
+	"id": 1,
 	"settings": {
 		"saveDestination": "http://coralasks.theguardian.com/ask/44",
 		"showFieldNumbers": true
@@ -19,6 +20,7 @@
 		"name": "first_page",
 		"children": [
 			{
+				"id": 100,
 				"type": "field",
 				"component": "MultipleChoice",
 				"title": "Select one or several themes for your story",
@@ -49,6 +51,7 @@
 				}
 			},
 			{
+				"id": 101,
 				"type": "field",
 				"component": "TextArea",
 				"title": "Write your story",
@@ -58,6 +61,7 @@
 				}
 			},
 			{
+				"id": 102,
 				"type": "field",
 				"component": "TextField",
 				"title": "Name",
@@ -67,6 +71,7 @@
 				}
 			},
 			{
+				"id": 103,
 				"type": "field",
 				"component": "TextField",
 				"title": "Age",
@@ -77,6 +82,7 @@
 				}
 			},
 			{
+				"id": 104,
 				"type": "field",
 				"component": "TextField",
 				"title": "E-mail",
