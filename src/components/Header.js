@@ -4,13 +4,12 @@ const { h, Component } = preact
 class Header extends Component {
   constructor(props, context) {
     super(props, context)
-    this.state = {}
   }
 
   render() {
     return (
       <header style={ styles.base } tabindex="0">
-        <h1 tabindex="0" style={ styles.h1 }>{ this.props.title }</h1>
+        <h1 tabindex="0" style={ styles.title }>{ this.props.title }</h1>
         <h2 tabindex="0" style={ styles.description }>{ this.props.description }</h2>
       </header>
     )
@@ -23,7 +22,7 @@ const styles = {
     background: '#fff',
     padding: '40px',
   },
-  h1: {
+  title: {
     fontFamily: 'Martel',
     fontSize: '22pt',
     fontWeight: '700',

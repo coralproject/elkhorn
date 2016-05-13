@@ -37,11 +37,6 @@ class TextField extends AskField {
     this.validateAndSave();
   }
 
-  onFocus() {
-    this.setState({ focused: true });
-    this.props.onFocus();
-  }
-
   // Compute styles for different field states
   getStyles() {
     return Object.assign({},
@@ -94,7 +89,6 @@ class TextField extends AskField {
           style={ this.getStyles() }
           placeholder={this.props.placeholder}
           defaultValue={ this.state.value }
-          onFocus={ this.onFocus.bind(this) }
           onBlur={ this.onBlur.bind(this) }
           onChange={this.onChange.bind(this)}
           onKeyDown={this.onKeyDown.bind(this)}

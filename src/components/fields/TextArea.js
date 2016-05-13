@@ -31,11 +31,6 @@ class TextArea extends AskField {
     this.update({ moveForward: true });
   }
 
-  onFocus() {
-    this.setState({ focused: true });
-    this.props.onFocus();
-  }
-
   getStyles() {
     return Object.assign({},
       styles.base,
@@ -73,17 +68,8 @@ class TextArea extends AskField {
           placeholder={this.props.placeholder}
           defaultValue={ this.state.value }
           onBlur={ this.onBlur.bind(this) }
-          onFocus={ this.onFocus.bind(this) }
           onKeyDown={this.onKeyDown.bind(this)}
           maxLength={ !!this.props.maxLength ? this.props.maxLength : 'auto' }
-          ref={
-            // Bind *this* to the ref callback
-            // to use state in the condition
-            (function(textarea) {
-              // if focus has never been set
-              //if (this.props.hasFocus) textarea.focus();
-            }).bind(this)
-          }
         ></textarea>
         {
           !!this.props.maxLength ?
