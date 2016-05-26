@@ -4,8 +4,10 @@ import AskComposer from '../src/components/AskComposer';
 
 import '../src/style/index.css';
 
+const target = document.querySelector(renderTarget);
+
 preact.render((
   <div>
     <AskComposer {...props} />
   </div>
-), document.querySelector(renderTarget));
+), target || document.querySelector('#ask-form'));
