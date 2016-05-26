@@ -72,6 +72,16 @@
 			{
 				"id": 101,
 				"type": "field",
+				"component": "DateField",
+				"title": "A date field",
+				"required": true,
+				"props": {
+					"maxLength": 400
+				}
+			},
+			{
+				"id": 101,
+				"type": "field",
 				"component": "TextArea",
 				"title": "Write your story",
 				"required": true,
