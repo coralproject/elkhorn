@@ -13,6 +13,7 @@ var babelConf = require('./babel.json')
 var app = express()
 app.use(compress())
 app.use(bodyParser.json())
+app.use(express.static('public'))
 app.use('/widgets', express.static('widgets'))
 
 app.get('/preview.js', function(req, res) {
@@ -30,7 +31,7 @@ app.get('/preview.js', function(req, res) {
 
 app.post('/create', function(req, res){
   buildWidget(req.body, false).then(function(code){
-    fs.writeFile(path.join(__dirname, 'widgets', '1234.js'), code, function(err){
+    fs.writeFile(path.join(__dirname, 'widgets', (req.body.id || 1234) + '.js'), code, function(err){
       res.send('ok')
     })
   })
@@ -51,7 +52,7 @@ function buildWidget(props, isPreview) {
       ],
     }).then(function(bundle){
       var result = bundle.generate({
-        intro: 'var props = ' + JSON.stringify(props) + ', renderTarget = "#ask-form";',
+        intro: 'var props = ' + JSON.stringify(props) + ', renderTarget = "' + (props.target || '#ask-form') + '";',
         format: 'iife'
       })
       resolve(result.code)
