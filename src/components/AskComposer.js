@@ -13,6 +13,7 @@ class AskComposer extends Component {
       currentStep: 0,
       completedSteps: [],
       finished: false,
+      page: this.props.steps[0],
       ...this.props
     }
 
@@ -22,8 +23,9 @@ class AskComposer extends Component {
   onUpdate(payload) {
 
     var pageCopy = Object.assign({}, this.state.page);
-    pageCopy.children[payload.index] = Object.assign({},
-      pageCopy.children[payload.index],
+    console.log(this.state)
+    pageCopy.widgets[payload.index] = Object.assign({},
+      pageCopy.widgets[payload.index],
       payload
     );
 
@@ -37,7 +39,7 @@ class AskComposer extends Component {
     let askIsValid = true;
     var fieldIsValid = true;
 
-    this.state.page.children.map((child, index) => {
+    this.state.page.widgets.map((child, index) => {
       // Type checking before calling
       if (typeof this._fieldRefs[index]._field.validate == "function") {
         // We delegate validation to the components
@@ -68,7 +70,7 @@ class AskComposer extends Component {
 
   send() {
     var payload = [], field, fieldValue;
-    this.state.page.children.map((child, index) => {
+    this.state.page.widgets.map((child, index) => {
       field = this._fieldRefs[index]._field;
       if (typeof field.getValue == "function") {
         fieldValue = field.getValue();
@@ -95,7 +97,7 @@ class AskComposer extends Component {
             <div>
                 <ul style={ styles.fieldList }>
                   {
-                    this.state.page.children.map((child, index) => {
+                    this.state.page.widgets.map((child, index) => {
 
                       if (child.type == 'field') {
                         fieldCount++;

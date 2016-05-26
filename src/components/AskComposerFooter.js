@@ -10,6 +10,7 @@ class AskComposer extends Component {
     this.state = {
       currentStep: 0,
       completedSteps: [],
+      page: this.props.steps[0],
       ...this.props
     }
     this.composerAnimationFrame = (function(){
@@ -37,18 +38,18 @@ class AskComposer extends Component {
   onSave(payload) {
 
     var pageCopy = Object.assign({}, this.state.page);
-    pageCopy.children[payload.index] = Object.assign({}, 
-      pageCopy.children[payload.index], 
+    pageCopy.widgets[payload.index] = Object.assign({},
+      pageCopy.widgets[payload.index],
       payload
     );
 
-    this.setState({ page: pageCopy });
+    this.setState({ src: pageCopy });
 
   }
 
   getQuestionBarStyles(completedCount, fieldCount) {
-    var widthPercent = Math.ceil(completedCount / fieldCount * 100);    
-    return Object.assign({}, 
+    var widthPercent = Math.ceil(completedCount / fieldCount * 100);
+    return Object.assign({},
       styles.answeredQuestionsBarComplete,
       { width: widthPercent + '%' }
     );
@@ -58,7 +59,7 @@ class AskComposer extends Component {
     // field count is artificial, not the widget index
     var fieldCount = 0;
     var completedCount = 0;
-    return ( 
+    return (
       <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
         <div style={ styles.footerContent }>
           <div style={ styles.answeredQuestions }>
