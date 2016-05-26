@@ -42,7 +42,8 @@ class TextField extends AskField {
     return Object.assign({},
       styles.base,
       this.props.isValid ? styles.valid : styles.error,
-      this.state.focused ? styles.focused : {}
+      this.state.focused ? styles.focused : {},
+      { backgroundColor: this.props.theme.inputBackground }
     );
   }
 

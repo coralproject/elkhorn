@@ -11,7 +11,8 @@ class Footer extends Component {
     var widthPercent = Math.ceil(completedCount / fieldCount * 100);
     return Object.assign({},
       styles.answeredQuestionsBarComplete,
-      { width: widthPercent + '%' }
+      { width: widthPercent + '%' },
+      { background: this.props.theme.progressBar }
     );
   }
 
@@ -20,7 +21,10 @@ class Footer extends Component {
       <footer style={ styles.footer }>
         <div style={ styles.footerContent }>
           <div style={ styles.answeredQuestions }>
-            <div style={ styles.answeredQuestionsBar }>
+            <div style={ Object.assign({},
+              styles.answeredQuestionsBar,
+              { background: this.props.theme.progressBarBackground }
+            )}>
               <span style={ this.getQuestionBarStyles(this.props.completedCount, this.props.fieldCount) }></span>
             </div>
             <span role="progressbar" aria-valuenow={ this.props.completedCount } aria-valuemin="0" aria-valuemax={ this.props.fieldCount } tabindex="0" style={ styles.answeredQuestionsText }>{ this.props.completedCount } of { this.props.fieldCount } questions answered.</span>
@@ -30,7 +34,15 @@ class Footer extends Component {
               { this.props.conditions }
             </h4>
             <div style={ styles.footerActions }>
-              <button style={ styles.submit } onClick={ this.props.onSubmit }>Submit</button>
+              <button
+                style={ Object.assign({},
+                  styles.submit,
+                  {
+                    background: this.props.theme.submitButtonBackground,
+                    text: this.props.theme.submitButtonText
+                  }
+                )}
+                onClick={ this.props.onSubmit }>Submit</button>
             </div>
           </div>
         </div>
@@ -71,7 +83,6 @@ const styles = {
     color: '#222',
   },
   answeredQuestionsBar: {
-    background: '#999',
     height: '15px',
     width: '100%',
     position: 'relative',
@@ -79,7 +90,6 @@ const styles = {
     borderRadius: '3px'
   },
   answeredQuestionsBarComplete: {
-    background: 'linear-gradient(to left, #414d0b , #727a17)',
     height: '15px',
     position: 'absolute',
     top: '0',
@@ -90,7 +100,6 @@ const styles = {
     fontSize: '10pt'
   },
   footerConditionsAndActions: {
-    display: 'flex',
     width: '100%',
     paddingTop: '10px',
     marginTop: '10px',
@@ -98,12 +107,9 @@ const styles = {
   },
   footerActions: {
     textAlign: 'right',
-    width: '30%'
   },
   footerConditions: {
-    width: '70%',
     fontSize: '9pt',
-    paddingRight: '20px'
   },
   submit: {
     background: '#00897B',

@@ -6,11 +6,25 @@ class Header extends Component {
     super(props, context)
   }
 
+  getHeaderStyles() {
+    return Object.assign({}, styles.base, {
+      backgroundColor: this.props.theme.headerBackground
+    });
+  }
+
   render() {
     return (
-      <header style={ styles.base } tabindex="0">
-        <h1 tabindex="0" style={ styles.title }>{ this.props.title }</h1>
-        <h2 tabindex="0" style={ styles.description }>{ this.props.description }</h2>
+      <header style={ this.getHeaderStyles() } tabindex="0">
+        <h1
+          tabindex="0"
+          style={
+            Object.assign({}, styles.title, { color: this.props.theme.headerText })
+          }>{ this.props.title }</h1>
+        <h2
+          tabindex="0"
+          style={
+            Object.assign({}, styles.description, { color: this.props.theme.headerIntroText })
+          }>{ this.props.description }</h2>
       </header>
     )
   }

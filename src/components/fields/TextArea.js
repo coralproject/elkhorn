@@ -36,7 +36,8 @@ class TextArea extends AskField {
       styles.base,
       this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {},
-      { height: this.state.height }
+      { height: this.state.height },
+      { backgroundColor: this.props.theme.inputBackground }
     );
   }
 

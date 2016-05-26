@@ -21,7 +21,8 @@ class AskFieldWrapper extends Component {
 
     return Object.assign({},
       styles.formFieldWrapper,
-      fieldStyles
+      fieldStyles,
+      { backgroundColor: this.props.theme.formBackground }
     );
   }
 
@@ -30,6 +31,7 @@ class AskFieldWrapper extends Component {
       styles.fieldTitle,
       this.props.hasFocus ? styles.focusedTitle : {},
       this.state.completed && !this.state.isValid ? styles.invalidTitle : {},
+      { color: this.props.theme.fieldTitleText }
     );
   }
 
@@ -78,7 +80,12 @@ class AskFieldWrapper extends Component {
                     { this.props.title }
                     {
                       this.props.required ?
-                        <span aria-label="This field is required." style={ styles.requiredAsterisk }>*</span>
+                        <span aria-label="This field is required." style={
+                          Object.assign({},
+                            styles.requiredAsterisk,
+                            { color: this.props.theme.requiredAsterisk }
+                          )
+                        }>*</span>
                       :
                         null
                     }
@@ -91,7 +98,14 @@ class AskFieldWrapper extends Component {
                     { this.props.title }
                     {
                       this.props.required ?
-                        <span aria-label="This field is required." style={ styles.requiredAsterisk }>*</span>
+                        <span
+                          aria-label="This field is required."
+                          style={ 
+                            Object.assign({},
+                              styles.requiredAsterisk,
+                              { color: this.props.theme.requiredAsterisk }
+                            )
+                        }>*</span>
                       :
                         null
                     }

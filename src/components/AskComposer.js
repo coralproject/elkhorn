@@ -88,7 +88,10 @@ class AskComposer extends Component {
     var completedCount = 0;
     return (
       <div style={ styles.base } ref={ (composer) => this._composer = composer }>
-        <Header title={ this.props.header.title } description={ this.props.header.description } />
+        <Header
+          title={ this.props.header.title }
+          description={ this.props.header.description }
+          theme={ this.props.theme } />
 
         {
           !this.state.finished ?
@@ -111,12 +114,14 @@ class AskComposer extends Component {
                           onUpdate={ this.onUpdate.bind(this) }
                           settings={ this.state.settings }
                           submitted={ this.state.submitted }
+                          theme={ this.props.theme }
                           { ...child } />;
                     })
                   }
                 </ul>
 
                 <Footer
+                  theme={ this.props.theme }
                   completedCount={ completedCount }
                   fieldCount={ fieldCount }
                   conditions={ this.props.footer.conditions }

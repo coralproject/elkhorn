@@ -45,8 +45,12 @@ class MultipleChoice extends AskField {
   getOptionStyle(i) {
     return Object.assign({},
       styles.option,
-      this.state.value.indexOf(i) > -1 ? styles.clicked : {},
-      i === this.state.focused ? styles.focused : {}
+      i === this.state.focused ? styles.focused : {},
+      { backgroundColor: this.props.theme.inputBackground },
+      this.state.value.indexOf(i) > -1 ? { // clicked
+        backgroundColor: this.props.theme.selectedItemBackground,
+        color: this.props.theme.selectedItemText
+      } : {}
     );
   }
 
@@ -123,7 +127,8 @@ const styles = {
     width: '90%',
     outline: 'none',
     border: 'none',
-    minHeight: '100px'
+    minHeight: '100px',
+    padding: '0'
   },
   accesibleLegend: {
     position: 'fixed',

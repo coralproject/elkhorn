@@ -32,7 +32,5 @@ h3 {
 }
 
 #ask-form {
-  max-width: 700px;
   margin: auto;
-  box-shadow: 0 0 20px #777;
 }
