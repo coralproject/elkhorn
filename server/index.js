@@ -1,5 +1,6 @@
 var fs = require('fs')
 var path = require('path')
+var cors = require('cors')
 var express = require('express')
 var bodyParser = require('body-parser')
 var compress = require('compression')
@@ -17,6 +18,7 @@ axios.defaults.baseURL = config.pillarHost
 axios.defaults.headers.common['Authorization'] = config.basicAuthorization
 
 var app = express()
+app.use(cors())
 app.use(compress())
 app.use(bodyParser.json())
 app.use(express.static('public'))
