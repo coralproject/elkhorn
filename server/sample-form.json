@@ -70,13 +70,21 @@
 				}
 			},
 			{
-				"id": 101,
+				"id": 111,
 				"type": "field",
 				"component": "DateField",
 				"title": "A date field",
 				"required": true,
 				"props": {
-					"maxLength": 400
+				}
+			},
+			{
+				"id": 112,
+				"type": "field",
+				"component": "LocationDropdown",
+				"title": "A location field",
+				"required": true,
+				"props": {
 				}
 			},
 			{

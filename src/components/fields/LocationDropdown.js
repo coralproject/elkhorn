@@ -3,11 +3,7 @@ const { h, Component } = preact
 
 import AskField from '../AskField';
 
-import 'react-date-picker/index.css'
-
-import DatePicker from 'react-date-picker'
-
-class DateField extends AskField {
+class LocationDropdown extends AskField {
 
   constructor(props, context) {
     super(props, context)
@@ -46,6 +42,14 @@ class DateField extends AskField {
 
   onBlur() {
     this.validateAndSave();
+  }
+
+  onCountryChange() {
+
+  }
+
+  onStateChange() {
+
   }
 
   // Compute styles for different field states
@@ -98,17 +102,17 @@ class DateField extends AskField {
   render() {
     return (
       <div style={ styles.base }>
-        <input
-          type="text"
-          onBlur={ this.onBlur.bind(this) }
-          style={ this.getStyles() }
-          value={ this.state.selectedDateString } />
-        <DatePicker
-          minDate='1920-01-01' // hardcoded for now
-          maxDate='2050-01-01' // do we need limits?
-          date={ this.state.selectedDate }
-          onChange={ this.onDatePickerChange.bind(this) }
-        />
+        <select onChange={ this.onCountryChange.bind(this) }>
+          <option>United States</option>
+          <option>Germany</option>
+          <option>Argentina</option>
+          <option>Brazil</option>
+        </select>
+        <select onChange={ this.onStateChange.bind(this) }>
+          <option>Texas</option>
+          <option>Florida</option>
+        </select>
+        <input type="text" />
       </div>
     )
   }
@@ -131,4 +135,4 @@ const styles = {
   },
 }
 
-export default DateField;
+export default LocationDropdown;
