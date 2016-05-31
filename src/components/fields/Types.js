@@ -8,6 +8,7 @@ import ImageOptions from './ImageOptions';
 import MultipleChoice from './MultipleChoice';
 import DateField from './DateField';
 import LocationDropdown from './LocationDropdown';
+import LocationMap from './LocationMap';
 
 export {
   Rating,
@@ -18,5 +19,6 @@ export {
   ImageOptions,
   DateField,
   MultipleChoice,
-  LocationDropdown
+  LocationDropdown,
+  LocationMap
 };

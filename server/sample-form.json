@@ -88,6 +88,19 @@
 				}
 			},
 			{
+				"id": 112,
+				"type": "field",
+				"component": "LocationMap",
+				"title": "A location map field",
+				"required": true,
+				"props": {
+					"startCoords": {
+						"lat": 51.5258541,
+						"lng": -0.08040660000006028
+					}
+				}
+			},
+			{
 				"id": 101,
 				"type": "field",
 				"component": "TextArea",
