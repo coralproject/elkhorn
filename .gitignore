@@ -3,3 +3,4 @@
 /build
 /server/widgets/*
 .DS_Store
+config.json
