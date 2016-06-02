@@ -70,34 +70,12 @@
 				}
 			},
 			{
-				"id": 111,
-				"type": "field",
-				"component": "DateField",
-				"title": "A date field",
-				"required": true,
-				"props": {
-				}
-			},
-			{
 				"id": 112,
 				"type": "field",
 				"component": "LocationDropdown",
 				"title": "A location field",
 				"required": true,
 				"props": {
-				}
-			},
-			{
-				"id": 112,
-				"type": "field",
-				"component": "LocationMap",
-				"title": "A location map field",
-				"required": true,
-				"props": {
-					"startCoords": {
-						"lat": 51.5258541,
-						"lng": -0.08040660000006028
-					}
 				}
 			},
 			{
