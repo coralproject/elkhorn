@@ -79,7 +79,7 @@ class AskFieldWrapper extends Component {
                   <legend style={ this.getTitleStyles() }>
                     { this.props.title }
                     {
-                      this.props.required ?
+                      this.props.wrapper.required ?
                         <span aria-label="This field is required." style={
                           Object.assign({},
                             styles.requiredAsterisk,
@@ -97,7 +97,7 @@ class AskFieldWrapper extends Component {
                   <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
                     { this.props.title }
                     {
-                      this.props.required ?
+                      this.props.wrapper.required ?
                         <span
                           aria-label="This field is required."
                           style={

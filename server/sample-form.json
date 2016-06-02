@@ -75,7 +75,9 @@
 				"type": "field",
 				"component": "LocationDropdown",
 				"title": "A location field",
-				"required": true,
+        "wrapper": {
+					"required": true
+				},
 				"props": {
 				}
 			},
