@@ -76,7 +76,7 @@ app.post('/create', function(req, res) {
       })
       .catch(function(err){ res.status(500).send(err.stack) })
     })
-    .catch(function(err){ res.status(400).send(err.stack) })
+    .catch(function(err){ res.status(400).send(err.data.message) })
 })
 
 app.listen(4444)
