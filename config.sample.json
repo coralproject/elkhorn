@@ -1,0 +1,10 @@
+{
+  "pillarHost": "https://mypillar.com",
+  "basicAuthorization": "Basic 123123123123213",
+  "s3": {
+    "bucket": "",
+    "region": "",
+    "accessKeyId": "",
+    "secretAccessKey": ""
+  }
+}

@@ -4,6 +4,7 @@ import AskFieldWrapper from './AskFieldWrapper'
 import Header from './Header'
 import Footer from './Footer'
 import FinishedScreen from './FinishedScreen'
+import xhr from '../xhr'
 
 class AskComposer extends Component {
 
@@ -63,7 +64,6 @@ class AskComposer extends Component {
   onSubmit(index) {
     this.setState({ submitted: true });
     if (this.validate()) {
-      this.setState({ finished: true });
       this.send();
     }
   }
@@ -75,13 +75,22 @@ class AskComposer extends Component {
       if (typeof field.getValue == "function") {
         fieldValue = field.getValue();
         payload.push({
-          id: field.props.id,
-          title: field.props.title,
-          value: fieldValue
+          widget_id: field.props.id,
+          answer: fieldValue
         });
       }
     });
     console.info("Payload to be sent to the server", payload);
+    xhr(
+      `${this.props.settings.saveDestination}${this.props.id}`,
+      'POST',
+      JSON.stringify({ replies: payload }),
+      (err, data, xhr) => {
+        if (xhr.status === 200) {
+          this.setState({ finished: true });
+        }
+      }
+    )
   }
 
   render() {

@@ -74,7 +74,7 @@ class AskFieldWrapper extends Component {
           }
           {
             this.props.type == 'field' && !!this.props.title ?
-              false && this.props.pseudoLabel ?
+              false && this.props.wrapper.pseudoLabel ?
                 <fieldset tabindex="0" style={ styles.fieldsetReset }>
                   <legend style={ this.getTitleStyles() }>
                     { this.props.title }
@@ -100,7 +100,7 @@ class AskFieldWrapper extends Component {
                       this.props.required ?
                         <span
                           aria-label="This field is required."
-                          style={ 
+                          style={
                             Object.assign({},
                               styles.requiredAsterisk,
                               { color: this.props.theme.requiredAsterisk }
@@ -131,7 +131,7 @@ class AskFieldWrapper extends Component {
 
           <div role="alert" aria-atomic="true">
             {
-              this.props.required && !this.props.completed && this.props.submitted ?
+              this.props.wrapper.required && !this.props.completed && this.props.submitted ?
                 <span
                   tabindex="0"
                   style={ styles.validation }>

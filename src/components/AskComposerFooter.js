@@ -44,7 +44,6 @@ class AskComposer extends Component {
     );
 
     this.setState({ src: pageCopy });
-
   }
 
   getQuestionBarStyles(completedCount, fieldCount) {
