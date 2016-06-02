@@ -34,11 +34,11 @@
 		"description": "This is a more verbose thank you message."
 	},
 	"steps": [{
-		"id": 1,
+		"id": "1",
 		"name": "first_page",
 		"widgets": [
 			{
-				"id": 100,
+				"id": "100",
 				"type": "field",
 				"component": "MultipleChoice",
 				"title": "Select one or several themes for your story",
@@ -71,7 +71,7 @@
 				}
 			},
 			{
-				"id": 112,
+				"id": "112",
 				"type": "field",
 				"component": "LocationDropdown",
 				"title": "A location field",
@@ -82,7 +82,7 @@
 				}
 			},
 			{
-				"id": 101,
+				"id": "101",
 				"type": "field",
 				"component": "TextArea",
 				"title": "Write your story",
@@ -94,7 +94,7 @@
 				}
 			},
 			{
-				"id": 102,
+				"id": "102",
 				"type": "field",
 				"component": "TextField",
 				"title": "Name",
@@ -106,7 +106,7 @@
 				}
 			},
 			{
-				"id": 103,
+				"id": "103",
 				"type": "field",
 				"component": "TextField",
 				"title": "Age",
@@ -118,7 +118,7 @@
 				}
 			},
 			{
-				"id": 104,
+				"id": "104",
 				"type": "field",
 				"component": "TextField",
 				"title": "E-mail",
