@@ -9,6 +9,12 @@ var nodeResolve = require('rollup-plugin-node-resolve')
 var uglify = require('rollup-plugin-uglify')
 var postcss = require('rollup-plugin-postcss')
 var babelConf = require('./babel.json')
+var axios = require('axios')
+
+// Configure axios
+var config = require('../config.json')
+axios.defaults.baseURL = config.pillarHost
+axios.defaults.headers.common['Authorization'] = config.basicAuthorization
 
 var app = express()
 app.use(compress())
@@ -29,13 +35,17 @@ app.get('/preview.js', function(req, res) {
   }
 })
 
-app.post('/create', function(req, res){
-  buildWidget(req.body, false).then(function(code){
-    fs.writeFile(path.join(__dirname, 'widgets', (req.body.id || 1234) + '.js'), code, function(err){
-      res.send('ok')
+app.post('/create', function(req, res) {
+  axios.post('/api/form', req.body)
+    .then(function(response) {
+      buildWidget(response.data, false).then(function(code){
+        fs.writeFile(path.join(__dirname, 'widgets', response.data.id + '.js'), code, function(err) {
+          res.json(response.data)
+        })
+      })
+      .catch(function(err){ res.status(500).send(err.stack) })
     })
-  })
-  .catch(function(err){ res.status(500).send(err.stack) })
+    .catch(function(err){ res.status(400).send(err.stack) })
 })
 
 app.listen(4444)

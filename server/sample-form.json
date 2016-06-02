@@ -1,5 +1,4 @@
 {
-	"id": 123123523,
   "target": "#ask-form",
 	"settings": {
 		"saveDestination": "http://coralasks.theguardian.com/ask/44",
@@ -34,17 +33,19 @@
 		"title": "Thanks.",
 		"description": "This is a more verbose thank you message."
 	},
-	"page": {
+	"steps": [{
 		"id": 1,
 		"name": "first_page",
-		"children": [
+		"widgets": [
 			{
 				"id": 100,
 				"type": "field",
 				"component": "MultipleChoice",
 				"title": "Select one or several themes for your story",
-				"required": true,
-				"pseudoLabel": true,
+				"wrapper": {
+					"required": true,
+					"pseudoLabel": true
+				},
 				"props": {
 					"multipleChoice": true,
 					"options": [
@@ -83,7 +84,9 @@
 				"type": "field",
 				"component": "TextArea",
 				"title": "Write your story",
-				"required": true,
+				"wrapper": {
+					"required": true
+				},
 				"props": {
 					"maxLength": 400
 				}
@@ -93,7 +96,9 @@
 				"type": "field",
 				"component": "TextField",
 				"title": "Name",
-				"required": true,
+				"wrapper": {
+					"required": true
+				},
 				"props": {
 					"maxLength": 100
 				}
@@ -103,7 +108,9 @@
 				"type": "field",
 				"component": "TextField",
 				"title": "Age",
-				"validationMessage": "Please type a valid number.",
+				"wrapper": {
+					"validationMessage": "Please type a valid number."
+				},
 				"props": {
 					"validateAs": "number"
 				}
@@ -113,12 +120,14 @@
 				"type": "field",
 				"component": "TextField",
 				"title": "E-mail",
-				"validationMessage": "Please type a valid e-mail address.",
+				"wrapper": {
+					"validationMessage": "Please type a valid e-mail address."
+				},
 				"props": {
 					"maxLength": 100,
 					"validateAs": "email"
 				}
 			}
 		]
-	}
+	}]
 }
