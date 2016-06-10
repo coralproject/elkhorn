@@ -16,3 +16,12 @@ This repository holds both the Ask Composer and the embeddable builder.
 
 - ...uses **rollup** (and it's amazing "tree-shaking" feature) to generate a build of minimum size.
 
+## To view forms
+
+### via iFrame
+
+To see a form rendered in an iframe:
+
+```
+https://[elkhornserver]/iframe.html#[form_id]
+```
