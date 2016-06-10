@@ -6,6 +6,25 @@ import Footer from './Footer'
 import FinishedScreen from './FinishedScreen'
 import xhr from '../xhr'
 
+const defaultTheme = {
+  "headerBackground": "#448899",
+  "headerText": "#FFFFFF",
+  "headerIntroText": "#EEEEEE",
+  "formBackground": "#EEEEEE",
+  "footerBackground": "#DDDDDD",
+  "requiredAsterisk": "#FF44FF",
+  "inputBackground": "#F0F0F0",
+  "inputText": "#222222",
+  "footerText": "#222222",
+  "fieldTitleText": "#222222",
+  "progressBar": "#44AA44",
+  "progressBarBackground": "#CCCCCC",
+  "submitButtonBackground": "#444499",
+  "submitButtonText": "#FFFFFF",
+  "selectedItemBackground": "#111111",
+  "selectedItemText": "#FAFAFA"
+};
+
 class AskComposer extends Component {
 
   constructor(props, context) {
@@ -94,15 +113,17 @@ class AskComposer extends Component {
   }
 
   render() {
+
     // field count is artificial, not the widget index
     var fieldCount = 0;
     var completedCount = 0;
+    let theme = this.props.theme || defaultTheme;
     return (
       <div style={ styles.base } ref={ (composer) => this._composer = composer }>
         <Header
           title={ this.props.header.title }
           description={ this.props.header.description }
-          theme={ this.props.theme } />
+          theme={ theme } />
 
         {
           !this.state.finished ?
@@ -125,14 +146,14 @@ class AskComposer extends Component {
                           onUpdate={ this.onUpdate.bind(this) }
                           settings={ this.state.settings }
                           submitted={ this.state.submitted }
-                          theme={ this.props.theme }
+                          theme={ theme }
                           { ...child } />;
                     })
                   }
                 </ul>
 
                 <Footer
-                  theme={ this.props.theme }
+                  theme={ theme }
                   completedCount={ completedCount }
                   fieldCount={ fieldCount }
                   conditions={ this.props.footer.conditions }
