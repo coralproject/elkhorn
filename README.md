@@ -34,7 +34,7 @@ The standalone page link is suitable for an iframe:
 <iframe src="https://[elkhornserver]/iframe/[form_id]" width="100%" height="600px"></iframe>
 ```
 
-- Note that the width and height parameters may need to be tweaked.
+* Note that the width and height parameters may need to be tweaked.
 
 iframes can be embedded directly into pages
 
