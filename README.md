@@ -31,7 +31,7 @@ https://[elkhornserver]/iframe/[form_id]
 The standalone page link is suitable for an iframe:
 
 ```
-<iframe src=“elkhornhost/iframe.html#formid” width=“100%” height=“600px”></iframe>
+<iframe src=“https://[elkhornserver]/iframe/[form_id]” width=“100%” height=“600px”></iframe>
 ```
 
 - Note that the width and height parameters may need to be tweaked.
@@ -43,5 +43,5 @@ iframes can be embedded directly into pages
 We can also render a form directly into a page.  This provides the advantages of native css inheritance as well as all the other issues that come with iframes.
 
 ```
-<div id=“ask-form”></div><script src=“s3orelkhornhost/formid.js”></script>
+<div id=“ask-form”></div><script src=“[filewritelocation]/[formid].js”></script>
 ```
