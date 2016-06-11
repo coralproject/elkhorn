@@ -18,10 +18,30 @@ This repository holds both the Ask Composer and the embeddable builder.
 
 ## To view forms
 
-### via iFrame
+### As a standalone page
 
-To see a form rendered in an iframe:
+A full page including the form is rendered from this endpoint:
 
 ```
-https://[elkhornserver]/iframe.html#[form_id]
+https://[elkhornserver]/iframe/[form_id]
+```
+
+### via iFrame
+
+The standalone page link is suitable for an iframe:
+
+```
+<iframe src=“elkhornhost/iframe.html#formid” width=“100%” height=“600px”></iframe>
+```
+
+- Note that the width and height parameters may need to be tweaked.
+
+iframes can be embedded directly into pages
+
+### Rendered directly into a page
+
+We can also render a form directly into a page.  This provides the advantages of native css inheritance as well as all the other issues that come with iframes.
+
+```
+<div id=“ask-form”></div><script src=“s3orelkhornhost/formid.js”></script>
 ```
