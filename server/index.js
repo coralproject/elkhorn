@@ -79,9 +79,10 @@ app.get('/preview.js', function(req, res) {
 })
 
 app.post('/create', function(req, res) {
-  log("Route /create: Forwarding form to pillar", req);
+  log("Route /create: Forwarding form to pillar");
   axios.post('/api/form', req.body)
     .then(function(response) {
+      log("Response received from pillar:");
       log(response);
       buildWidget(req.body, false).then(function(code) {
         var key = response.data.id + '.js'
@@ -89,7 +90,8 @@ app.post('/create', function(req, res) {
           var params = {Bucket: config.s3.bucket, Key: key, Body: code}
           s3bucket.upload(params, function(err, data) {
             if(err) {
-              console.log(err)
+              log("Error writing to s3");
+              log(err)
               return res.status(500).send('Error while uploading to s3')
             }
 
@@ -98,6 +100,8 @@ app.post('/create', function(req, res) {
         } else {
           fs.writeFile(path.join(__dirname, 'widgets', key), code, function(err) {
             if (err) {
+              log("Error writing to local file: " + path.join(__dirname, 'widgets', key));
+              log(err);
               return res.status(500).send('Error while saving file to local filesystem')
             }
 
@@ -117,6 +121,8 @@ app.post('/create', function(req, res) {
 app.listen(4444)
 
 function buildWidget(props, isPreview) {
+  log("Route /buildWidget: isPreview:" + isPreview);
+  log(JSON.stringify(props));
   return new Promise(function(resolve, reject){
     rollup.rollup({
       entry: 'main.js',
