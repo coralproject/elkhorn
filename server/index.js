@@ -82,8 +82,10 @@ app.post('/create', function(req, res) {
   log("Route /create: Forwarding form to pillar");
   axios.post('/api/form', req.body)
     .then(function(response) {
+    	
       log("Response received from pillar:");
       log(response);
+      
       buildWidget(req.body, false).then(function(code) {
         var key = response.data.id + '.js'
         if (isS3) {
@@ -124,6 +126,9 @@ function buildWidget(props, isPreview) {
   log("Route /buildWidget: isPreview:" + isPreview);
   log(JSON.stringify(props));
   return new Promise(function(resolve, reject){
+
+		log("Starting rollup");
+
     rollup.rollup({
       entry: 'main.js',
       plugins: [
@@ -133,6 +138,10 @@ function buildWidget(props, isPreview) {
         isPreview && uglify({mangle: true})*/
       ],
     }).then(function(bundle){
+    	
+    	log("Built bundle");
+      log(bundle)
+
       var result = bundle.generate({
         intro: 'var props = ' + JSON.stringify(props) + ', renderTarget = "' + (props.target || '#ask-form') + '";',
         format: 'iife'
