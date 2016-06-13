@@ -37,8 +37,23 @@ if (isS3) {
   s3bucket = new AWS.S3({params: {Bucket: config.s3.bucket}});
 }
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+
 var app = express()
 app.use(cors())
+app.use(allowCrossDomain) // explicit header sets for cors
 app.use(compress())
 app.use(bodyParser.json())
 app.use('/widgets', express.static('widgets'))

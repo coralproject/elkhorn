@@ -70,7 +70,7 @@ class TextArea extends AskField {
           defaultValue={ this.state.value }
           onBlur={ this.onBlur.bind(this) }
           onKeyDown={this.onKeyDown.bind(this)}
-          maxLength={ !!this.props.maxLength ? this.props.maxLength : 'auto' }
+          maxLength={ !!this.props.maxLength ? this.props.maxLength : false }
         ></textarea>
         {
           !!this.props.maxLength ?

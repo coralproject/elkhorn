@@ -110,6 +110,11 @@ class AskFieldWrapper extends Component {
                         null
                     }
                   </h3>
+                  {
+                    this.props.description ?
+                      <p>{ this.props.description }</p>
+                    : null
+                  }
                   { wrappedField }
                 </div>
             :
