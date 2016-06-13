@@ -130,7 +130,7 @@ function buildWidget(props, isPreview) {
 		log("Starting rollup");
 
     rollup.rollup({
-      entry: 'main.js',
+      entry: 'server/main.js',
       plugins: [
         postcss(),
         babel(Object.assign({exclude: 'node_modules/**', babelrc: false}, babelConf)),
@@ -139,7 +139,7 @@ function buildWidget(props, isPreview) {
       ],
     }).then(function(bundle){
     	
-    	log("Built bundle");
+      log("Built bundle");
       log(bundle)
 
       var result = bundle.generate({
