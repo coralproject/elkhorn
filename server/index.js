@@ -137,3 +137,10 @@ function buildWidget(props, isPreview) {
     }).catch(reject);
   });
 }
+
+// Catch uncaught errors preventing a server crash
+// TODO: deal better with the errors
+process.on('uncaughtException', function (error) {
+  console.log(error);
+});
+proces
