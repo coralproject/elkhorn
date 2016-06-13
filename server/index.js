@@ -13,10 +13,18 @@ var postcss = require('rollup-plugin-postcss')
 var babelConf = require('./babel.json')
 var axios = require('axios')
 
+// simple logging stub to house permanent logging integration
+var log = function (message) {
+  console.log(message);
+  return message;
+}
+
 // Configure axios
 var config = require('../config.json')
 axios.defaults.baseURL = config.pillarHost
 axios.defaults.headers.common['Authorization'] = config.basicAuthorization
+
+log("Pillar host: " + config.pillarHost);
 
 var isS3 = config.s3 && config.s3.bucket
 var s3bucket
@@ -56,8 +64,10 @@ app.get('/preview.js', function(req, res) {
 })
 
 app.post('/create', function(req, res) {
+  log("Route /create: Forwarding form to pillar", req);
   axios.post('/api/form', req.body)
     .then(function(response) {
+      log(response);
       buildWidget(req.body, false).then(function(code) {
         var key = response.data.id + '.js'
         if (isS3) {
@@ -73,7 +83,7 @@ app.post('/create', function(req, res) {
         } else {
           fs.writeFile(path.join(__dirname, 'widgets', key), code, function(err) {
             if (err) {
-              return res.status(500).send('Error while saving file')
+              return res.status(500).send('Error while saving file to local filesystem')
             }
 
             res.json(response.data)
@@ -82,7 +92,11 @@ app.post('/create', function(req, res) {
       })
       .catch(function(err){ res.status(500).send(err.stack) })
     })
-    .catch(function(err){ res.status(400).send(err.data.message) })
+    .catch(function(err){ 
+      log("Error saving form to Pillar");
+      log(err.data.message);
+      res.status(400).send(err.data.message) 
+    })
 })
 
 app.listen(4444)
