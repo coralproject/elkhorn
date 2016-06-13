@@ -130,7 +130,7 @@ function buildWidget(props, isPreview) {
 		log("Starting rollup");
 
     rollup.rollup({
-      entry: 'server/main.js',
+      entry: 'main.js',
       plugins: [
         postcss(),
         babel(Object.assign({exclude: 'node_modules/**', babelrc: false}, babelConf)),
