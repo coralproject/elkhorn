@@ -88,6 +88,7 @@ class AskComposer extends Component {
   }
 
   send() {
+    console.log(this.props);
     var payload = [], field, fieldValue;
     this.state.page.widgets.map((child, index) => {
       field = this._fieldRefs[index]._field;
@@ -100,8 +101,10 @@ class AskComposer extends Component {
       }
     });
     console.info("Payload to be sent to the server", payload);
+    // FIXME: UGLY hack, for demoing purposes.
+    var formId = location.href.indexOf("/iframe/") ? location.href.split("iframe/")[1] : this.props.id;
     xhr(
-      `${this.props.settings.saveDestination}${this.props.id}`,
+      `${this.props.settings.saveDestination}${formId}`,
       'POST',
       JSON.stringify({ replies: payload }),
       (err, data, xhr) => {
