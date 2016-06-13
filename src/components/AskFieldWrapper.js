@@ -97,6 +97,11 @@ class AskFieldWrapper extends Component {
                   <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
                     { this.props.title }
                     {
+                      this.props.description ?
+                        <p>{ this.props.description }</p>
+                      : null
+                    }
+                    {
                       this.props.wrapper.required ?
                         <span
                           aria-label="This field is required."
