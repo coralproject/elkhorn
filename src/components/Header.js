@@ -37,14 +37,13 @@ const styles = {
     padding: '40px',
   },
   title: {
-    fontFamily: 'Martel',
     fontSize: '22pt',
     fontWeight: '700',
     color: '#222',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: '20px'
   },
   description: {
-    fontFamily: 'Martel',
     fontSize: '12pt',
     fontWeight: '400',
     color: '#444',

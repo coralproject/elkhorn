@@ -113,8 +113,10 @@ const styles = {
   },
   submit: {
     background: '#00897B',
+    fontSize: '11pt',
     width: '200px',
-    padding: '10px 40px',
+    padding: '10px 20px',
+    fontWeight: 'bold',
     boxShadow: '0 2px 2px #555',
     borderRadius: '2px',
     border: 'none',
