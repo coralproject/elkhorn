@@ -4,6 +4,13 @@ This repository holds both the Ask Composer and the embeddable builder.
 
 ![ArchDiagram](docs/arch.png?raw=true "ArchDiagram")
 
+## Quickstart
+
+* git clone git@github.com:CoralProject/elkhorn.git && cd cay
+* npm install
+* set up config.json. A sample file is at config.sample.json and currently must be placed at the root of the hosted directory for Elkhorn.
+* npm start
+
 ## AskComposer:
 
 - ...takes an **Ask spec** in some sort of serialization (JSON or any other), and renders it.
