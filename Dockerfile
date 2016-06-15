@@ -5,7 +5,8 @@ RUN mkdir -p /usr/src/app && \
     && rm -rf /var/lib/apt/lists/*
 ADD . /usr/src/app
 WORKDIR /usr/src/app
-RUN npm install
+RUN npm install && \
+	npm install pm2 -g
 
 EXPOSE 4444
 CMD [ "npm", "run", "server" ]
