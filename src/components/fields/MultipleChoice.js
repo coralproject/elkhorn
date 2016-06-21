@@ -24,7 +24,12 @@ class MultipleChoice extends AskField {
           e.preventDefault();
         }
       } else {
-        newValue.push(i);
+        if (this.props.multipleChoice) {
+          newValue.push(i);
+        } else {
+          // make it always an array
+          newValue = [ i ];
+        }
       }
     } else {
       newValue.splice(newValue.indexOf(i), 1);
@@ -70,7 +75,8 @@ class MultipleChoice extends AskField {
             style={ styles.optionCheck }
             onClick={ this.onClick.bind(this, i) }
             tabindex="0"
-            type="checkbox"
+            name={ !this.props.multipleChoice ? this.props.title : false }
+            type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
             key={ i }
           />{ option.title }</label>});
   }
