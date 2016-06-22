@@ -113,7 +113,7 @@ class MultipleChoice extends AskField {
         <fieldset
           style={ styles.base }>
           <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
-          { this.getOptions() }
+          { this.props.options && !!this.props.options.length ? this.getOptions() : null }
         </fieldset>
         {
           !!this.props.pickUpTo ?
