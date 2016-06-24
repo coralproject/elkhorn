@@ -9,6 +9,22 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var buildWidget = require('./builder');
 
+var AWS = require('aws-sdk');
+var config = require('../config.json');
+
+var isS3 = config.s3 && config.s3.bucket;
+var s3bucket;
+
+// Config aws
+if (isS3) {
+  AWS.config.update({
+    region: config.s3.region,
+    accessKeyId: config.s3.accessKeyId,
+    secretAccessKey: config.s3.secretAccessKey
+  })
+  s3bucket = new AWS.S3({params: {Bucket: config.s3.bucket}});
+}
+
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -31,6 +47,9 @@ app.use(bodyParser.json())
 app.use('/widgets', express.static('widgets'))
 app.set('view engine', 'pug')
 app.set('views', './templates')
+
+// set base url
+var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : 'http://localhost:4444/widgets/';
 
 app.get('/iframe/:id', function(req, res) {
   res.render('iframe', { base: base, id: req.params.id })
@@ -55,7 +74,7 @@ app.post('/create', function(req, res) {
     .then(function(response) {
       log('Response received from pillar:');
       log(response);
-      
+
       buildWidget(req.body, false).then(function(code) {
         return upload(response.data.id, code);
       })
@@ -64,11 +83,11 @@ app.post('/create', function(req, res) {
       })
       .catch(function(err){ res.status(500).send(err.message) })
     })
-    .catch(function(err){ 
+    .catch(function(err){
       console.log(err);
       log("Error saving form to Pillar");
       log(err.data.message);
-      res.status(400).send(err.data.message) 
+      res.status(400).send(err.data.message)
     })
 })
 
