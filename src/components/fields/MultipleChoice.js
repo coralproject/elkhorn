@@ -10,12 +10,27 @@ class MultipleChoice extends AskField {
     this.state = {
       rating: 0,
       focused: -1,
-      value: []
+      value: [],
+      otherSelected: false,
+      otherValue: ''
     }
+  }
+
+  onOtherClick(e) {
+    this.setState({ otherSelected: e.target.checked });
+    this.validate();
+    this.update({ moveForward: false });
+  }
+
+  onOtherChange(e) {
+    this.setState({ otherValue: e.target.value });
+    this.validate();
+    this.update({ moveForward: false });
   }
 
   onClick(i, e) {
     var newValue = this.state.value.slice();
+    // if the clicked element is not present, add it
     if (newValue.indexOf(i) === -1) {
       if (this.props.pickUpTo) {
         if (newValue.length < this.props.pickUpTo) {
@@ -31,7 +46,7 @@ class MultipleChoice extends AskField {
           newValue = [ i ];
         }
       }
-    } else {
+    } else { // if not present, remove it
       newValue.splice(newValue.indexOf(i), 1);
     }
     var newState = { focused: i, value: newValue };
@@ -53,6 +68,17 @@ class MultipleChoice extends AskField {
       i === this.state.focused ? styles.focused : {},
       { backgroundColor: this.props.theme.inputBackground },
       this.state.value.indexOf(i) > -1 ? { // clicked
+        backgroundColor: this.props.theme.selectedItemBackground,
+        color: this.props.theme.selectedItemText
+      } : {}
+    );
+  }
+
+  getOtherStyle() {
+    return Object.assign({},
+      styles.option,
+      { backgroundColor: this.props.theme.inputBackground },
+      this.state.otherSelected ? { // clicked
         backgroundColor: this.props.theme.selectedItemBackground,
         color: this.props.theme.selectedItemText
       } : {}
@@ -87,7 +113,7 @@ class MultipleChoice extends AskField {
 
     let isValid = true, isCompleted = false;
 
-    isCompleted = !!this.state.value.length;
+    isCompleted = !!this.state.value.length || (this.state.otherSelected && !!this.state.otherValue.length);
 
     this.setState({ isValid: isValid, completed: isCompleted });
 
@@ -97,6 +123,8 @@ class MultipleChoice extends AskField {
 
   getValue() {
     var selectedOptions = [], optionTitle;
+    var valueCopy = this.state.value.slice();
+
     this.state.value.map((index) => {
       optionTitle = this.props.options[index].title;
       selectedOptions.push({
@@ -104,6 +132,14 @@ class MultipleChoice extends AskField {
         title: optionTitle
       });
     });
+
+    if (this.state.otherSelected) {
+      selectedOptions.push({
+        title: this.state.otherValue,
+        index: selectedOptions.length
+      });
+    }
+
     return { options: selectedOptions };
   }
 
@@ -113,7 +149,37 @@ class MultipleChoice extends AskField {
         <fieldset
           style={ styles.base }>
           <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
-          { this.props.options && !!this.props.options.length ? this.getOptions() : null }
+          { this.props.options && !!this.props.options.length ?
+              <div>
+
+                { this.getOptions() }
+
+                {
+                  this.props.otherAllowed ?
+                    <div>
+                      <label
+                          //onMouseOver={ this.onHover.bind(this, i) }
+                          style={ this.getOtherStyle() }
+                          key={ this.props.options.length }
+                        ><input
+                            style={ styles.optionCheck }
+                            onClick={ this.onOtherClick.bind(this) }
+                            tabindex="0"
+                            name={ !this.props.multipleChoice ? this.props.title : false }
+                            type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
+                            key={ this.props.options.length }
+                          />
+                            Other
+                            <input type="text" onChange={ this.onOtherChange.bind(this) } style={ styles.otherInput } />
+                          </label>
+                    </div>
+                  : null
+                }
+
+              </div>
+            :
+              null
+          }
         </fieldset>
         {
           !!this.props.pickUpTo ?
@@ -141,7 +207,7 @@ const styles = {
     left: '-5000px'
   },
   option: {
-    display: 'inline-block',
+    display: 'block',
     fontSize: '14pt',
     cursor: 'pointer',
     color: '#777',
@@ -186,6 +252,19 @@ const styles = {
     textAlign: 'right',
     width: '100%',
     marginTop: '5px',
+  },
+  otherLabel: {
+    display: 'inline-block',
+    marginRight: '20px',
+  },
+  otherInput: {
+    height: '40px',
+    lineHeight: '40px',
+    padding: '0 10px',
+    border: '1px solid #ccc',
+    marginBottom: '20px',
+    display: 'block',
+    width: '90%'
   }
 }
 
