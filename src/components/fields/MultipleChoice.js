@@ -17,7 +17,7 @@ class MultipleChoice extends AskField {
   }
 
   onOtherClick(e) {
-    this.setState({ otherSelected: e.target.checked });
+    this.setState({ otherSelected: e.target.checked, value: this.props.multipleChoice ? this.state.value : this.state.otherValue });
     this.validate();
     this.update({ moveForward: false });
   }
@@ -49,7 +49,7 @@ class MultipleChoice extends AskField {
     } else { // if not present, remove it
       newValue.splice(newValue.indexOf(i), 1);
     }
-    var newState = { focused: i, value: newValue };
+    var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false };
     if (this.state.value.length >= 0) {
       newState = Object.assign({}, newState, { completed: true, isValid: true });
     } else {
@@ -125,18 +125,20 @@ class MultipleChoice extends AskField {
     var selectedOptions = [], optionTitle;
     var valueCopy = this.state.value.slice();
 
-    this.state.value.map((index) => {
-      optionTitle = this.props.options[index].title;
-      selectedOptions.push({
-        index: index,
-        title: optionTitle
+    if (!!this.state.value.length) {
+      this.state.value.map((index) => {
+        optionTitle = this.props.options[index].title;
+        selectedOptions.push({
+          index: index,
+          title: optionTitle
+        });
       });
-    });
+    }
 
     if (this.state.otherSelected) {
       selectedOptions.push({
         title: this.state.otherValue,
-        index: selectedOptions.length
+        index: this.props.options.length + 1
       });
     }
 
@@ -163,7 +165,7 @@ class MultipleChoice extends AskField {
                           key={ this.props.options.length }
                         ><input
                             style={ styles.optionCheck }
-                            onClick={ this.onOtherClick.bind(this) }
+                            onChange={ this.onOtherClick.bind(this) }
                             tabindex="0"
                             name={ !this.props.multipleChoice ? this.props.title : false }
                             type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
