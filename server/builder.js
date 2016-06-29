@@ -12,7 +12,6 @@ module.exports = function buildWidget(props, isPreview) {
   log("Route /buildWidget: isPreview:" + isPreview);
   log(JSON.stringify(props));
   return new Promise(function(resolve, reject){
-    console.log([...new Set(props.steps[0].widgets.map(widget => widget.component))].join(', '))
 		log("Starting rollup");
     rollup.rollup({
       entry: 'main.js',
