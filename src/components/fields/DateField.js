@@ -19,11 +19,12 @@ class DateField extends AskField {
   }
 
   componentDidMount() {
-    this.datepicker = flatpickr(this._el)
+    this.datepicker = flatpickr(this._el, { utc: true })
+    this.datepicker.set('onChange', d => this.onChange(d))
   }
 
-  onChange(e) {
-    this.setState({ value: e.target.value });
+  onChange(timestamp) {
+    this.setState({ value: timestamp });
     this.validateAndSave();
   }
 
@@ -56,7 +57,7 @@ class DateField extends AskField {
   }
 
   getValue() {
-    return { value: this.state.value };
+    return { value: +this.state.value };
   }
 
   getStyles() {
@@ -75,9 +76,7 @@ class DateField extends AskField {
           ref={el => this._el = el}
           style={this.getStyles()}
           onBlur={ this.onBlur.bind(this) }
-          style={ this.getStyles() }
-          value={ this.state.value }
-          onInput={ this.onChange.bind(this) } />
+          style={ this.getStyles() } />
       </div>
     )
   }
