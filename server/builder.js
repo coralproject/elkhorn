@@ -5,6 +5,7 @@ var nodeResolve = require('rollup-plugin-node-resolve');
 //var uglify = require('rollup-plugin-uglify');
 var postcss = require('rollup-plugin-postcss');
 var replace = require('rollup-plugin-replace');
+var commonjs = require('rollup-plugin-commonjs');
 var babelConf = require('./babel.json');
 var log = require('./logger');
 
@@ -21,7 +22,8 @@ module.exports = function buildWidget(props, isPreview) {
         }),
         postcss(),
         babel(Object.assign({exclude: 'node_modules/**', babelrc: false}, babelConf)),
-        nodeResolve({jsnext: true, main: true})/*,
+        nodeResolve({jsnext: true, main: true}),
+        commonjs({})/*,
         isPreview && uglify({mangle: true})*/
       ],
     }).then(function(bundle){

@@ -82,6 +82,18 @@
 				}
 			},
 			{
+				"id": "324",
+				"type": "field",
+				"component": "DateField",
+				"title": "Birthday",
+				"wrapper": {
+					"required": true
+				},
+				"props": {
+					"maxLength": 400
+				}
+			},
+			{
 				"id": "101",
 				"type": "field",
 				"component": "TextArea",
