@@ -13,9 +13,6 @@ class AskComposer extends Component {
       page: this.props.steps[0],
       ...this.props
     }
-    this.composerAnimationFrame = (function(){
-      return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function( callback ){ window.setTimeout(callback, 1000 / 60); };
-    })();
   }
 
   componentDidMount() {
@@ -46,14 +43,6 @@ class AskComposer extends Component {
     this.setState({ src: pageCopy });
   }
 
-  getQuestionBarStyles(completedCount, fieldCount) {
-    var widthPercent = Math.ceil(completedCount / fieldCount * 100);
-    return Object.assign({},
-      styles.answeredQuestionsBarComplete,
-      { width: widthPercent + '%' }
-    );
-  }
-
   render() {
     // field count is artificial, not the widget index
     var fieldCount = 0;
@@ -61,12 +50,6 @@ class AskComposer extends Component {
     return (
       <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
         <div style={ styles.footerContent }>
-          <div style={ styles.answeredQuestions }>
-            <div style={ styles.answeredQuestionsBar }>
-              <span style={ this.getQuestionBarStyles(this.props.completedCount, this.props.fieldCount) }></span>
-            </div>
-            <span style={ styles.answeredQuestionsText }>{ this.props.completedCount } of { this.props.fieldCount } questions answered.</span>
-          </div>
           <div style={ styles.footerActions }>
             <button onClick={ this.props.onSubmit } style={ styles.submit }>Send</button>
           </div>
@@ -97,38 +80,12 @@ const styles = {
     padding: '15px',
     display: 'flex'
   },
-  answeredQuestions: {
-    color: '#222',
-    width: '400px',
+  footerActions: {
     flexGrow: '1'
   },
-  answeredQuestionsBar: {
-    background: '#999',
-    height: '15px',
-    width: '100%',
-    position: 'relative',
-    marginBottom: '5px',
-    borderRadius: '3px'
-  },
-  answeredQuestionsBarComplete: {
-    background: '#090',
-    height: '15px',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    transition: 'width .5s'
-  },
-  answeredQuestionsText: {
-    fontSize: '10pt'
-  },
-  footerActions: {
-    flexGrow: '1',
-    textAlign: 'right'
-  },
   submit: {
-    background: '#00897B',
+    background: '#F67D6E',
     padding: '10px 40px',
-    boxShadow: '0 2px 2px #555',
     borderRadius: '2px',
     border: 'none',
     color: 'white',

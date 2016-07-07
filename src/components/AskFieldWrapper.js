@@ -62,65 +62,36 @@ class AskFieldWrapper extends Component {
         style={ this.getStyles() }
         >
           {
-            this.props.type == 'field' && this.props.settings.showFieldNumbers ?
-              <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>
-            : null
-          }
-          {
-            this.props.completed && this.props.isValid ?
-              <span style={ styles.completedValid }>&#x2714;</span>
-            : null
-          }
-          {
-            this.props.completed && !this.props.isValid ?
-              <span style={ styles.completedInvalid }>&#x2718;</span>
-            : null
-          }
-          {
             this.props.type == 'field' && !!this.props.title ?
-              false && this.props.wrapper.pseudoLabel ?
-                <fieldset tabindex="0" style={ styles.fieldsetReset }>
-                  <legend style={ this.getTitleStyles() }>
-                    { this.props.title }
-                    {
-                      this.props.wrapper.required ?
-                        <span aria-label="This field is required." style={
+              <div>
+                <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
+                  {
+                    this.props.type == 'field' && this.props.settings.showFieldNumbers ?
+                      <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>
+                    : null
+                  }
+                  { this.props.title }
+                  {
+                    this.props.wrapper.required ?
+                      <span
+                        aria-label="This field is required."
+                        style={
                           Object.assign({},
                             styles.requiredAsterisk,
                             { color: this.props.theme.requiredAsterisk }
                           )
-                        }>*</span>
-                      :
-                        null
-                    }
-                  </legend>
-                  { wrappedField }
-                </fieldset>
-              :
-                <div>
-                  <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
-                    { this.props.title }
-                    {
-                      this.props.wrapper.required ?
-                        <span
-                          aria-label="This field is required."
-                          style={
-                            Object.assign({},
-                              styles.requiredAsterisk,
-                              { color: this.props.theme.requiredAsterisk }
-                            )
-                        }>*</span>
-                      :
-                        null
-                    }
-                  </h3>
-                  {
-                    this.props.description ?
-                      <p>{ this.props.description }</p>
-                    : null
+                      }>*</span>
+                    :
+                      null
                   }
-                  { wrappedField }
-                </div>
+                </h3>
+                {
+                  this.props.description ?
+                    <p>{ this.props.description }</p>
+                  : null
+                }
+                { wrappedField }
+              </div>
             :
               wrappedField
           }
@@ -158,7 +129,6 @@ class AskFieldWrapper extends Component {
 
 const styles = {
   formFieldWrapper: {
-    borderBottom: '1px solid #999',
     position: 'relative',
     background: 'white'
   },
@@ -167,11 +137,8 @@ const styles = {
   },
   fieldNumber: {
     color: '#777',
-    position: 'absolute',
-    top: '15px',
-    left: '0px',
-    width: '30px',
-    textAlign: 'right',
+    marginRight: '5px',
+    fontWeight: 'bold',
     fontSize: '14pt'
   },
   fieldTitle: {
@@ -180,24 +147,6 @@ const styles = {
     color: 'black',
     fontWeight: '700',
     marginBottom: '10px'
-  },
-  completedValid: {
-    color: 'green',
-    position: 'absolute',
-    top: '45px',
-    left: '0px',
-    width: '30px',
-    textAlign: 'right',
-    fontSize: '16pt'
-  },
-  completedInvalid: {
-    color: '#900',
-    position: 'absolute',
-    top: '45px',
-    left: '0px',
-    width: '30px',
-    textAlign: 'right',
-    fontSize: '16pt'
   },
   focusedTitle: {
     color: 'black'

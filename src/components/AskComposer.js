@@ -176,7 +176,6 @@ class AskComposer extends Component {
 
 const styles = {
   base: {
-    background: '#eee',
     position: 'relative'
   },
   fieldList: {

@@ -104,7 +104,7 @@ class MultipleChoice extends AskField {
             name={ !this.props.multipleChoice ? this.props.title : false }
             type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
             key={ i }
-          />{ option.title }</label>});
+          />{ this.getCharIndex(i) }. { option.title }</label>});
   }
 
   // Interface Methods
@@ -145,6 +145,10 @@ class MultipleChoice extends AskField {
     return { options: selectedOptions };
   }
 
+  getCharIndex(i) {
+    return String.fromCharCode(65 + i);
+  }
+
   render() {
     return (
       <div>
@@ -152,7 +156,7 @@ class MultipleChoice extends AskField {
           style={ styles.base }>
           <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
           { this.props.options && !!this.props.options.length ?
-              <div>
+              <div style={ styles.optionsWrapper }>
 
                 { this.getOptions() }
 
@@ -198,7 +202,7 @@ const styles = {
   base: {
     display: 'block',
     color: '#888',
-    width: '90%',
+    width: '100%',
     outline: 'none',
     border: 'none',
     minHeight: '100px',
@@ -217,12 +221,13 @@ const styles = {
     transition: 'background .2s',
     background: 'white',
     border: '1px solid #ccc',
-    padding: '0px 20px 0px 50px',
+    padding: '0px 20px',
     outline: 'none',
-    margin: '0 10px 10px 0',
+    margin: '0 1% 10px 0',
     textAlign: 'left',
     position: 'relative',
-    fontWeight: 'bold'
+    width: '49%',
+    'float': 'left'
   },
   clicked: {
     background: '#222',
@@ -245,7 +250,7 @@ const styles = {
   optionCheck: {
     position: 'absolute',
     top: '18px',
-    left: '20px'
+    left: '-20000px'
   },
   bottomLegend: {
     color: '#999',
@@ -267,6 +272,9 @@ const styles = {
     marginBottom: '20px',
     display: 'block',
     width: '90%'
+  },
+  optionsWrapper: {
+    marginRight: '-1%'
   }
 }
 
