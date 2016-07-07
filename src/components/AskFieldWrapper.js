@@ -1,5 +1,9 @@
 import preact from 'preact'
-import * as Types from './fields/Types'
+
+// Trick for static analysis
+import { __WIDGETS__ } from './fields/Types'
+const Types = { __WIDGETS__ }
+
 const { h, Component } = preact
 
 class AskFieldWrapper extends Component {
