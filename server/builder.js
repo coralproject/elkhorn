@@ -9,33 +9,49 @@ var commonjs = require('rollup-plugin-commonjs');
 var babelConf = require('./babel.json');
 var log = require('./logger');
 
+var defaultBundle;
+createBundle().then(function(bundle) {
+  defaultBundle = bundle;
+});
+
+function getDefaultBundle() {
+  return new Promise(function(resolve, reject) { resolve(defaultBundle); });
+}
+
+function createBundle(props) {
+  return rollup.rollup({
+    entry: 'main.js',
+    plugins: [
+      replace({
+        __WIDGETS__: props ? `{ ${[...new Set(props.steps[0].widgets.map(widget => widget.component))].join(', ')} }` : 'types'
+      }),
+      postcss(),
+      babel(Object.assign({exclude: 'node_modules/**', babelrc: false}, babelConf)),
+      nodeResolve({jsnext: true, main: true}),
+      commonjs({})/*,
+      isPreview && uglify({mangle: true})*/
+    ],
+  });
+}
+
 module.exports = function buildWidget(props, isPreview) {
   log("Route /buildWidget: isPreview:" + isPreview);
   log(JSON.stringify(props));
+  var start = Date.now()
+  console.log('start bundle')
   return new Promise(function(resolve, reject){
 		log("Starting rollup");
-    rollup.rollup({
-      entry: 'main.js',
-      plugins: [
-        replace({
-          __WIDGETS__: [...new Set(props.steps[0].widgets.map(widget => widget.component))].join(', ')
-        }),
-        postcss(),
-        babel(Object.assign({exclude: 'node_modules/**', babelrc: false}, babelConf)),
-        nodeResolve({jsnext: true, main: true}),
-        commonjs({})/*,
-        isPreview && uglify({mangle: true})*/
-      ],
-    }).then(function(bundle){
-
+    var getBundle = isPreview ? getDefaultBundle : createBundle;
+    getBundle(props)
+    .then(function(bundle){
       log("Built bundle");
-      log(bundle)
-
+      log(bundle);
       var result = bundle.generate({
         intro: 'var props = ' + JSON.stringify(props) + ', renderTarget = "' + (props.target || '#ask-form') + '";',
         format: 'iife'
-      })
-      resolve(result.code)
-    }).catch(reject)
-  })
+      });
+      resolve(result.code);
+      console.log('end bundle', Date.now() - start)
+    }).catch(reject);
+  });
 }
