@@ -38,7 +38,6 @@ module.exports = function buildWidget(props, isPreview) {
   log("Route /buildWidget: isPreview:" + isPreview);
   log(JSON.stringify(props));
   var start = Date.now()
-  console.log('start bundle')
   return new Promise(function(resolve, reject){
 		log("Starting rollup");
     var getBundle = isPreview ? getDefaultBundle : createBundle;
@@ -51,7 +50,6 @@ module.exports = function buildWidget(props, isPreview) {
         format: 'iife'
       });
       resolve(result.code);
-      console.log('end bundle', Date.now() - start)
     }).catch(reject);
   });
 }
