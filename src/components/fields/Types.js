@@ -16,3 +16,12 @@ export {
   LocationDropdown,
   MultipleChoice
 };
+
+export default {
+  TextArea,
+  TextField,
+  NumberField,
+  DateField,
+  LocationDropdown,
+  MultipleChoice
+};
