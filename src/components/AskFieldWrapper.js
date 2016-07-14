@@ -44,6 +44,7 @@ class AskFieldWrapper extends Component {
   }
 
   render() {
+    console.log(this.props);
     var widgetSpec = this.props;
     var wrappedField = h(
       Types[widgetSpec.component],
@@ -84,6 +85,14 @@ class AskFieldWrapper extends Component {
                     :
                       null
                   }
+                  {
+                    this.props.identity ?
+                      <span
+                        aria-label="This field may contain personal information."
+                        style={ styles.identityMark }>i</span>
+                    :
+                      null
+                  }
                 </h3>
                 {
                   this.props.description ?
@@ -112,11 +121,11 @@ class AskFieldWrapper extends Component {
           <div role="alert" aria-atomic="true">
             {
               this.props.wrapper.required && !this.props.completed && this.props.submitted ?
-                <span
+                <div
                   tabindex="0"
                   style={ styles.validation }>
                   The field <strong>{ this.props.title }</strong> is required.
-                </span>
+                </div>
               : null
             }
           </div>
@@ -155,8 +164,9 @@ const styles = {
     color: '#900'
   },
   validation: {
-    color: '#900',
-    padding: '10px 0'
+    color: 'red',
+    padding: '10px 0',
+    fontSize: '11pt'
   },
   fieldsetReset: {
     border: '0',
@@ -169,6 +179,17 @@ const styles = {
     color: '#E55',
     fontSize: '20pt',
     lineHeight: '10px'
+  },
+  identityMark: {
+    width: '15px',
+    height: '15px',
+    display: 'inline-block',
+    background: '#bbb',
+    borderRadius: '20px',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: '12px',
+    lineHeight: '18px'
   }
 }
 

@@ -11,7 +11,8 @@ class TextField extends AskField {
     this.state = Object.assign(
       this.state,
       {
-        value: this.props.text || ''
+        value: this.props.text || '',
+        isValid: true
       }
     );
   }
@@ -41,7 +42,8 @@ class TextField extends AskField {
   getStyles() {
     return Object.assign({},
       styles.base,
-      this.props.isValid ? styles.valid : styles.error,
+      this.state.isValid ? styles.valid : styles.error,
+      this.props.submitted && (this.props.wrapper.required && !this.state.isCompleted) ? styles.error : styles.valid,
       this.state.focused ? styles.focused : {},
       { backgroundColor: this.props.theme.inputBackground }
     );
@@ -74,7 +76,7 @@ class TextField extends AskField {
 
     this.setState({ isValid: isValid, completed: isCompleted });
 
-    return !!this.props.required ?  isValid && isCompleted : isValid;
+    return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
 
   }
 
@@ -128,6 +130,9 @@ const styles = {
     textAlign: 'right',
     width: '100%',
     marginTop: '5px',
+  },
+  error: {
+    border: '1px solid red'
   }
 }
 

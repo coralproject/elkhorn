@@ -9,6 +9,7 @@ class TextArea extends AskField {
     this.state = {
       focused: false,
       value: this.props.text || '',
+      isValid: true,
       height: '100px' // min textarea height,
     }
   }
@@ -34,7 +35,8 @@ class TextArea extends AskField {
   getStyles() {
     return Object.assign({},
       styles.base,
-      this.props.isValid ? styles.valid : styles.error,
+      this.state.isValid ? styles.valid : styles.error,
+      this.props.submitted && (this.props.wrapper.required && !this.state.isCompleted) ? styles.error : styles.valid,
       this.state.focused ? styles.focused : {},
       { height: this.state.height },
       { backgroundColor: this.props.theme.inputBackground }
@@ -105,6 +107,9 @@ const styles = {
     width: '100%',
     marginTop: '5px',
   },
+  error: {
+    border: '1px solid red'
+  }
 }
 
 export default TextArea;
