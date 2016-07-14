@@ -12,7 +12,6 @@ ENV DOCKERIZE_VERSION v0.2.0
 RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm -f dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-ADD /assets /assets
 
 EXPOSE 4444
-CMD [ "dockerize", "-template", "/assets/config.json.tmpl:/usr/src/app/config.json", "npm", "run", "server" ]
+CMD [ "dockerize",  "npm", "run", "server" ]

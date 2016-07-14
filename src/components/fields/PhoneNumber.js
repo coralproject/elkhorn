@@ -3,44 +3,53 @@ const { h, Component } = preact
 
 import AskField from '../AskField';
 
-class TextArea extends AskField {
+class PhoneNumber extends AskField {
+
   constructor(props, context) {
     super(props, context)
-    this.state = {
-      focused: false,
-      value: this.props.text || '',
-      isValid: true,
-      height: '100px' // min textarea height,
+    // extend the state from AskWidget
+    this.state = Object.assign(
+      this.state,
+      {
+        value: this.props.text || ''
+      }
+    );
+  }
+
+  // Event listeners
+
+  onKeyDown(e) {
+    switch (e.keyCode) {
+      case 13: // Enter
+        this.validateAndSave();
+      break
+      default:
+        this.setState({ value: e.target.value });
+      break;
     }
   }
 
-  onKeyDown(e) {
-    if (e.keyCode == 13 && !e.shiftKey) { // ENTER
-      this.update({ moveForward: true });
-    } else {
-      var height = Math.max(parseInt(e.target.style.height), e.target.scrollHeight - 40);
-      this.setState({ value: e.target.value, height: height });
-    }
+  onChange(e) {
+    this.setState({ value: e.target.value });
   }
 
   onBlur() {
-    if (!!this.state.value.length) {
-      this.setState({ focused: false, completed: true, isValid: true });
-    } else {
-      this.setState({ focused: false, completed: false });
-    }
-    this.update({ moveForward: true });
+    this.validateAndSave();
   }
 
+  // Compute styles for different field states
   getStyles() {
     return Object.assign({},
       styles.base,
-      this.state.isValid ? styles.valid : styles.error,
-      this.props.submitted && (this.props.wrapper.required && !this.state.isCompleted) ? styles.error : styles.valid,
+      this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {},
-      { height: this.state.height },
       { backgroundColor: this.props.theme.inputBackground }
     );
+  }
+
+  validateAndSave(options) {
+    this.validate();
+    this.update(options);
   }
 
   // Interface methods
@@ -51,9 +60,16 @@ class TextArea extends AskField {
 
     isCompleted = !!this.state.value.length;
 
+    if (isCompleted && this.props.validateAs) {
+      switch (this.props.validateAs) {
+        case "phonenumber":
+        break;
+      }
+    }
+
     this.setState({ isValid: isValid, completed: isCompleted });
 
-    return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
+    return !!this.props.wrapper.required ?  isValid && isCompleted : isValid;
 
   }
 
@@ -61,19 +77,19 @@ class TextArea extends AskField {
     return { text: this.state.value.length ? this.state.value : '' };
   }
 
-
   render() {
     return (
       <div>
-        <textarea
+        <input type="text"
           title={ this.props.title }
           style={ this.getStyles() }
           placeholder={this.props.placeholder}
           defaultValue={ this.state.value }
           onBlur={ this.onBlur.bind(this) }
+          onChange={this.onChange.bind(this)}
           onKeyDown={this.onKeyDown.bind(this)}
           maxLength={ !!this.props.maxLength ? this.props.maxLength : false }
-        ></textarea>
+        />
         {
           !!this.props.maxLength ?
             <div style={ styles.remaining }>{ this.props.maxLength - this.state.value.length } chars remaining.</div>
@@ -103,13 +119,11 @@ const styles = {
   remaining: {
     color: '#999',
     fontSize: '10pt',
+    padding: '0px',
     textAlign: 'right',
     width: '100%',
     marginTop: '5px',
-  },
-  error: {
-    border: '1px solid red'
   }
 }
 
-export default TextArea;
+export default PhoneNumber;

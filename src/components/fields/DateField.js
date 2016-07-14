@@ -3,9 +3,8 @@ const { h, Component } = preact
 
 import AskField from '../AskField';
 
-import 'react-date-picker/index.css'
-
-import DatePicker from 'react-date-picker'
+import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.min.css'
 
 class DateField extends AskField {
 
@@ -13,35 +12,20 @@ class DateField extends AskField {
     super(props, context)
     // extend the state from AskWidget
 
-    var now = new Date();
-    var dateString = (now.getMonth() + 1) + '-' + now.getDate() + '-' + now.getFullYear();
-
     this.state = Object.assign(
       this.state,
-      {
-        selectedDate: Date.now(),
-        selectedDateString: dateString,
-        dateSelected: false, // a date has manually been selected
-        value: this.props.text || ''
-      }
+      { value: '' }
     );
   }
 
-  // Event listeners
-
-  onKeyDown(e) {
-    switch (e.keyCode) {
-      case 13: // Enter
-        this.validateAndSave();
-      break
-      default:
-        this.setState({ value: e.target.value });
-      break;
-    }
+  componentDidMount() {
+    this.datepicker = flatpickr(this._el, { utc: true })
+    this.datepicker.set('onChange', d => this.onChange(d))
   }
 
-  onChange(e) {
-    this.setState({ value: e.target.value });
+  onChange(timestamp) {
+    this.setState({ value: timestamp });
+    this.validateAndSave();
   }
 
   onBlur() {
@@ -66,24 +50,14 @@ class DateField extends AskField {
   // Interface methods
 
   validate() {
-
     let isValid = true, isCompleted = false;
-
-    isCompleted = !!this.state.selectedDate.length && !!this.state.dateSelected;
-
+    isCompleted = !!this.state.value.length;
     this.setState({ isValid: isValid, completed: isCompleted });
-
-    return !!this.props.required ?  isValid && isCompleted : isValid;
-
+    return !!this.props.wrapper.required ?  isValid && isCompleted : isValid;
   }
 
   getValue() {
-    return { value: this.state.selectedDate.length ? this.state.selectedDate : '' };
-  }
-
-  onDatePickerChange(dateString, { dateMoment, timestamp }){
-    this.setState({ selectedDate: dateString, selectedDateString: dateString, dateSelected: true });
-    this.validateAndSave();
+    return { value: +this.state.value };
   }
 
   getStyles() {
@@ -98,17 +72,11 @@ class DateField extends AskField {
   render() {
     return (
       <div style={ styles.base }>
-        <input
-          type="text"
+        <input type="text"
+          ref={el => this._el = el}
+          style={this.getStyles()}
           onBlur={ this.onBlur.bind(this) }
-          style={ this.getStyles() }
-          value={ this.state.selectedDateString } />
-        <DatePicker
-          minDate='1920-01-01' // hardcoded for now
-          maxDate='2050-01-01' // do we need limits?
-          date={ this.state.selectedDate }
-          onChange={ this.onDatePickerChange.bind(this) }
-        />
+          style={ this.getStyles() } />
       </div>
     )
   }
