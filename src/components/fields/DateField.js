@@ -53,7 +53,7 @@ class DateField extends AskField {
     let isValid = true, isCompleted = false;
     isCompleted = !!this.state.value.length;
     this.setState({ isValid: isValid, completed: isCompleted });
-    return !!this.props.required ?  isValid && isCompleted : isValid;
+    return !!this.props.wrapper.required ?  isValid && isCompleted : isValid;
   }
 
   getValue() {

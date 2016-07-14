@@ -74,7 +74,7 @@ class TextField extends AskField {
 
     this.setState({ isValid: isValid, completed: isCompleted });
 
-    return !!this.props.required ?  isValid && isCompleted : isValid;
+    return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
 
   }
 
