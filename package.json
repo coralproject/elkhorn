@@ -94,6 +94,7 @@
     "react-gmaps": "^1.5.0",
     "rollup": "^0.25.8",
     "rollup-plugin-postcss": "0.0.27",
+    "standard": "^7.1.2",
     "wildemitter": "^1.2.0"
   },
   "main": "webpack.config.babel.js",
