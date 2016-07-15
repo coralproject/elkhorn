@@ -1,8 +1,8 @@
 import preact from 'preact'
 
 // Trick for static analysis
-import { __WIDGETS__ } from './fields/Types'
-const Types = { __WIDGETS__ }
+import __WIDGETS__ from './fields/Types'
+const Types = __WIDGETS__;
 
 const { h, Component } = preact
 
