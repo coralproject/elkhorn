@@ -3,46 +3,48 @@ const { h, Component } = preact
 
 class Footer extends Component {
 
-  constructor(props, context) {
-    super(props, context)
-  }
-
-  getQuestionBarStyles(completedCount, fieldCount) {
-    var widthPercent = Math.ceil(completedCount / fieldCount * 100);
+  getQuestionBarStyles (completedCount, fieldCount) {
+    var widthPercent = Math.ceil(completedCount / fieldCount * 100)
     return Object.assign({},
       styles.answeredQuestionsBarComplete,
       { width: widthPercent + '%' },
       { background: this.props.theme.progressBar }
-    );
+    )
   }
 
-  render() {
+  render () {
     return (
-      <footer style={ styles.footer }>
-        <div style={ styles.footerContent }>
-          <div style={ styles.answeredQuestions }>
-            <div style={ Object.assign({},
+      <footer style={styles.footer}>
+        <div style={styles.footerContent}>
+          <div style={styles.answeredQuestions}>
+            <div style={Object.assign({},
               styles.answeredQuestionsBar,
               { background: this.props.theme.progressBarBackground }
             )}>
-              <span style={ this.getQuestionBarStyles(this.props.completedCount, this.props.fieldCount) }></span>
+              <span style={this.getQuestionBarStyles(this.props.completedCount, this.props.fieldCount)}></span>
             </div>
-            <span role="progressbar" aria-valuenow={ this.props.completedCount } aria-valuemin="0" aria-valuemax={ this.props.fieldCount } tabindex="0" style={ styles.answeredQuestionsText }>{ this.props.completedCount } of { this.props.fieldCount } questions answered.</span>
+            <span
+              role='progressbar'
+              aria-valuenow={this.props.completedCount}
+              aria-valuemin='0'
+              aria-valuemax={this.props.fieldCount}
+              tabindex='0'
+              style={styles.answeredQuestionsText}>{this.props.completedCount} of {this.props.fieldCount} questions answered.</span>
           </div>
-          <div style={ styles.footerConditionsAndActions }>
-            <h4 tabindex="0" style={ styles.footerConditions }>
-              { this.props.conditions }
+          <div style={styles.footerConditionsAndActions}>
+            <h4 tabindex='0' style={styles.footerConditions}>
+              {this.props.conditions}
             </h4>
-            <div style={ styles.footerActions }>
+            <div style={styles.footerActions}>
               <button
-                style={ Object.assign({},
+                style={Object.assign({},
                   styles.submit,
                   {
                     background: this.props.theme.submitButtonBackground,
                     text: this.props.theme.submitButtonText
                   }
                 )}
-                onClick={ this.props.onSubmit }>Submit</button>
+                onClick={this.props.onSubmit}>Submit</button>
             </div>
           </div>
         </div>
@@ -55,7 +57,7 @@ const styles = {
   base: {
     display: 'block',
     background: '#fff',
-    padding: '40px',
+    padding: '40px'
   },
   h1: {
     fontFamily: 'Martel',
@@ -77,10 +79,10 @@ const styles = {
     borderTop: '1px solid #ccc'
   },
   footerContent: {
-    padding: '30px',
+    padding: '30px'
   },
   answeredQuestions: {
-    color: '#222',
+    color: '#222'
   },
   answeredQuestionsBar: {
     height: '15px',
@@ -106,10 +108,10 @@ const styles = {
     borderTop: '1px solid #999'
   },
   footerActions: {
-    textAlign: 'right',
+    textAlign: 'right'
   },
   footerConditions: {
-    fontSize: '9pt',
+    fontSize: '9pt'
   },
   submit: {
     background: '#00897B',
@@ -126,4 +128,4 @@ const styles = {
   }
 }
 
-export default Footer;
+export default Footer

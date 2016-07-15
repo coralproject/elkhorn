@@ -8,75 +8,66 @@ import 'flatpickr/dist/flatpickr.min.css'
 
 class DateField extends AskField {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     // extend the state from AskWidget
 
     this.state = Object.assign(
       this.state,
       { value: '' }
-    );
+    )
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.datepicker = flatpickr(this._el, { utc: true })
     this.datepicker.set('onChange', d => this.onChange(d))
   }
 
-  onChange(timestamp) {
-    this.setState({ value: timestamp });
-    this.validateAndSave();
+  onChange (timestamp) {
+    this.setState({ value: timestamp })
+    this.validateAndSave()
   }
 
-  onBlur() {
-    this.validateAndSave();
+  onBlur () {
+    this.validateAndSave()
   }
 
   // Compute styles for different field states
-  getStyles() {
+  getStyles () {
     return Object.assign({},
       styles.base,
       this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {},
       { backgroundColor: this.props.theme.inputBackground }
-    );
+    )
   }
 
-  validateAndSave(options) {
-    this.validate();
-    this.update(options);
+  validateAndSave (options) {
+    this.validate()
+    this.update(options)
   }
 
   // Interface methods
 
-  validate() {
-    let isValid = true, isCompleted = false;
-    isCompleted = !!this.state.value.length;
-    this.setState({ isValid: isValid, completed: isCompleted });
-    return !!this.props.wrapper.required ?  isValid && isCompleted : isValid;
+  validate () {
+    let isValid = true
+    let isCompleted = false
+    isCompleted = !!this.state.value.length
+    this.setState({ isValid: isValid, completed: isCompleted })
+    return this.props.wrapper.required ? isValid && isCompleted : isValid
   }
 
-  getValue() {
-    return { value: +this.state.value };
+  getValue () {
+    return { value: +this.state.value }
   }
 
-  getStyles() {
-    return Object.assign({},
-      styles.textInput,
-      this.props.isValid ? styles.valid : styles.error,
-      this.state.focused ? styles.focused : {},
-      { backgroundColor: this.props.theme.inputBackground }
-    );
-  }
-
-  render() {
+  render () {
     return (
-      <div style={ styles.base }>
-        <input type="text"
-          ref={el => this._el = el}
-          style={this.getStyles()}
-          onBlur={ this.onBlur.bind(this) }
-          style={ this.getStyles() } />
+      <div style={styles.base}>
+        <input type='text'
+          ref={el => { this._el = el }}
+          onBlur={this.onBlur.bind(this)}
+          style={this.getStyles()} />
       </div>
     )
   }
@@ -96,7 +87,7 @@ const styles = {
     resize: 'none',
     border: '1px solid #ccc',
     transition: 'border .5s'
-  },
+  }
 }
 
-export default DateField;
+export default DateField

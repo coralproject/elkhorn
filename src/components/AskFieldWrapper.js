@@ -2,20 +2,20 @@ import preact from 'preact'
 
 // Trick for static analysis
 import __WIDGETS__ from './fields/Types'
-const Types = __WIDGETS__;
+const Types = __WIDGETS__
 
 const { h, Component } = preact
 
 class AskFieldWrapper extends Component {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
-    this._field = null;
+    this._field = null
   }
 
-  getStyles() {
-    var fieldStyles = {};
-    if (this.props.type == 'field') {
+  getStyles () {
+    var fieldStyles = {}
+    if (this.props.type === 'field') {
       fieldStyles = Object.assign(
         fieldStyles,
         this.props.hasFocus ? styles.focused : styles.blurred,
@@ -27,24 +27,24 @@ class AskFieldWrapper extends Component {
       styles.formFieldWrapper,
       fieldStyles,
       { backgroundColor: this.props.theme.formBackground }
-    );
+    )
   }
 
-  getTitleStyles() {
+  getTitleStyles () {
     return Object.assign({},
       styles.fieldTitle,
       this.props.hasFocus ? styles.focusedTitle : {},
       this.state.completed && !this.state.isValid ? styles.invalidTitle : {},
       { color: this.props.theme.fieldTitleText }
-    );
+    )
   }
 
-  saveRef(component) {
-    this._field = component;
+  saveRef (component) {
+    this._field = component
   }
 
-  render() {
-    var widgetSpec = this.props;
+  render () {
+    var widgetSpec = this.props
     var wrappedField = h(
       Types[widgetSpec.component],
       Object.assign({},
@@ -55,100 +55,94 @@ class AskFieldWrapper extends Component {
         //    ...and: https://github.com/developit/preact/blob/master/src/hooks.js
         { ref: this.saveRef.bind(this) }
       )
-    );
+    )
     return (
       <li
-        key={ this.props.index }
-        style={ this.getStyles() }
+        key={this.props.index}
+        style={this.getStyles()}
         >
           {
-            this.props.type == 'field' && this.props.settings.showFieldNumbers ?
-              <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>
+            this.props.type === 'field' && this.props.settings.showFieldNumbers
+            ? <span style={styles.fieldNumber}>{this.props.fieldNumber}.</span>
             : null
           }
           {
-            this.props.completed && this.props.isValid ?
-              <span style={ styles.completedValid }>&#x2714;</span>
+            this.props.completed && this.props.isValid
+            ? <span style={styles.completedValid}>&#x2714;</span>
             : null
           }
           {
-            this.props.completed && !this.props.isValid ?
-              <span style={ styles.completedInvalid }>&#x2718;</span>
+            this.props.completed && !this.props.isValid
+            ? <span style={styles.completedInvalid}>&#x2718;</span>
             : null
           }
           {
-            this.props.type == 'field' && !!this.props.title ?
-              false && this.props.wrapper.pseudoLabel ?
-                <fieldset tabindex="0" style={ styles.fieldsetReset }>
-                  <legend style={ this.getTitleStyles() }>
-                    { this.props.title }
+            this.props.type === 'field' && !!this.props.title
+            ? false && this.props.wrapper.pseudoLabel
+              ? <fieldset tabindex='0' style={styles.fieldsetReset}>
+                <legend style={this.getTitleStyles()}>
+                  {this.props.title}
+                  {
+                    this.props.wrapper.required
+                    ? <span aria-label='This field is required.' style={
+                        Object.assign({},
+                          styles.requiredAsterisk,
+                          { color: this.props.theme.requiredAsterisk }
+                        )
+                      }>*</span>
+                    : null
+                  }
+                </legend>
+                {wrappedField}
+              </fieldset>
+              : <div>
+                <h3 title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
+                  {this.props.title}
                     {
-                      this.props.wrapper.required ?
-                        <span aria-label="This field is required." style={
+                      this.props.wrapper.required
+                      ? <span aria-label='This field is required.' style={
                           Object.assign({},
                             styles.requiredAsterisk,
                             { color: this.props.theme.requiredAsterisk }
                           )
                         }>*</span>
-                      :
-                        null
+                      : null
                     }
-                  </legend>
-                  { wrappedField }
-                </fieldset>
-              :
-                <div>
-                  <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
-                    { this.props.title }
-                    {
-                      this.props.wrapper.required ?
-                        <span
-                          aria-label="This field is required."
-                          style={
-                            Object.assign({},
-                              styles.requiredAsterisk,
-                              { color: this.props.theme.requiredAsterisk }
-                            )
-                        }>*</span>
-                      :
-                        null
-                    }
-                  </h3>
-                  {
-                    this.props.description ?
-                      <p>{ this.props.description }</p>
-                    : null
-                  }
-                  { wrappedField }
-                </div>
-            :
-              wrappedField
+                </h3>
+                {
+                  this.props.description
+                  ? <p>{this.props.description}</p>
+                  : null
+                }
+                {wrappedField}
+              </div>
+            : wrappedField
           }
 
-          { /* TODO: move this alerts into a component */ }
-          <div role="alert" aria-atomic="true">
-            {
-              this.props.completed && !this.props.isValid ?
-                <div
-                  tabindex="0"
-                  style={ styles.validation }>
-                  { this.props.validationMessage }
-                </div>
-              : null
-            }
-          </div>
+          {/* TODO: move this alerts into a component */}
+        <div role='alert' aria-atomic='true'>
+          {
+            this.props.completed && !this.props.isValid
+            ? <div
+              tabindex='0'
+              style={styles.validation}>
+              {this.props.validationMessage}
+            </div>
+            : null
+          }
+        </div>
 
-          <div role="alert" aria-atomic="true">
-            {
-              this.props.wrapper.required && !this.props.completed && this.props.submitted ?
-                <span
-                  tabindex="0"
-                  style={ styles.validation }>
-                  The field <strong>{ this.props.title }</strong> is required.
-                </span>
-              : null
-            }
-          </div>
+        <div role='alert' aria-atomic='true'>
+          {
+            this.props.wrapper.required && !this.props.completed && this.props.submitted
+            ? <span
+              tabindex='0'
+              style={styles.validation}>
+              The field <strong>{this.props.title}</strong> is required.
+            </span>
+            : null
+          }
+        </div>
 
       </li>
     )
@@ -163,7 +157,7 @@ const styles = {
     background: 'white'
   },
   withNumber: {
-    padding: '15px 30px 20px 40px',
+    padding: '15px 30px 20px 40px'
   },
   fieldNumber: {
     color: '#777',
@@ -223,4 +217,4 @@ const styles = {
   }
 }
 
-export default AskFieldWrapper;
+export default AskFieldWrapper

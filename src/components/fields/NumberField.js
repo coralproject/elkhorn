@@ -1,11 +1,11 @@
 import preact from 'preact'
 const { h, Component } = preact
 
-import AskField from '../AskField';
+import AskField from '../AskField'
 
 class NumberField extends AskField {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     // extend the state from AskWidget
     this.state = Object.assign(
@@ -13,93 +13,89 @@ class NumberField extends AskField {
       {
         value: this.props.text || ''
       }
-    );
+    )
   }
 
   // Event listeners
 
-  onKeyDown(e) {
+  onKeyDown (e) {
     switch (e.keyCode) {
       case 13: // Enter
-        this.validateAndSave();
-      break
+        this.validateAndSave()
+        break
       default:
-        this.setState({ value: e.target.value });
-      break;
+        this.setState({ value: e.target.value })
+        break
     }
   }
 
-  onChange(e) {
-    this.setState({ value: e.target.value });
+  onChange (e) {
+    this.setState({ value: e.target.value })
   }
 
-  onBlur() {
-    this.validateAndSave();
+  onBlur () {
+    this.validateAndSave()
   }
 
   // Compute styles for different field states
-  getStyles() {
+  getStyles () {
     return Object.assign({},
       styles.base,
       this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {},
       { backgroundColor: this.props.theme.inputBackground }
-    );
+    )
   }
 
-  validateAndSave(options) {
-    this.validate();
-    this.update(options);
+  validateAndSave (options) {
+    this.validate()
+    this.update(options)
   }
 
   // Interface methods
 
-  validate() {
-
-    let isValid = true, isCompleted = false;
-
-    isCompleted = !!this.state.value.length;
+  validate () {
+    let isValid = true
+    let isCompleted = !!this.state.value.length
 
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
-        case "email":
-          var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))?$/;
-          isValid = emailRegex.test(this.state.value);
-        break;
-        case "number":
-          isValid = !isNaN(parseFloat(this.state.value)) && isFinite(this.state.value);
-        break;
+        case 'email':
+          var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))?$/
+          isValid = emailRegex.test(this.state.value)
+          break
+        case 'number':
+          isValid = !isNaN(parseFloat(this.state.value)) && isFinite(this.state.value)
+          break
       }
     }
 
-    this.setState({ isValid: isValid, completed: isCompleted });
+    this.setState({ isValid: isValid, completed: isCompleted })
 
-    return !!this.props.wrapper.required ?  isValid && isCompleted : isValid;
-
+    return this.props.wrapper.required ? isValid && isCompleted : isValid
   }
 
-  getValue() {
-    return { text: this.state.value.length ? this.state.value : '' };
+  getValue () {
+    return { text: this.state.value.length ? this.state.value : '' }
   }
 
-  render() {
+  render () {
     return (
       <div>
-        <input type="text"
-          title={ this.props.title }
-          style={ this.getStyles() }
+        <input type='text'
+          title={this.props.title}
+          style={this.getStyles()}
           placeholder={this.props.placeholder}
-          defaultValue={ this.state.value }
-          onBlur={ this.onBlur.bind(this) }
+          defaultValue={this.state.value}
+          onBlur={this.onBlur.bind(this)}
           onChange={this.onChange.bind(this)}
           onKeyDown={this.onKeyDown.bind(this)}
-          maxLength={ !!this.props.maxLength ? this.props.maxLength : false }
+          maxLength={this.props.maxLength ? this.props.maxLength : false}
         />
         {
-          !!this.props.maxLength ?
-            <div style={ styles.remaining }>{ this.props.maxLength - this.state.value.length } chars remaining.</div>
-          :
-            null
+          this.props.maxLength
+          ? <div style={styles.remaining}>{this.props.maxLength - this.state.value.length} chars remaining.</div>
+          : null
         }
       </div>
     )
@@ -119,7 +115,7 @@ const styles = {
     transition: 'border .5s'
   },
   focused: {
-    //borderBottom: '2px solid #009688'
+    // borderBottom: '2px solid #009688'
   },
   remaining: {
     color: '#999',
@@ -127,8 +123,8 @@ const styles = {
     padding: '0px',
     textAlign: 'right',
     width: '100%',
-    marginTop: '5px',
+    marginTop: '5px'
   }
 }
 
-export default NumberField;
+export default NumberField

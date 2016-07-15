@@ -2,29 +2,25 @@ import preact from 'preact'
 const { h, Component } = preact
 
 class Header extends Component {
-  constructor(props, context) {
-    super(props, context)
-  }
-
-  getHeaderStyles() {
+  getHeaderStyles () {
     return Object.assign({}, styles.base, {
       backgroundColor: this.props.theme.headerBackground
-    });
+    })
   }
 
-  render() {
+  render () {
     return (
-      <header style={ this.getHeaderStyles() } tabindex="0">
+      <header style={this.getHeaderStyles()} tabindex='0'>
         <h1
-          tabindex="0"
+          tabindex='0'
           style={
             Object.assign({}, styles.title, { color: this.props.theme.headerText })
-          }>{ this.props.title }</h1>
+          }>{this.props.title}</h1>
         <h2
-          tabindex="0"
+          tabindex='0'
           style={
             Object.assign({}, styles.description, { color: this.props.theme.headerIntroText })
-          }>{ this.props.description }</h2>
+          }>{this.props.description}</h2>
       </header>
     )
   }
@@ -34,7 +30,7 @@ const styles = {
   base: {
     display: 'block',
     background: '#fff',
-    padding: '40px',
+    padding: '40px'
   },
   title: {
     fontSize: '22pt',
@@ -51,4 +47,4 @@ const styles = {
   }
 }
 
-export default Header;
+export default Header
