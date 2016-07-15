@@ -54,7 +54,7 @@ const styles = {
     width: '100%'
   },
   footerContent: {
-    padding: '30px',
+    padding: '30px 40px',
   },
   footerActions: {
     textAlign: 'right',

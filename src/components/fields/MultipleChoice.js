@@ -176,10 +176,16 @@ class MultipleChoice extends AskField {
                             key={ this.props.options.length }
                           />
                             Other
-                            <input type="text" onChange={ this.onOtherChange.bind(this) } style={ styles.otherInput } />
                           </label>
                     </div>
                   : null
+                }
+
+                {
+                  this.state.otherSelected ?
+                    <input type="text" placeholder="Please specify..." onChange={ this.onOtherChange.bind(this) } style={ styles.otherInput } />
+                  :
+                    null
                 }
 
               </div>
@@ -269,9 +275,9 @@ const styles = {
     lineHeight: '40px',
     padding: '0 10px',
     border: '1px solid #ccc',
-    marginBottom: '20px',
+    margin: '20px 0',
     display: 'block',
-    width: '90%'
+    width: '100%'
   },
   optionsWrapper: {
     marginRight: '-1%'
