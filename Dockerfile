@@ -14,4 +14,5 @@ RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VE
     && rm -f dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 EXPOSE 4444
+CMD [ "dockerize",  "npm", "config", "set", "strict-ssl", "false" ]
 CMD [ "dockerize",  "npm", "run", "server" ]
