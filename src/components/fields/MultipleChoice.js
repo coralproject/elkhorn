@@ -49,6 +49,7 @@ class MultipleChoice extends AskField {
     } else { // if not present, remove it
       newValue.splice(newValue.indexOf(i), 1);
     }
+    // If it's not multiple choice, unset otherSelected when choosing an option from the list
     var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false };
     if (this.state.value.length >= 0) {
       newState = Object.assign({}, newState, { completed: true, isValid: true });
@@ -169,20 +170,20 @@ class MultipleChoice extends AskField {
                           key={ this.props.options.length }
                         ><input
                             style={ styles.optionCheck }
-                            onChange={ this.onOtherClick.bind(this) }
+                            onClick={ this.onOtherClick.bind(this) }
                             tabindex="0"
                             name={ !this.props.multipleChoice ? this.props.title : false }
                             type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
                             key={ this.props.options.length }
                           />
-                            Other
+                            { this.getCharIndex(this.props.options.length) }. Other
                           </label>
                     </div>
                   : null
                 }
 
                 {
-                  this.state.otherSelected ?
+                  this.props.otherAllowed && this.state.otherSelected ?
                     <input type="text" placeholder="Please specify..." onChange={ this.onOtherChange.bind(this) } style={ styles.otherInput } />
                   :
                     null
