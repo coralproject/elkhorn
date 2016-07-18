@@ -6,7 +6,8 @@ RUN mkdir -p /usr/src/app && \
 ADD . /usr/src/app
 WORKDIR /usr/src/app
 RUN npm install && \
-	npm install pm2 -g
+	npm install pm2 -g \
+            npm config set strict-ssl false
 
 ENV DOCKERIZE_VERSION v0.2.0
 RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
@@ -14,5 +15,4 @@ RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VE
     && rm -f dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 EXPOSE 4444
-CMD [ "dockerize",  "npm", "config", "set", "strict-ssl", "false" ]
 CMD [ "dockerize",  "npm", "run", "server" ]
