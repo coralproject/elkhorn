@@ -4,6 +4,8 @@ import preact from 'preact'
 import __WIDGETS__ from './fields/Types'
 const Types = __WIDGETS__;
 
+import InfoIcon from './InfoIcon';
+
 const { h, Component } = preact
 
 class AskFieldWrapper extends Component {
@@ -88,8 +90,8 @@ class AskFieldWrapper extends Component {
                   {
                     this.props.identity ?
                       <span
-                        aria-label="This field may contain personal information."
-                        style={ styles.identityMark }>i</span>
+                        title="This field may contain personal information."
+                        style={ styles.identityMark }><InfoIcon /></span>
                     :
                       null
                   }
@@ -181,15 +183,10 @@ const styles = {
     lineHeight: '10px'
   },
   identityMark: {
-    width: '15px',
-    height: '15px',
     display: 'inline-block',
-    background: '#bbb',
-    borderRadius: '20px',
-    textAlign: 'center',
-    color: 'white',
-    fontSize: '12px',
-    lineHeight: '18px'
+    margin: '0 0 0 5px',
+    fill: '#aaa',
+    verticalAlign: 'middle'
   }
 }
 
