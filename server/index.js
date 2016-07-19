@@ -65,6 +65,7 @@ app.get('/preview.js', function (req, res) {
   }
 })
 
+// create a form
 app.post('/create', function (req, res) {
   log('Route /create: Forwarding form to pillar')
   request.post('/api/form', req.body)
@@ -86,6 +87,14 @@ app.post('/create', function (req, res) {
       log(err.data.message)
       res.status(400).send(err.data.message)
     })
+})
+
+// publish a gallery
+app.post('/publish-gallery', (req, res) => {
+  log('Route /publish-gallery')
+
+  log(req.body)
+  res.json({id: 'foo'})
 })
 
 app.listen(4444, function () {
