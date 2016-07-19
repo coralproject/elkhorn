@@ -86,7 +86,7 @@
     "decko": "^1.1.3",
     "express": "^4.13.4",
     "flatpickr": "^1.8.8",
-    "preact": "^4.6.1",
+    "preact": "^5.4.0",
     "preact-compat": "^1.6.1",
     "preact-router": "^1.3.0",
     "preact-svg": "^1.6.0",

@@ -46,7 +46,6 @@ class AskFieldWrapper extends Component {
   }
 
   render () {
-    console.log(this.props)
     var widgetSpec = this.props
     var wrappedField = h(
       Types[widgetSpec.component],

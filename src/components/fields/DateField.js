@@ -82,9 +82,11 @@ class DateField extends AskField {
   }
 
   onDateChange() {
-    var year = this._year.value, month = this._month.value, day = this._day.value;
-    this.setState({ year: year, month: month, day: day });
-    this.validateAndSave();
+    var year = this._year.value
+    var month = this._month.value
+    var day = this._day.value
+    this.setState({ year: year, month: month, day: day })
+    this.validateAndSave()
   }
 
   dateIsValid() {

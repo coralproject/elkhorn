@@ -178,7 +178,7 @@ class MultipleChoice extends AskField {
                             style={ styles.optionCheck }
                             onClick={ this.onOtherClick.bind(this) }
                             tabindex="0"
-                            name={ !this.props.multipleChoice ? this.props.title : false }
+                            name={ this.props.multipleChoice ? false : this.props.title }
                             type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
                             key={ this.props.options.length }
                           />

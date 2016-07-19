@@ -87,7 +87,8 @@ class AskComposer extends Component {
 
   send () {
     var payload = []
-    var field, fieldValue
+    var field
+    var fieldValue
     this.state.page.widgets.map((child, index) => {
       field = this._fieldRefs[index]._field
       if (typeof field.getValue === 'function') {
@@ -108,8 +109,6 @@ class AskComposer extends Component {
       (err, data, xhr) => {
         if (xhr.status === 200) {
           this.setState({ finished: true })
-        } else {
-          console.log(err)
         }
       }
     )
