@@ -9,14 +9,14 @@ import 'flatpickr/dist/flatpickr.min.css'
 
 class DateField extends AskField {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     // extend the state from AskWidget
 
     this.state = Object.assign(
       this.state,
       { value: '' }
-    );
+    )
   }
 
   componentDidMount() {
@@ -31,13 +31,13 @@ class DateField extends AskField {
   }
 
   // Compute styles for different field states
-  getStyles() {
+  getStyles () {
     return Object.assign({},
       styles.base,
       this.props.isValid ? styles.valid : styles.error,
       this.state.focused ? styles.focused : {},
       { backgroundColor: this.props.theme.inputBackground }
-    );
+    )
   }
 
   validateAndSave(options) {
@@ -212,4 +212,4 @@ const styles = {
   }
 }
 
-export default DateField;
+export default DateField

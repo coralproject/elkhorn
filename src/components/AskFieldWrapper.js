@@ -2,7 +2,7 @@ import preact from 'preact'
 
 // Trick for static analysis
 import __WIDGETS__ from './fields/Types'
-const Types = __WIDGETS__;
+const Types = __WIDGETS__
 
 import InfoIcon from './InfoIcon';
 
@@ -10,14 +10,14 @@ const { h, Component } = preact
 
 class AskFieldWrapper extends Component {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
-    this._field = null;
+    this._field = null
   }
 
-  getStyles() {
-    var fieldStyles = {};
-    if (this.props.type == 'field') {
+  getStyles () {
+    var fieldStyles = {}
+    if (this.props.type === 'field') {
       fieldStyles = Object.assign(
         fieldStyles,
         this.props.hasFocus ? styles.focused : styles.blurred,
@@ -29,20 +29,20 @@ class AskFieldWrapper extends Component {
       styles.formFieldWrapper,
       fieldStyles,
       { backgroundColor: this.props.theme.formBackground }
-    );
+    )
   }
 
-  getTitleStyles() {
+  getTitleStyles () {
     return Object.assign({},
       styles.fieldTitle,
       this.props.hasFocus ? styles.focusedTitle : {},
       this.state.completed && !this.state.isValid ? styles.invalidTitle : {},
       { color: this.props.theme.fieldTitleText }
-    );
+    )
   }
 
-  saveRef(component) {
-    this._field = component;
+  saveRef (component) {
+    this._field = component
   }
 
   render() {
@@ -58,11 +58,11 @@ class AskFieldWrapper extends Component {
         //    ...and: https://github.com/developit/preact/blob/master/src/hooks.js
         { ref: this.saveRef.bind(this) }
       )
-    );
+    )
     return (
       <li
-        key={ this.props.index }
-        style={ this.getStyles() }
+        key={this.props.index}
+        style={this.getStyles()}
         >
           {
             this.props.type == 'field' && !!this.props.title ?
@@ -107,18 +107,18 @@ class AskFieldWrapper extends Component {
               wrappedField
           }
 
-          { /* TODO: move this alerts into a component */ }
-          <div role="alert" aria-atomic="true">
-            {
-              this.props.completed && !this.props.isValid ?
-                <div
-                  tabindex="0"
-                  style={ styles.validation }>
-                  { this.props.validationMessage }
-                </div>
-              : null
-            }
-          </div>
+          {/* TODO: move this alerts into a component */}
+        <div role='alert' aria-atomic='true'>
+          {
+            this.props.completed && !this.props.isValid
+            ? <div
+              tabindex='0'
+              style={styles.validation}>
+              {this.props.validationMessage}
+            </div>
+            : null
+          }
+        </div>
 
           <div role="alert" aria-atomic="true">
             {
@@ -144,7 +144,7 @@ const styles = {
     background: 'white'
   },
   withNumber: {
-    padding: '15px 30px 20px 40px',
+    padding: '15px 30px 20px 40px'
   },
   fieldNumber: {
     color: '#777',
@@ -190,4 +190,4 @@ const styles = {
   }
 }
 
-export default AskFieldWrapper;
+export default AskFieldWrapper

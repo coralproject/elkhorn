@@ -2,16 +2,16 @@ import preact from 'preact'
 const { h, Component } = preact
 
 class FinishedScreen extends Component {
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.state = {}
   }
 
-  render() {
+  render () {
     return (
-      <div style={ styles.finishedScreen }>
-        <h1>{ this.props.title }</h1>
-        <p>{ this.props.description }</p>
+      <div style={styles.finishedScreen}>
+        <h1>{this.props.title}</h1>
+        <p>{this.props.description}</p>
       </div>
     )
   }
@@ -23,7 +23,7 @@ const styles = {
     background: '#fff',
     padding: '40px',
     textAlign: 'center'
-  },
+  }
 }
 
-export default FinishedScreen;
+export default FinishedScreen

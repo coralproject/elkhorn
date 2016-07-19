@@ -1,11 +1,11 @@
-import preact from 'preact';
-const {Component, h} = preact;
+import preact from 'preact'
+const {Component, h} = preact
 
-import AskField from '../AskField';
+import AskField from '../AskField'
 
 class MultipleChoice extends AskField {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.state = {
       rating: 0,
@@ -16,54 +16,54 @@ class MultipleChoice extends AskField {
     }
   }
 
-  onOtherClick(e) {
-    this.setState({ otherSelected: e.target.checked, value: this.props.multipleChoice ? this.state.value : this.state.otherValue });
-    this.validate();
-    this.update({ moveForward: false });
+  onOtherClick (e) {
+    this.setState({ otherSelected: e.target.checked, value: this.props.multipleChoice ? this.state.value : this.state.otherValue })
+    this.validate()
+    this.update({ moveForward: false })
   }
 
-  onOtherChange(e) {
-    this.setState({ otherValue: e.target.value });
-    this.validate();
-    this.update({ moveForward: false });
+  onOtherChange (e) {
+    this.setState({ otherValue: e.target.value })
+    this.validate()
+    this.update({ moveForward: false })
   }
 
-  onClick(i, e) {
-    var newValue = this.state.value.slice();
+  onClick (i, e) {
+    var newValue = this.state.value.slice()
     // if the clicked element is not present, add it
     if (newValue.indexOf(i) === -1) {
       if (this.props.pickUpTo) {
         if (newValue.length < this.props.pickUpTo) {
-          newValue.push(i);
+          newValue.push(i)
         } else {
-          e.preventDefault();
+          e.preventDefault()
         }
       } else {
         if (this.props.multipleChoice) {
-          newValue.push(i);
+          newValue.push(i)
         } else {
           // make it always an array
-          newValue = [ i ];
+          newValue = [ i ]
         }
       }
     } else { // if not present, remove it
-      newValue.splice(newValue.indexOf(i), 1);
+      newValue.splice(newValue.indexOf(i), 1)
     }
     // If it's not multiple choice, unset otherSelected when choosing an option from the list
     var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false };
     if (this.state.value.length >= 0) {
-      newState = Object.assign({}, newState, { completed: true, isValid: true });
+      newState = Object.assign({}, newState, { completed: true, isValid: true })
     } else {
-      newState = Object.assign({}, newState, { completed: false });
+      newState = Object.assign({}, newState, { completed: false })
     }
-    this.setState(newState);
-    this.validate();
-    this.update({ moveForward: false });
+    this.setState(newState)
+    this.validate()
+    this.update({ moveForward: false })
   }
 
   // Style computing
 
-  getOptionStyle(i) {
+  getOptionStyle (i) {
     return Object.assign({},
       styles.option,
       i === this.state.focused ? styles.focused : {},
@@ -72,10 +72,10 @@ class MultipleChoice extends AskField {
         backgroundColor: this.props.theme.selectedItemBackground,
         color: this.props.theme.selectedItemText
       } : {}
-    );
+    )
   }
 
-  getOtherStyle() {
+  getOtherStyle () {
     return Object.assign({},
       styles.option,
       { backgroundColor: this.props.theme.inputBackground },
@@ -83,21 +83,21 @@ class MultipleChoice extends AskField {
         backgroundColor: this.props.theme.selectedItemBackground,
         color: this.props.theme.selectedItemText
       } : {}
-    );
+    )
   }
 
-  getStyles() {
-    return Object.assign({}, styles.base, this.props.isValid ? styles.valid : styles.error);
+  getStyles () {
+    return Object.assign({}, styles.base, this.props.isValid ? styles.valid : styles.error)
   }
 
   // Template partials
 
-  getOptions() {
+  getOptions () {
     return this.props.options.map((option, i) => {
       return <label
-          //onMouseOver={ this.onHover.bind(this, i) }
-          style={ this.getOptionStyle(i) }
-          key={ i }
+          // onMouseOver={ this.onHover.bind(this, i) }
+        style={this.getOptionStyle(i)}
+        key={i}
         ><input
             style={ styles.optionCheck }
             onClick={ this.onClick.bind(this, i) }
@@ -110,40 +110,40 @@ class MultipleChoice extends AskField {
 
   // Interface Methods
 
-  validate(validateRequired = false) {
+  validate (validateRequired = false) {
+    let isValid = true
+    let isCompleted = false
 
-    let isValid = true, isCompleted = false;
+    isCompleted = !!this.state.value.length || (this.state.otherSelected && !!this.state.otherValue.length)
 
-    isCompleted = !!this.state.value.length || (this.state.otherSelected && !!this.state.otherValue.length);
+    this.setState({ isValid: isValid, completed: isCompleted })
 
-    this.setState({ isValid: isValid, completed: isCompleted });
-
-    return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
-
+    return this.props.wrapper.required ? isValid && isCompleted : isValid
   }
 
-  getValue() {
-    var selectedOptions = [], optionTitle;
-    var valueCopy = this.state.value.slice();
+  getValue () {
+    var selectedOptions = []
+    var optionTitle
+    var valueCopy = this.state.value.slice()
 
-    if (!!this.state.value.length) {
+    if (this.state.value.length) {
       this.state.value.map((index) => {
-        optionTitle = this.props.options[index].title;
+        optionTitle = this.props.options[index].title
         selectedOptions.push({
           index: index,
           title: optionTitle
-        });
-      });
+        })
+      })
     }
 
     if (this.state.otherSelected) {
       selectedOptions.push({
         title: this.state.otherValue,
         index: this.props.options.length + 1
-      });
+      })
     }
 
-    return { options: selectedOptions };
+    return { options: selectedOptions }
   }
 
   getCharIndex(i) {
@@ -159,7 +159,7 @@ class MultipleChoice extends AskField {
           { this.props.options && !!this.props.options.length ?
               <div style={ styles.optionsWrapper }>
 
-                { this.getOptions() }
+                {this.getOptions()}
 
                 {
                   this.props.otherAllowed ?
@@ -195,10 +195,9 @@ class MultipleChoice extends AskField {
           }
         </fieldset>
         {
-          !!this.props.pickUpTo ?
-            <div style={ styles.bottomLegend }>{ this.state.value.length } of { this.props.pickUpTo } selected.</div>
-          :
-            null
+          this.props.pickUpTo
+          ? <div style={styles.bottomLegend}>{this.state.value.length} of {this.props.pickUpTo} selected.</div>
+          : null
         }
       </div>
     )
@@ -238,10 +237,10 @@ const styles = {
   },
   clicked: {
     background: '#222',
-    color: 'white',
+    color: 'white'
   },
   focused: {
-    border: '1px solid #47a',
+    border: '1px solid #47a'
   },
   optionTitle: {
     fontSize: '15pt',
@@ -265,11 +264,11 @@ const styles = {
     padding: '0px',
     textAlign: 'right',
     width: '100%',
-    marginTop: '5px',
+    marginTop: '5px'
   },
   otherLabel: {
     display: 'inline-block',
-    marginRight: '20px',
+    marginRight: '20px'
   },
   otherInput: {
     height: '40px',
@@ -285,4 +284,4 @@ const styles = {
   }
 }
 
-export default MultipleChoice;
+export default MultipleChoice

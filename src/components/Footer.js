@@ -35,7 +35,7 @@ const styles = {
   base: {
     display: 'block',
     background: '#fff',
-    padding: '40px',
+    padding: '40px'
   },
   h1: {
     fontSize: '22pt',
@@ -57,7 +57,7 @@ const styles = {
     padding: '30px 40px',
   },
   footerActions: {
-    textAlign: 'right',
+    textAlign: 'right'
   },
   footerConditions: {
     fontSize: '9pt',
@@ -79,4 +79,4 @@ const styles = {
   }
 }
 
-export default Footer;
+export default Footer
