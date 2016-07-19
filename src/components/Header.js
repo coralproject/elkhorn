@@ -36,14 +36,14 @@ const styles = {
     fontSize: '22pt',
     fontWeight: '700',
     color: '#222',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: '20px'
   },
   description: {
     fontSize: '12pt',
     fontWeight: '400',
     color: '#444',
-    textAlign: 'center'
+    textAlign: 'left'
   }
 }
 
