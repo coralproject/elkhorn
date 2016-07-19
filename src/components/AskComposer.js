@@ -42,14 +42,14 @@ class AskComposer extends Component {
     this._fieldRefs = []
   }
 
-  onUpdate(payload) {
-    var pageCopy = Object.assign({}, this.state.page);
+  onUpdate (payload) {
+    var pageCopy = Object.assign({}, this.state.page)
     pageCopy.widgets[payload.index] = Object.assign({},
       pageCopy.widgets[payload.index],
       payload
-    );
-    var nextStep = payload.moveForward ? this.state.currentStep + 1 : this.state.currentStep;
-    this.setState({ page: pageCopy, currentStep: nextStep });
+    )
+    var nextStep = payload.moveForward ? this.state.currentStep + 1 : this.state.currentStep
+    this.setState({ page: pageCopy, currentStep: nextStep })
   }
 
   validate () {
@@ -85,8 +85,9 @@ class AskComposer extends Component {
     }
   }
 
-  send() {
-    var payload = [], field, fieldValue;
+  send () {
+    var payload = []
+    var field, fieldValue
     this.state.page.widgets.map((child, index) => {
       field = this._fieldRefs[index]._field
       if (typeof field.getValue === 'function') {
@@ -107,6 +108,8 @@ class AskComposer extends Component {
       (err, data, xhr) => {
         if (xhr.status === 200) {
           this.setState({ finished: true })
+        } else {
+          console.log(err)
         }
       }
     )
@@ -179,4 +182,4 @@ const styles = {
   }
 }
 
-export default AskComposer;
+export default AskComposer

@@ -100,7 +100,7 @@ const styles = {
     fontSize: '10pt',
     textAlign: 'right',
     width: '100%',
-    marginTop: '5px',
+    marginTop: '5px'
   },
   error: {
     border: '1px solid red'
