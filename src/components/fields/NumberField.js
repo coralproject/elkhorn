@@ -60,13 +60,16 @@ class NumberField extends AskField {
 
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
-        case 'email':
-          var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))?$/
-          isValid = emailRegex.test(this.state.value)
-          break
         case 'number':
           isValid = !isNaN(parseFloat(this.state.value)) && isFinite(this.state.value)
           break
+      }
+    }
+
+    if (this.props.minValue || this.props.maxValue) {
+      if ((this.state.value < this.props.minValue) || (this.state.value > this.props.maxValue)) {
+        isValid = false
+        this.props.setValidationMessage(this.getHelpMessage())
       }
     }
 
@@ -77,6 +80,21 @@ class NumberField extends AskField {
 
   getValue () {
     return { text: this.state.value.length ? this.state.value : '' }
+  }
+
+  getHelpMessage () {
+    var helpMessage = this.props.placeholder
+    if (this.props.minValue && this.props.maxValue) {
+      helpMessage = `Please type a number between ${this.props.minValue} and ${this.props.maxValue}`
+    } else {
+      if (this.props.maxValue) {
+        helpMessage = `Please type a number below ${this.props.maxValue}`
+      }
+      if (this.props.minValue) {
+        helpMessage = `Please type a number above ${this.props.minValue}`
+      }
+    }
+    return helpMessage
   }
 
   render () {
