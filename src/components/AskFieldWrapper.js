@@ -4,7 +4,7 @@ import preact from 'preact'
 import __WIDGETS__ from './fields/Types'
 const Types = __WIDGETS__
 
-import InfoIcon from './InfoIcon';
+import InfoIcon from './InfoIcon'
 
 const { h, Component } = preact
 
@@ -45,9 +45,9 @@ class AskFieldWrapper extends Component {
     this._field = component
   }
 
-  render() {
-    console.log(this.props);
-    var widgetSpec = this.props;
+  render () {
+    console.log(this.props)
+    var widgetSpec = this.props
     var wrappedField = h(
       Types[widgetSpec.component],
       Object.assign({},
@@ -65,46 +65,43 @@ class AskFieldWrapper extends Component {
         style={this.getStyles()}
         >
           {
-            this.props.type == 'field' && !!this.props.title ?
-              <div>
-                <h3 title={ "Field number " + this.props.fieldNumber } tabindex="0" style={ this.getTitleStyles() }>
+            this.props.type === 'field' && !!this.props.title
+            ? <div>
+              <h3 title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
                   {
-                    this.props.type == 'field' && this.props.settings.showFieldNumbers ?
-                      <span style={ styles.fieldNumber }>{ this.props.fieldNumber }.</span>
+                    this.props.type === 'field' && this.props.settings.showFieldNumbers
+                    ? <span style={styles.fieldNumber}>{this.props.fieldNumber}.</span>
                     : null
                   }
-                  { this.props.title }
+                  {this.props.title}
                   {
-                    this.props.wrapper.required ?
-                      <span
-                        aria-label="This field is required."
-                        style={
+                    this.props.wrapper.required
+                    ? <span
+                      aria-label='This field is required.'
+                      style={
                           Object.assign({},
                             styles.requiredAsterisk,
                             { color: this.props.theme.requiredAsterisk }
                           )
                       }>*</span>
-                    :
-                      null
+                    : null
                   }
                   {
-                    this.props.identity ?
-                      <span
-                        title="This field may contain personal information."
-                        style={ styles.identityMark }><InfoIcon /></span>
-                    :
-                      null
+                    this.props.identity
+                    ? <span
+                      title='This field may contain personal information.'
+                      style={styles.identityMark}><InfoIcon /></span>
+                    : null
                   }
-                </h3>
-                {
-                  this.props.description ?
-                    <p>{ this.props.description }</p>
-                  : null
-                }
-                { wrappedField }
-              </div>
-            :
-              wrappedField
+              </h3>
+              {
+                this.props.description
+                ? <p>{this.props.description}</p>
+                : null
+              }
+              {wrappedField}
+            </div>
+            : wrappedField
           }
 
           {/* TODO: move this alerts into a component */}
@@ -120,17 +117,17 @@ class AskFieldWrapper extends Component {
           }
         </div>
 
-          <div role="alert" aria-atomic="true">
-            {
-              this.props.wrapper.required && !this.props.completed && this.props.submitted ?
-                <div
-                  tabindex="0"
-                  style={ styles.validation }>
-                  The field <strong>{ this.props.title }</strong> is required.
-                </div>
-              : null
-            }
-          </div>
+        <div role='alert' aria-atomic='true'>
+          {
+            this.props.wrapper.required && !this.props.completed && this.props.submitted
+            ? <div
+              tabindex='0'
+              style={styles.validation}>
+              The field <strong>{this.props.title}</strong> is required.
+            </div>
+            : null
+          }
+        </div>
 
       </li>
     )

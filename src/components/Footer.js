@@ -3,27 +3,23 @@ const { h, Component } = preact
 
 class Footer extends Component {
 
-  constructor(props, context) {
-    super(props, context)
-  }
-
-  render() {
+  render () {
     return (
-      <footer style={ styles.footer }>
-        <div style={ styles.footerContent }>
-          <h4 tabindex="0" style={ styles.footerConditions }>
-            { this.props.conditions }
+      <footer style={styles.footer}>
+        <div style={styles.footerContent}>
+          <h4 tabindex='0' style={styles.footerConditions}>
+            {this.props.conditions}
           </h4>
-          <div style={ styles.footerActions }>
+          <div style={styles.footerActions}>
             <button
-              style={ Object.assign({},
+              style={Object.assign({},
                 styles.submit,
                 {
                   background: this.props.theme.submitButtonBackground,
                   text: this.props.theme.submitButtonText
                 }
               )}
-              onClick={ this.props.onSubmit }>Submit</button>
+              onClick={this.props.onSubmit}>Submit</button>
           </div>
         </div>
       </footer>
@@ -54,7 +50,7 @@ const styles = {
     width: '100%'
   },
   footerContent: {
-    padding: '30px 40px',
+    padding: '30px 40px'
   },
   footerActions: {
     textAlign: 'right'
