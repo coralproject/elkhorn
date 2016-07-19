@@ -99,13 +99,20 @@ class MultipleChoice extends AskField {
         style={this.getOptionStyle(i)}
         key={i}
         ><input
-            style={ styles.optionCheck }
-            onClick={ this.onClick.bind(this, i) }
-            tabindex="0"
-            name={ !this.props.multipleChoice ? this.props.title : false }
-            type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
-            key={ i }
-          />{ this.getCharIndex(i) }. { option.title }</label>});
+          style={styles.optionCheck}
+          onClick={this.onClick.bind(this, i)}
+          tabindex='0'
+          name={!this.props.multipleChoice ? this.props.title : false}
+          type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+          key={i}
+          />
+          {this.getCharIndex(i)}. {option.title}
+          {this.state.value.indexOf(i) > -1
+            ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
+            : null
+          }
+      </label>
+    })
   }
 
   // Interface Methods
@@ -146,21 +153,20 @@ class MultipleChoice extends AskField {
     return { options: selectedOptions }
   }
 
-  getCharIndex(i) {
-    return String.fromCharCode(65 + i);
+  getCharIndex (i) {
+    return String.fromCharCode(65 + i)
   }
 
-  render() {
+  render () {
     return (
       <div>
         <fieldset
-          style={ styles.base }>
-          <legend style={ styles.accesibleLegend }>{ this.props.title }</legend>
-          { this.props.options && !!this.props.options.length ?
-              <div style={ styles.optionsWrapper }>
-
+          style={styles.base}>
+          <legend style={styles.accesibleLegend}>{this.props.title}</legend>
+          {
+            this.props.options && !!this.props.options.length
+            ? <div style={styles.optionsWrapper}>
                 {this.getOptions()}
-
                 {
                   this.props.otherAllowed ?
                     <div>
@@ -177,21 +183,23 @@ class MultipleChoice extends AskField {
                             key={ this.props.options.length }
                           />
                             { this.getCharIndex(this.props.options.length) }. Other
+                            {this.state.otherSelected
+                              ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
+                              : null
+                            }
                           </label>
                     </div>
                   : null
                 }
 
-                {
-                  this.props.otherAllowed && this.state.otherSelected ?
-                    <input type="text" placeholder="Please specify..." onChange={ this.onOtherChange.bind(this) } style={ styles.otherInput } />
-                  :
-                    null
-                }
+              {
+                this.props.otherAllowed && this.state.otherSelected
+                ? <input type='text' placeholder='Please specify...' onChange={this.onOtherChange.bind(this)} style={styles.otherInput} />
+                : null
+              }
 
-              </div>
-            :
-              null
+            </div>
+            : null
           }
         </fieldset>
         {
@@ -281,6 +289,11 @@ const styles = {
   },
   optionsWrapper: {
     marginRight: '-1%'
+  },
+  selectedMark: {
+    fontWeight: 'bold',
+    paddingLeft: '5px',
+    fontSize: '14pt'
   }
 }
 
