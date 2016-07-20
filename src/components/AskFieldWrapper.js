@@ -13,6 +13,7 @@ class AskFieldWrapper extends Component {
   constructor (props, context) {
     super(props, context)
     this._field = null
+    this.state = { validationMessage: props.props.validationMessage }
   }
 
   getStyles () {
@@ -45,6 +46,10 @@ class AskFieldWrapper extends Component {
     this._field = component
   }
 
+  setValidationMessage (message) {
+    this.setState({ validationMessage: message })
+  }
+
   render () {
     var widgetSpec = this.props
     var wrappedField = h(
@@ -55,7 +60,10 @@ class AskFieldWrapper extends Component {
         // Ref takes a callback and passes the component as an argument.
         // What? See: https://github.com/developit/preact/blob/4de2fb9be5201b84f281d0f9d2fcef1017bedd11/src/vdom/component.js#L65
         //    ...and: https://github.com/developit/preact/blob/master/src/hooks.js
-        { ref: this.saveRef.bind(this) }
+        {
+          ref: this.saveRef.bind(this),
+          setValidationMessage: this.setValidationMessage.bind(this)
+        }
       )
     )
     return (
@@ -110,7 +118,7 @@ class AskFieldWrapper extends Component {
             ? <div
               tabindex='0'
               style={styles.validation}>
-              {this.props.validationMessage}
+              {this.state.validationMessage}
             </div>
             : null
           }
