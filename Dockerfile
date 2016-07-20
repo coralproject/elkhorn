@@ -14,5 +14,7 @@ RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VE
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm -f dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+ADD /assets /assets
+
 EXPOSE 4444
-CMD [ "dockerize",  "npm", "run", "server" ]
+CMD [ "dockerize", "template", "/assets/config.json.tmpl:/usr/src/app/config.json",  "npm", "run", "server" ]
