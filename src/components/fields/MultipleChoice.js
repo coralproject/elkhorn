@@ -49,7 +49,8 @@ class MultipleChoice extends AskField {
     } else { // if not present, remove it
       newValue.splice(newValue.indexOf(i), 1)
     }
-    var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false }
+    // If it's not multiple choice, unset otherSelected when choosing an option from the list
+    var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false };
     if (this.state.value.length >= 0) {
       newState = Object.assign({}, newState, { completed: true, isValid: true })
     } else {
@@ -103,7 +104,14 @@ class MultipleChoice extends AskField {
           tabindex='0'
           name={!this.props.multipleChoice ? this.props.title : false}
           type={this.props.multipleChoice ? 'checkbox' : 'radio'}
-          key={i} />{option.title}</label>
+          key={i}
+          />
+          {this.getCharIndex(i)}. {option.title}
+          {this.state.value.indexOf(i) > -1
+            ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
+            : null
+          }
+      </label>
     })
   }
 
@@ -145,38 +153,50 @@ class MultipleChoice extends AskField {
     return { options: selectedOptions }
   }
 
+  getCharIndex (i) {
+    return String.fromCharCode(65 + i)
+  }
+
   render () {
     return (
       <div>
         <fieldset
           style={styles.base}>
           <legend style={styles.accesibleLegend}>{this.props.title}</legend>
-          {this.props.options && !!this.props.options.length
-            ? <div>
-
+          {
+            this.props.options && !!this.props.options.length
+            ? <div style={styles.optionsWrapper}>
                 {this.getOptions()}
-
                 {
-                  this.props.otherAllowed
-                  ? <div>
-                    <label
-                      // onMouseOver={ this.onHover.bind(this, i) }
-                      style={this.getOtherStyle()}
-                      key={this.props.options.length}
-                      ><input
-                        style={styles.optionCheck}
-                        onChange={this.onOtherClick.bind(this)}
-                        tabindex='0'
-                        name={!this.props.multipleChoice ? this.props.title : false}
-                        type={this.props.multipleChoice ? 'checkbox' : 'radio'}
-                        key={this.props.options.length}
-                      />
-                        Other
-                      <input type='text' onChange={this.onOtherChange.bind(this)} style={styles.otherInput} />
-                    </label>
-                  </div>
+                  this.props.otherAllowed ?
+                    <div>
+                      <label
+                          //onMouseOver={ this.onHover.bind(this, i) }
+                          style={ this.getOtherStyle() }
+                          key={ this.props.options.length }
+                        ><input
+                            style={ styles.optionCheck }
+                            onClick={ this.onOtherClick.bind(this) }
+                            tabindex="0"
+                            name={ this.props.multipleChoice ? false : this.props.title }
+                            type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
+                            key={ this.props.options.length }
+                          />
+                            { this.getCharIndex(this.props.options.length) }. Other
+                            {this.state.otherSelected
+                              ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
+                              : null
+                            }
+                          </label>
+                    </div>
                   : null
                 }
+
+              {
+                this.props.otherAllowed && this.state.otherSelected
+                ? <input type='text' placeholder='Please specify...' onChange={this.onOtherChange.bind(this)} style={styles.otherInput} />
+                : null
+              }
 
             </div>
             : null
@@ -196,7 +216,7 @@ const styles = {
   base: {
     display: 'block',
     color: '#888',
-    width: '90%',
+    width: '100%',
     outline: 'none',
     border: 'none',
     minHeight: '100px',
@@ -215,12 +235,13 @@ const styles = {
     transition: 'background .2s',
     background: 'white',
     border: '1px solid #ccc',
-    padding: '0px 20px 0px 50px',
+    padding: '0px 20px',
     outline: 'none',
-    margin: '0 10px 10px 0',
+    margin: '0 1% 10px 0',
     textAlign: 'left',
     position: 'relative',
-    fontWeight: 'bold'
+    width: '49%',
+    'float': 'left'
   },
   clicked: {
     background: '#222',
@@ -243,7 +264,7 @@ const styles = {
   optionCheck: {
     position: 'absolute',
     top: '18px',
-    left: '20px'
+    left: '-20000px'
   },
   bottomLegend: {
     color: '#999',
@@ -262,9 +283,17 @@ const styles = {
     lineHeight: '40px',
     padding: '0 10px',
     border: '1px solid #ccc',
-    marginBottom: '20px',
+    margin: '20px 0',
     display: 'block',
-    width: '90%'
+    width: '100%'
+  },
+  optionsWrapper: {
+    marginRight: '-1%'
+  },
+  selectedMark: {
+    fontWeight: 'bold',
+    paddingLeft: '5px',
+    fontSize: '14pt'
   }
 }
 

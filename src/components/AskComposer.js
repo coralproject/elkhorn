@@ -44,12 +44,10 @@ class AskComposer extends Component {
 
   onUpdate (payload) {
     var pageCopy = Object.assign({}, this.state.page)
-    console.log(this.state)
     pageCopy.widgets[payload.index] = Object.assign({},
       pageCopy.widgets[payload.index],
       payload
     )
-
     var nextStep = payload.moveForward ? this.state.currentStep + 1 : this.state.currentStep
     this.setState({ page: pageCopy, currentStep: nextStep })
   }
@@ -88,7 +86,6 @@ class AskComposer extends Component {
   }
 
   send () {
-    console.log(this.props)
     var payload = []
     var field
     var fieldValue
@@ -175,7 +172,6 @@ class AskComposer extends Component {
 
 const styles = {
   base: {
-    background: '#eee',
     position: 'relative'
   },
   fieldList: {
@@ -185,4 +181,4 @@ const styles = {
   }
 }
 
-export default AskComposer;
+export default AskComposer
