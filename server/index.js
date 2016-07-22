@@ -6,7 +6,7 @@ var cors = require('cors')
 var express = require('express')
 var bodyParser = require('body-parser')
 var compress = require('compression')
-var buildWidget = require('./builder')
+var builder = require('./builder')
 
 var AWS = require('aws-sdk')
 
@@ -49,13 +49,17 @@ app.set('views', './templates')
 var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : 'http://localhost:4444/widgets/'
 
 app.get('/iframe/:id', function (req, res) {
-  res.render('iframe', { base: base, id: req.params.id })
+  res.render('iframe-form', { base: base, id: req.params.id })
+})
+
+app.get('/iframe-gallery/:id', (req, res) => {
+  res.render('iframe-gallery', {base, id: req.params.id})
 })
 
 app.get('/preview.js', function (req, res) {
   try {
     var props = JSON.parse(req.query.props)
-    buildWidget(props, true)
+    builder.buildWidget(props, true)
     .then(function (code) {
       res.send(code)
     })
@@ -73,7 +77,7 @@ app.post('/create', function (req, res) {
       log('Response received from pillar:')
       log(response)
 
-      buildWidget(req.body, false).then(function (code) {
+      builder.buildWidget(req.body, false).then(function (code) {
         return upload(response.data.id, code)
       })
       .then(function () {
@@ -90,11 +94,19 @@ app.post('/create', function (req, res) {
 })
 
 // publish a gallery
-app.post('/publish-gallery', (req, res) => {
-  log('Route /publish-gallery')
+app.post('/gallery/:galleryId/publish', (req, res) => {
+  log(`Route /gallery/${req.params.galleryId}/publish`)
 
   log(req.body)
-  res.json({id: 'foo'})
+  builder.buildGallery(req.body).then(build => {
+    return Promise.all([upload(req.params.galleryId, build.code), build])
+  }).then(results => {
+    const [url, build] = results
+    res.json({url, build})
+  })
+  .catch(error => {
+    console.error(error.stack)
+  })
 })
 
 app.listen(4444, function () {

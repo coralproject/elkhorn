@@ -42,7 +42,7 @@ function s3Upload (id, code, resolve, reject) {
       return reject(new Error('Error writing to s3'))
     }
 
-    return resolve()
+    return resolve(`${base}${key}`)
   })
 }
 
