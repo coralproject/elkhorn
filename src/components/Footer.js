@@ -7,9 +7,7 @@ class Footer extends Component {
     return (
       <footer style={styles.footer}>
         <div style={styles.footerContent}>
-          <h4 tabindex='0' style={styles.footerConditions}>
-            {this.props.conditions}
-          </h4>
+          <div tabindex='0' style={styles.footerConditions} dangerouslySetInnerHTML={{ __html: this.props.conditions }}></div>
           <div style={styles.footerActions}>
             <button
               style={Object.assign({},
@@ -56,7 +54,6 @@ const styles = {
     textAlign: 'right'
   },
   footerConditions: {
-    fontSize: '9pt',
     margin: '0 0 20px 0'
   },
   submit: {
