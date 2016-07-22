@@ -7,7 +7,6 @@ export default class GalleryComposer extends Component {
     const {answers} = this.props
     console.log('answers?', answers)
     return answers.map(a => {
-      console.log('answer?', a.answer.answer)
       // is this answer multiple choice?
 
       let answerBody
@@ -17,12 +16,33 @@ export default class GalleryComposer extends Component {
           return <div style={styles.multi.option}>{option.title}</div>
         })
       } else { // a regular text response
-        console.log('answer styles', styles.answer)
         answerBody = a.answer.answer.text
       }
 
-      return <div style={styles.answer}>{answerBody}</div>
+      return (
+        <div style={styles.answer}>
+          {
+            this.props.galleryReaderInfoPlacement === 'above'
+            ? this.renderIdentityInfo(a)
+            : null
+          }
+          {answerBody}
+          {
+            this.props.galleryReaderInfoPlacement === 'below'
+            ? this.renderIdentityInfo(a)
+            : null
+          }
+        </div>
+      )
     })
+  }
+
+  renderIdentityInfo (answer) {
+    return answer.identity_answers && (
+      <p style={styles.identityAnswers}>
+        {answer.identity_answers.map(a => a.answer.text).join(' ')}
+      </p>
+    )
   }
 
   render () {
@@ -61,6 +81,11 @@ const styles = {
     lineHeight: '1.3em',
     fontSize: 18,
     margin: '10px 20px'
+  },
+  identityAnswers: {
+    color: '#979B9F',
+    fontStyle: 'italic',
+    marginBottom: 10
   },
   answerContainer: {
     padding: 20
