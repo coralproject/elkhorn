@@ -119,15 +119,17 @@ class AskComposer extends Component {
     var fieldCount = 0
     var completedCount = 0
     let theme = this.props.theme || defaultTheme
+
     return (
       <div style={styles.base} ref={(composer) => { this._composer = composer }}>
         <Header
           title={this.props.header.title}
           description={this.props.header.description}
           theme={theme} />
-
         {
-          !this.state.finished
+          this.props.status === 'closed' && !this.props.preview
+          ? (<p style={styles.inactiveMessage}>{this.props.settings.inactiveMessage}</p>)
+          : !this.state.finished
           ? <div>
             <ul style={styles.fieldList}>
               {
@@ -178,6 +180,10 @@ const styles = {
     listStyleType: 'none',
     padding: '0',
     margin: '0'
+  },
+  inactiveMessage: {
+    fontSize: '15pt',
+    textAlign: 'center'
   }
 }
 
