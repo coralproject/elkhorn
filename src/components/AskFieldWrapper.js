@@ -90,14 +90,7 @@ class AskFieldWrapper extends Component {
                             styles.requiredAsterisk,
                             { color: this.props.theme.requiredAsterisk }
                           )
-                      }>*</span>
-                    : null
-                  }
-                  {
-                    this.props.identity
-                    ? <span
-                      title='This field may contain personal information.'
-                      style={styles.identityMark}><InfoIcon /></span>
+                      }> *</span>
                     : null
                   }
               </h3>
@@ -110,6 +103,17 @@ class AskFieldWrapper extends Component {
             </div>
             : wrappedField
           }
+          {
+            this.props.wrapper.required
+            ? <p
+              style={
+                  Object.assign({},
+                    styles.requiredAsteriskBottom,
+                    { color: this.props.theme.requiredAsteriskBottom }
+                  )
+              }>* Required</p>
+              : null
+            }
 
           {/* TODO: move this alerts into a component */}
         <div role='alert' aria-atomic='true'>
@@ -182,15 +186,16 @@ const styles = {
     display: 'table-cell'
   },
   requiredAsterisk: {
-    color: '#E55',
+    color: '#939393',
     fontSize: '20pt',
     lineHeight: '10px'
   },
-  identityMark: {
-    display: 'inline-block',
-    margin: '0 0 0 5px',
-    fill: '#aaa',
-    verticalAlign: 'middle'
+  requiredAsteriskBottom: {
+    color: '#E55',
+    textAlign: 'right',
+    fontSize: '10pt',
+    lineHeight: '10px',
+    marginTop: 10
   }
 }
 
