@@ -16,7 +16,7 @@ export default class GalleryComposer extends Component {
           return <div style={styles.multi.option}>{option.title}</div>
         })
       } else { // a regular text response
-        answerBody = a.answer.answer.text
+        answerBody = <span style={styles.text}>{a.answer.answer.text}</span>
       }
 
       return (
@@ -38,6 +38,7 @@ export default class GalleryComposer extends Component {
   }
 
   renderIdentityInfo (answer) {
+    console.log('renderIdentityInfo', answer)
     return answer.identity_answers && (
       <p style={styles.identityAnswers}>
         {answer.identity_answers.map(a => a.answer.text).join(' ')}
@@ -106,5 +107,6 @@ const styles = {
     }
   },
   text: {
+    lineHeight: '1.3em'
   }
 }
