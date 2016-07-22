@@ -119,6 +119,8 @@ class AskComposer extends Component {
     var fieldCount = 0
     var completedCount = 0
     let theme = this.props.theme || defaultTheme
+    const isInactive = this.props.status === 'closed' && !this.props.preview
+    // TODO: move the nested ternary to functions
 
     return (
       <div style={styles.base} ref={(composer) => { this._composer = composer }}>
@@ -127,7 +129,7 @@ class AskComposer extends Component {
           description={this.props.header.description}
           theme={theme} />
         {
-          this.props.status === 'closed' && !this.props.preview
+          isInactive
           ? (<p style={styles.inactiveMessage}>{this.props.settings.inactiveMessage}</p>)
           : !this.state.finished
           ? <div>
