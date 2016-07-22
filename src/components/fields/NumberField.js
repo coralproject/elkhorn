@@ -57,17 +57,18 @@ class NumberField extends AskField {
   validate () {
     let isValid = true
     let isCompleted = !!this.state.value.length
+    const num = parseFloat(this.state.value.replace(',', '.'))
 
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
         case 'number':
-          isValid = !isNaN(parseFloat(this.state.value)) && isFinite(this.state.value)
+          isValid = !isNaN(num) && isFinite(num)
           break
       }
     }
 
-    if (this.props.minValue || this.props.maxValue) {
-      if ((this.state.value < this.props.minValue) || (this.state.value > this.props.maxValue)) {
+    if (typeof this.props.minValue !== 'undefined' || typeof this.props.maxValue !== 'undefined') {
+      if ((num < this.props.minValue) || (num > this.props.maxValue)) {
         isValid = false
         this.props.setValidationMessage(this.getHelpMessage())
       }
@@ -85,7 +86,7 @@ class NumberField extends AskField {
   getHelpMessage () {
     var helpMessage = this.props.placeholder
     if (this.props.minValue && this.props.maxValue) {
-      helpMessage = `Please type a number between ${this.props.minValue} and ${this.props.maxValue}`
+      helpMessage = `This number cannot be higher than ${this.props.maxValue} or lower than ${this.props.minValue}.`
     } else {
       if (this.props.maxValue) {
         helpMessage = `Please type a number below ${this.props.maxValue}`
