@@ -41,7 +41,10 @@ export default class GalleryComposer extends Component {
     console.log('renderIdentityInfo', answer)
     return answer.identity_answers && (
       <p style={styles.identityAnswers}>
-        {answer.identity_answers.map(a => a.answer.text).join(' ')}
+        {answer.identity_answers.map(idAnswer => {
+          const displayable = this.props.identifiableIds.indexOf(idAnswer.widget_id) !== -1
+          return displayable ? idAnswer.answer.text : ''
+        }).join(' ')}
       </p>
     )
   }
