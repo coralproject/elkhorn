@@ -114,13 +114,58 @@ class AskComposer extends Component {
     )
   }
 
-  render () {
+  renderForm () {
     // field count is artificial, not the widget index
-    var fieldCount = 0
-    var completedCount = 0
+    let fieldCount = 0
+    let completedCount = 0
     let theme = this.props.theme || defaultTheme
+
+    return !this.state.finished ? (
+      <div>
+        <ul style={styles.fieldList}>
+          {
+            this.state.page.widgets.map((child, index) => {
+              if (child.type === 'field') {
+                fieldCount++
+              }
+              if (child.completed && child.isValid) completedCount++
+
+              return <AskFieldWrapper
+                key={index}
+                ref={(widgetWrapper) => { this._fieldRefs[index] = widgetWrapper }}
+                index={index}
+                fieldNumber={fieldCount}
+                hasFocus={this.state.currentStep === index}
+                onUpdate={this.onUpdate.bind(this)}
+                settings={this.state.settings}
+                submitted={this.state.submitted}
+                theme={theme}
+                {...child} />
+            })
+          }
+        </ul>
+
+        <Footer
+          theme={theme}
+          completedCount={completedCount}
+          fieldCount={fieldCount}
+          conditions={this.props.footer.conditions}
+          onSubmit={this.onSubmit.bind(this)} />
+      </div>
+    )
+    : <FinishedScreen
+      title={this.state.finishedScreen.title}
+      description={this.state.finishedScreen.description}
+      />
+  }
+
+  renderInactive () {
+    return <p style={styles.inactiveMessage}>{this.props.settings.inactiveMessage}</p>
+  }
+
+  render () {
     const isInactive = this.props.status === 'closed' && !this.props.preview
-    // TODO: move the nested ternary to functions
+    let theme = this.props.theme || defaultTheme
 
     return (
       <div style={styles.base} ref={(composer) => { this._composer = composer }}>
@@ -128,46 +173,7 @@ class AskComposer extends Component {
           title={this.props.header.title}
           description={this.props.header.description}
           theme={theme} />
-        {
-          isInactive
-          ? (<p style={styles.inactiveMessage}>{this.props.settings.inactiveMessage}</p>)
-          : !this.state.finished
-          ? <div>
-            <ul style={styles.fieldList}>
-              {
-                this.state.page.widgets.map((child, index) => {
-                  if (child.type === 'field') {
-                    fieldCount++
-                  }
-                  if (child.completed && child.isValid) completedCount++
-
-                  return <AskFieldWrapper
-                    key={index}
-                    ref={(widgetWrapper) => { this._fieldRefs[index] = widgetWrapper }}
-                    index={index}
-                    fieldNumber={fieldCount}
-                    hasFocus={this.state.currentStep === index}
-                    onUpdate={this.onUpdate.bind(this)}
-                    settings={this.state.settings}
-                    submitted={this.state.submitted}
-                    theme={theme}
-                    {...child} />
-                })
-              }
-            </ul>
-
-            <Footer
-              theme={theme}
-              completedCount={completedCount}
-              fieldCount={fieldCount}
-              conditions={this.props.footer.conditions}
-              onSubmit={this.onSubmit.bind(this)} />
-          </div>
-          : <FinishedScreen
-            title={this.state.finishedScreen.title}
-            description={this.state.finishedScreen.description}
-            />
-        }
+        {isInactive ? this.renderInactive() : this.renderForm()}
       </div>
     )
   }
