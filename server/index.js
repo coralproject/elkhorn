@@ -59,6 +59,7 @@ app.get('/iframe-gallery/:id', (req, res) => {
 app.get('/preview.js', function (req, res) {
   try {
     var props = JSON.parse(req.query.props)
+    props.preview = true
     builder.buildWidget(props, true)
     .then(function (code) {
       res.send(code)
