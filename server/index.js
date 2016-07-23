@@ -55,6 +55,7 @@ app.get('/iframe/:id', function (req, res) {
 app.get('/preview.js', function (req, res) {
   try {
     var props = JSON.parse(req.query.props)
+    props.preview = true
     buildWidget(props, true)
     .then(function (code) {
       res.send(code)
