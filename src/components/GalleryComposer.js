@@ -67,7 +67,12 @@ export default class GalleryComposer extends Component {
 
 const styles = {
   base: {
-    position: 'relative'
+    position: 'absolute',
+    top: 0,
+    height: '100%',
+    left: 0,
+    right: 0,
+    overflowY: 'scroll'
   },
   header: {
     backgroundColor: 'rgb(246,125,111)',
