@@ -55,6 +55,6 @@ function fileUpload (id, code, resolve, reject) {
       return reject(new Error('Error while saving file to local filesystem'))
     }
 
-    resolve()
+    resolve(`${base}${key}`)
   })
 }
