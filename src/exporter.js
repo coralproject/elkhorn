@@ -1,1 +1,1 @@
-var Rating = require('exports?Rating!./components/Rating.js');
+var Rating = require('exports?Rating!./components/Rating.js')

@@ -3,7 +3,7 @@ const { h, Component } = preact
 
 import AskField from '../AskField'
 
-class NumberField extends AskField {
+class PhoneNumber extends AskField {
 
   constructor (props, context) {
     super(props, context)
@@ -57,20 +57,11 @@ class NumberField extends AskField {
   validate () {
     let isValid = true
     let isCompleted = !!this.state.value.length
-    const num = parseFloat(this.state.value.replace(',', '.'))
 
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
-        case 'number':
-          isValid = !isNaN(num) && isFinite(num)
+        case 'phonenumber':
           break
-      }
-    }
-
-    if (typeof this.props.minValue !== 'undefined' || typeof this.props.maxValue !== 'undefined') {
-      if ((num < this.props.minValue) || (num > this.props.maxValue)) {
-        isValid = false
-        this.props.setValidationMessage(this.getHelpMessage())
       }
     }
 
@@ -81,21 +72,6 @@ class NumberField extends AskField {
 
   getValue () {
     return { text: this.state.value.length ? this.state.value : '' }
-  }
-
-  getHelpMessage () {
-    var helpMessage = this.props.placeholder
-    if (this.props.minValue && this.props.maxValue) {
-      helpMessage = `This number cannot be higher than ${this.props.maxValue} or lower than ${this.props.minValue}.`
-    } else {
-      if (this.props.maxValue) {
-        helpMessage = `Please type a number below ${this.props.maxValue}`
-      }
-      if (this.props.minValue) {
-        helpMessage = `Please type a number above ${this.props.minValue}`
-      }
-    }
-    return helpMessage
   }
 
   render () {
@@ -146,4 +122,4 @@ const styles = {
   }
 }
 
-export default NumberField
+export default PhoneNumber

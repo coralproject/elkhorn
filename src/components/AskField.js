@@ -2,7 +2,7 @@ import preact from 'preact'
 const { h, Component } = preact
 
 class AskField extends Component {
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.state = {
       value: null,
@@ -10,19 +10,19 @@ class AskField extends Component {
       completed: false,
       focused: false
     }
-    this.checkInterface();
+    this.checkInterface()
   }
 
-  checkInterface() {
-    let interfaceMethods = ['validate', 'getValue'];
+  checkInterface () {
+    let interfaceMethods = ['validate', 'getValue']
     interfaceMethods.map((method) => {
-      if ((typeof this[method]) != 'function') {
-        console.warn(`Warning: [${this.constructor.name}] has no [${method}] method. See: https://github.com/coralproject/elkhorn/blob/master/docs/warnings/askfieldinterface.md`);
+      if ((typeof this[method]) !== 'function') {
+        console.warn(`Warning: [${this.constructor.name}] has no [${method}] method. See: https://github.com/coralproject/elkhorn/blob/master/docs/warnings/askfieldinterface.md`)
       }
-    });
+    })
   }
 
-  update(options = { moveForward: false }) {
+  update (options = { moveForward: false }) {
     // whitelist state properties for save
     this.props.onUpdate({
       index: this.props.index,
@@ -31,8 +31,8 @@ class AskField extends Component {
       completed: this.state.completed,
       validationMessage: this.props.validationMessage || 'Please check this field',
       moveForward: options.moveForward || false
-    });
+    })
   }
 }
 
-export default AskField;
+export default AskField

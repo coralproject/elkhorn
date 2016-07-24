@@ -1,10 +1,10 @@
-import preact from 'preact';
-const {Component, h} = preact;
+import preact from 'preact'
+const {Component, h} = preact
 
-import AskField from '../AskField';
+import AskField from '../AskField'
 
 class ImageOptions extends AskField {
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.state = {
       rating: 0,
@@ -13,93 +13,93 @@ class ImageOptions extends AskField {
     }
   }
 
-  getStyles() {
-    return Object.assign({}, styles.base, this.props.isValid ? styles.valid : styles.error);
+  getStyles () {
+    return Object.assign({}, styles.base, this.props.isValid ? styles.valid : styles.error)
   }
 
-  onBlur() {
-    this.setState({ focused: -1 });
+  onBlur () {
+    this.setState({ focused: -1 })
   }
 
-  onFocus(i, e) {
-    this.setState({ focused: i });
-    this.props.onFocus();
+  onFocus (i, e) {
+    this.setState({ focused: i })
+    this.props.onFocus()
   }
 
-  onHover(i, e) {
-    this.setState({ focused: i });
-    e.target.focus();
+  onHover (i, e) {
+    this.setState({ focused: i })
+    e.target.focus()
     // sets focus on hover! looks weird otherwise
-    this.props.onFocus();
+    this.props.onFocus()
   }
 
-  onClick(i, e) {
-    this.setState({ focused: i, value: i });
+  onClick (i, e) {
+    this.setState({ focused: i, value: i })
     if (this.state.value >= 0) {
-      this.setState({ completed: true, isValid: true });
+      this.setState({ completed: true, isValid: true })
     } else {
-      this.setState({ completed: false });
+      this.setState({ completed: false })
     }
-    this.update({ moveForward: true });
+    this.update({ moveForward: true })
   }
 
-  onMouseOut() {
-    this.setState({ hovering: -1 });
+  onMouseOut () {
+    this.setState({ hovering: -1 })
   }
 
-  onKeyDown(e) {
-    if (e.keyCode == 13) return; // skip on Enter
-    var newFocus = this.state.focused;
+  onKeyDown (e) {
+    if (e.keyCode === 13) return // skip on Enter
+    var newFocus = this.state.focused
     switch (e.keyCode) {
       case 39: // Right arrow
-      newFocus = Math.min(this.props.images.length - 1, newFocus + 1);
-      break; 
+        newFocus = Math.min(this.props.images.length - 1, newFocus + 1)
+        break
       case 37: // Left arrow
-        newFocus = Math.max(0, newFocus - 1);
-      break;
+        newFocus = Math.max(0, newFocus - 1)
+        break
     }
-    this.setState({ focused: newFocus });
+    this.setState({ focused: newFocus })
   }
 
-  getOptionStyle(i) {
-    return Object.assign({}, 
-      styles.option, 
+  getOptionStyle (i) {
+    return Object.assign({},
+      styles.option,
       i === this.state.value ? styles.clicked : {},
       i === this.state.focused ? styles.focused : {}
-    ); 
+    )
   }
 
-  getOptions() {
+  getOptions () {
     return this.props.images.map((image, i) => {
-      return <button 
-          onBlur={ this.onBlur.bind(this) }
-          onFocus={ this.onFocus.bind(this, i) }
-          onMouseOver={ this.onHover.bind(this, i) } 
-          onClick={ this.onClick.bind(this, i) }
-          style={ this.getOptionStyle(i) }
-          key={ i }
-          ref={ 
-            // Bind *this* to the ref callback
-            // to use state in the condition
-            (function(button) {
-              // set native focus
-              if (this.props.hasFocus && button.key === this.state.focused) button.focus();
-              // if focus has never been set
-              if (this.state.focused === -1 && this.props.hasFocus) button.focus();
-            }).bind(this)
-          } 
-        >
-          <img src={ image.url } alt={ image.alt } />
-        </button>;
-    });
+      return <button
+        onBlur={this.onBlur.bind(this)}
+        onFocus={this.onFocus.bind(this, i)}
+        onMouseOver={this.onHover.bind(this, i)}
+        onClick={this.onClick.bind(this, i)}
+        style={this.getOptionStyle(i)}
+        key={i}
+        ref={
+          // Bind *this* to the ref callback
+          // to use state in the condition
+          function (button) {
+            // set native focus
+            if (this.props.hasFocus && button.key === this.state.focused) button.focus()
+            // if focus has never been set
+            if (this.state.focused === -1 && this.props.hasFocus) button.focus()
+          }.bind(this)
+        }
+      >
+        <img src={image.url} alt={image.alt} />
+      </button>
+    })
   }
 
-  render() {
+  render () {
     return (
-      <div 
-        style={ styles.base } 
-        onMouseOut={ this.onMouseOut.bind(this) }
-        onKeyDown={ this.onKeyDown.bind(this) }>
+      <div
+        style={styles.base}
+        onMouseOut={this.onMouseOut.bind(this)}
+        onKeyDown={this.onKeyDown.bind(this)}>
         {
           this.getOptions()
         }
@@ -137,4 +137,4 @@ const styles = {
   }
 }
 
-export default ImageOptions;
+export default ImageOptions
