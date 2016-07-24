@@ -170,7 +170,7 @@ class AskComposer extends Component {
     return (
       <div style={styles.base} ref={(composer) => { this._composer = composer }}>
         <Header
-          title={this.props.header.title}
+          title={this.props.header.heading || ''}
           description={this.props.header.description}
           theme={theme} />
         {isInactive ? this.renderInactive() : this.renderForm()}
