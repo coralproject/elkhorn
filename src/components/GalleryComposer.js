@@ -5,7 +5,6 @@ export default class GalleryComposer extends Component {
 
   renderAnswers () {
     const {answers} = this.props
-    console.log('answers?', answers)
     return answers.map(a => {
       // is this answer multiple choice?
 
@@ -16,20 +15,21 @@ export default class GalleryComposer extends Component {
           return <div style={styles.multi.option}>{option.title}</div>
         })
       } else { // a regular text response
-        answerBody = <span style={styles.text}>{a.answer.answer.text}</span>
+        const text = a.answer.edited ? a.answer.edited : a.answer.answer.text
+        answerBody = <span style={styles.text}>{text}</span>
       }
 
       return (
         <div style={styles.answer}>
           {
             this.props.galleryReaderInfoPlacement === 'above'
-            ? this.renderIdentityInfo(a)
+            ? this.renderIdentityInfo(a, 'above')
             : null
           }
           {answerBody}
           {
             this.props.galleryReaderInfoPlacement === 'below'
-            ? this.renderIdentityInfo(a)
+            ? this.renderIdentityInfo(a, 'below')
             : null
           }
         </div>
@@ -37,26 +37,32 @@ export default class GalleryComposer extends Component {
     })
   }
 
-  renderIdentityInfo (answer) {
-    console.log('renderIdentityInfo', answer)
-    return answer.identity_answers && (
-      <p style={styles.identityAnswers}>
-        {answer.identity_answers.map(idAnswer => {
-          const displayable = this.props.identifiableIds.indexOf(idAnswer.widget_id) !== -1
-          return displayable ? idAnswer.answer.text : ''
-        }).join(' ')}
-      </p>
-    )
+  renderIdentityInfo (answer, placement) {
+    console.log('this.props.identifiableIds.length', this.props.identifiableIds, this.props.identifiableIds.length, answer.identity_answers)
+    const placementStyles = Object.assign({}, styles.identityAnswers, styles.identityAnswers[placement])
+    return answer.identity_answers && this.props.identifiableIds.length
+    ? <p style={placementStyles}>
+      {answer.identity_answers.map(idAnswer => {
+        const displayable = this.props.identifiableIds.indexOf(idAnswer.widget_id) !== -1
+        return displayable ? idAnswer.answer.text : ''
+      }).join(' ')}
+    </p>
+    : null
   }
 
   render () {
-    console.log('GalleryComposer', this.props)
-
     return (
       <div style={styles.base}>
-        <div style={styles.header}>Preview</div>
-        <div style={styles.title}>{this.props.galleryTitle}</div>
-        <div style={styles.description}>{this.props.galleryDescription}</div>
+        {
+          this.props.galleryTitle
+          ? <div style={styles.title}>{this.props.galleryTitle}</div>
+          : null
+        }
+        {
+          this.props.galleryDescription
+          ? <div style={styles.description}>{this.props.galleryDescription}</div>
+          : null
+        }
         <div style={styles.answerContainer}>
           {this.renderAnswers()}
         </div>
@@ -67,17 +73,7 @@ export default class GalleryComposer extends Component {
 
 const styles = {
   base: {
-    position: 'absolute',
-    top: 0,
-    height: '100%',
-    left: 0,
-    right: 0,
-    overflowY: 'scroll'
-  },
-  header: {
-    backgroundColor: 'rgb(246,125,111)',
-    color: 'white',
-    padding: 20
+    position: 'relative'
   },
   title: {
     fontWeight: 'bold',
@@ -94,7 +90,12 @@ const styles = {
   identityAnswers: {
     color: '#979B9F',
     fontStyle: 'italic',
-    marginBottom: 10
+    above: {
+      marginBottom: 10
+    },
+    below: {
+      marginTop: 10
+    }
   },
   answerContainer: {
     padding: 20
