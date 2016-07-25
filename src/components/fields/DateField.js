@@ -112,11 +112,11 @@ class DateField extends AskField {
 
   }
 
-  getDateInputStyles(isYear) {
+  getDateInputStyles(part) {
     return Object.assign({},
       styles.dateInput,
-      isYear ? { width: '120px' } : ''
-    );
+      styles[part]
+    )
   }
 
   render() {
@@ -129,26 +129,26 @@ class DateField extends AskField {
             placeholder="MM"
             value={ this.state.month }
             onChange={ this.onDateChange.bind(this) }
-            style={ this.getDateInputStyles() } />
+            style={ this.getDateInputStyles('month') } />
           <input
             ref={el => this._day = el}
             type="text"
             placeholder="DD"
             value={ this.state.day }
             onChange={ this.onDateChange.bind(this) }
-            style={ this.getDateInputStyles() } />
+            style={ this.getDateInputStyles('day') } />
           <input
             ref={el => this._year = el}
             type="text"
             placeholder="YYYY"
             value={ this.state.year }
             onChange={ this.onDateChange.bind(this) }
-            style={ this.getDateInputStyles(true) } />
+            style={ this.getDateInputStyles('year') } />
         </div>
         <div style={ styles.calendarButton } ref={el => this._calendarGroup = el} data-wrap data-clickOpens="false">
           {/* This input needs to be displayed, not hidden, due to a flatpickr bug */}
           <input type="text" data-input style={ styles.hideInput } />
-        	<a data-toggle><CalendarIcon /></a>
+          <a data-toggle><CalendarIcon /></a>
         </div>
         <div style={ styles.clear }></div>
       </div>
@@ -185,6 +185,15 @@ const styles = {
     marginRight: '5px',
     marginBottom: '10px',
     textAlign: 'center'
+  },
+  month: {
+    borderRadius: '4px 0 0 4px'
+  },
+  day: {
+  },
+  year: {
+    width: '120px',
+    borderRadius: '0 4px 4px 0'
   },
   calendarButton: {
     display: 'inline-block',
