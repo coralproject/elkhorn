@@ -152,10 +152,10 @@ const styles = {
     background: 'white'
   },
   withNumber: {
-    padding: '15px 30px 20px 40px'
+    padding: '15px 40px 20px 40px'
   },
   fieldNumber: {
-    color: '#777',
+    color: 'black',
     marginRight: '5px',
     fontWeight: 'bold',
     fontSize: '14pt'

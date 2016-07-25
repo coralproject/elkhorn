@@ -64,7 +64,7 @@ const styles = {
     padding: '0px 20px',
     lineHeight: '40px',
     fontWeight: 'bold',
-    borderRadius: '2px',
+    borderRadius: '4px',
     border: 'none',
     color: 'white',
     textTransform: 'uppercase',

@@ -131,7 +131,8 @@ const styles = {
     outline: 'none',
     resize: 'none',
     border: '1px solid #ccc',
-    transition: 'border .5s'
+    transition: 'border .5s',
+    borderRadius: '4px'
   },
   focused: {
     // borderBottom: '2px solid #009688'

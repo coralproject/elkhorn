@@ -43,7 +43,8 @@ const styles = {
     fontSize: '12pt',
     fontWeight: '400',
     color: '#444',
-    textAlign: 'left'
+    textAlign: 'left',
+    lineHeight: '1.2'
   }
 }
 
