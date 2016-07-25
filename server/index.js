@@ -97,16 +97,28 @@ app.post('/create', function (req, res) {
 // publish a gallery
 app.post('/gallery/:galleryId/publish', (req, res) => {
   log(`Route /gallery/${req.params.galleryId}/publish`)
-
   log(req.body)
-  builder.buildGallery(req.body).then(build => {
-    return Promise.all([upload(req.params.galleryId, build.code), build])
-  }).then(results => {
-    const [url, build] = results
-    res.json({url, build})
+  request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
+  .then(function (response) {
+    console.log(response.data)
+    log('Response received from pillar:')
+    log(response)
+
+    builder.buildGallery(req.body).then(build => {
+      return Promise.all([upload(req.params.galleryId, build.code), build])
+    }).then(results => {
+      const [url, build] = results
+      res.json({url, build})
+    })
+    .catch(error => {
+      console.error(error.stack)
+    })
   })
-  .catch(error => {
-    console.error(error.stack)
+  .catch(function (err) {
+    console.log(err)
+    log('Error saving form to Pillar')
+    log(err.data.message)
+    res.status(400).send(err.data.message)
   })
 })
 
