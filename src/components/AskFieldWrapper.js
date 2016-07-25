@@ -72,7 +72,7 @@ class AskFieldWrapper extends Component {
         style={this.getStyles()}
         >
           {
-            this.props.type === 'field' && !!this.props.title
+            this.props.type === 'field'
             ? <div>
               <h3 title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
                   {
