@@ -9,8 +9,13 @@ export default class GalleryComposer extends Component {
       // is this answer multiple choice?
 
       let answerBody
+      const possibleDate = new Date(a.answer.answer.value)
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-      if (Array.isArray(a.answer.answer.options)) {
+      if (Object.prototype.toString.call(possibleDate) === '[object Date]' && !isNaN(possibleDate)) {
+        const formatted = `${possibleDate.getDate()} ${months[possibleDate.getMonth()]}. ${possibleDate.getFullYear()}`
+        answerBody = <span className='askGallery__answerText'>{formatted}</span>
+      } else if (Array.isArray(a.answer.answer.options)) {
         answerBody = a.answer.answer.options.map(option => {
           return <div className='askGallery__answerMultiOption'>{option.title}</div>
         })
