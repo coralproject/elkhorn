@@ -106,7 +106,9 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
     builder.buildGallery(req.body).then(build => {
       return Promise.all([upload(req.params.galleryId, build.code), build])
     }).then(results => {
-      const [url, build] = results
+      const url = results[0]
+      const build = results[1]
+
       res.json({url, build})
     })
     .catch(error => {
