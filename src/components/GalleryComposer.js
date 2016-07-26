@@ -27,13 +27,13 @@ export default class GalleryComposer extends Component {
       return (
         <div className='askGallery__answer'>
           {
-            this.props.galleryReaderInfoPlacement === 'above'
+            this.props.config.placement === 'above'
             ? this.renderIdentityInfo(a, 'above')
             : null
           }
           {answerBody}
           {
-            this.props.galleryReaderInfoPlacement === 'below'
+            this.props.config.placement === 'below'
             ? this.renderIdentityInfo(a, 'below')
             : null
           }
@@ -43,10 +43,11 @@ export default class GalleryComposer extends Component {
   }
 
   renderIdentityInfo (answer, placement) {
-    return answer.identity_answers && this.props.identifiableIds.length
+    console.log('renderIdentityInfo', this.props)
+    return answer.identity_answers && this.props.config.identifiableIds.length
     ? <p className={`askGallery__pii askGallery__pii-${placement}`}>
       {answer.identity_answers.map(idAnswer => {
-        const displayable = this.props.identifiableIds.indexOf(idAnswer.widget_id) !== -1
+        const displayable = this.props.config.identifiableIds.indexOf(idAnswer.widget_id) !== -1
         return displayable ? idAnswer.answer.text : ''
       }).join(' ')}
     </p>
@@ -54,16 +55,17 @@ export default class GalleryComposer extends Component {
   }
 
   render () {
+    console.log('render elkhorn', this.props)
     return (
       <div className='askGallery'>
         {
-          this.props.galleryTitle
-          ? <div className='askGallery__title'>{this.props.galleryTitle}</div>
+          this.props.headline
+          ? <div className='askGallery__title'>{this.props.headline}</div>
           : null
         }
         {
-          this.props.galleryDescription
-          ? <div className='askgallery__description'>{this.props.galleryDescription}</div>
+          this.props.description
+          ? <div className='askGallery__description'>{this.props.description}</div>
           : null
         }
         <div className='askGallery__answers'>

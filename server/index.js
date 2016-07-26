@@ -100,7 +100,6 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
   log(req.body)
   request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
   .then(function (response) {
-    console.log(response.data)
     log('Response received from pillar:')
     log(response)
 
