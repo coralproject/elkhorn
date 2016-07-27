@@ -72,7 +72,7 @@ class AskFieldWrapper extends Component {
         style={this.getStyles()}
         >
           {
-            this.props.type === 'field' && !!this.props.title
+            this.props.type === 'field'
             ? <div>
               <h3 title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
                   {
@@ -152,10 +152,10 @@ const styles = {
     background: 'white'
   },
   withNumber: {
-    padding: '15px 30px 20px 40px'
+    padding: '15px 40px 20px 40px'
   },
   fieldNumber: {
-    color: '#777',
+    color: 'black',
     marginRight: '5px',
     fontWeight: 'bold',
     fontSize: '14pt'

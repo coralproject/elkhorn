@@ -5,31 +5,36 @@ export default class GalleryComposer extends Component {
 
   renderAnswers () {
     const {answers} = this.props
-    console.log('answers?', answers)
     return answers.map(a => {
       // is this answer multiple choice?
 
       let answerBody
+      const possibleDate = new Date(a.answer.answer.value)
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-      if (Array.isArray(a.answer.answer.options)) {
+      if (Object.prototype.toString.call(possibleDate) === '[object Date]' && !isNaN(possibleDate)) {
+        const formatted = `${possibleDate.getDate()} ${months[possibleDate.getMonth()]}. ${possibleDate.getFullYear()}`
+        answerBody = <span className='askGallery__answerText'>{formatted}</span>
+      } else if (Array.isArray(a.answer.answer.options)) {
         answerBody = a.answer.answer.options.map(option => {
-          return <div style={styles.multi.option}>{option.title}</div>
+          return <div className='askGallery__answerMultiOption'>{option.title}</div>
         })
       } else { // a regular text response
-        answerBody = <span style={styles.text}>{a.answer.answer.text}</span>
+        const text = a.answer.edited ? a.answer.edited : a.answer.answer.text
+        answerBody = <span className='askGallery__answerText'>{text}</span>
       }
 
       return (
-        <div style={styles.answer}>
+        <div className='askGallery__answer'>
           {
-            this.props.galleryReaderInfoPlacement === 'above'
-            ? this.renderIdentityInfo(a)
+            this.props.config.placement === 'above'
+            ? this.renderIdentityInfo(a, 'above')
             : null
           }
           {answerBody}
           {
-            this.props.galleryReaderInfoPlacement === 'below'
-            ? this.renderIdentityInfo(a)
+            this.props.config.placement === 'below'
+            ? this.renderIdentityInfo(a, 'below')
             : null
           }
         </div>
@@ -37,84 +42,36 @@ export default class GalleryComposer extends Component {
     })
   }
 
-  renderIdentityInfo (answer) {
-    console.log('renderIdentityInfo', answer)
-    return answer.identity_answers && (
-      <p style={styles.identityAnswers}>
-        {answer.identity_answers.map(idAnswer => {
-          const displayable = this.props.identifiableIds.indexOf(idAnswer.widget_id) !== -1
-          return displayable ? idAnswer.answer.text : ''
-        }).join(' ')}
-      </p>
-    )
+  renderIdentityInfo (answer, placement) {
+    console.log('renderIdentityInfo', this.props)
+    return answer.identity_answers && this.props.config.identifiableIds.length
+    ? <p className={`askGallery__pii askGallery__pii-${placement}`}>
+      {answer.identity_answers.map(idAnswer => {
+        const displayable = this.props.config.identifiableIds.indexOf(idAnswer.widget_id) !== -1
+        return displayable ? idAnswer.answer.text : ''
+      }).join(' ')}
+    </p>
+    : null
   }
 
   render () {
-    console.log('GalleryComposer', this.props)
-
+    console.log('render elkhorn', this.props)
     return (
-      <div style={styles.base}>
-        <div style={styles.header}>Preview</div>
-        <div style={styles.title}>{this.props.galleryTitle}</div>
-        <div style={styles.description}>{this.props.galleryDescription}</div>
-        <div style={styles.answerContainer}>
+      <div className='askGallery'>
+        {
+          this.props.headline
+          ? <div className='askGallery__title'>{this.props.headline}</div>
+          : null
+        }
+        {
+          this.props.description
+          ? <div className='askGallery__description'>{this.props.description}</div>
+          : null
+        }
+        <div className='askGallery__answers'>
           {this.renderAnswers()}
         </div>
       </div>
     )
-  }
-}
-
-const styles = {
-  base: {
-    position: 'absolute',
-    top: 0,
-    height: '100%',
-    left: 0,
-    right: 0,
-    overflowY: 'scroll'
-  },
-  header: {
-    backgroundColor: 'rgb(246,125,111)',
-    color: 'white',
-    padding: 20
-  },
-  title: {
-    fontWeight: 'bold',
-    color: '#444',
-    fontSize: 24,
-    margin: '20px 20px 10px'
-  },
-  description: {
-    color: '#444',
-    lineHeight: '1.3em',
-    fontSize: 18,
-    margin: '10px 20px'
-  },
-  identityAnswers: {
-    color: '#979B9F',
-    fontStyle: 'italic',
-    marginBottom: 10
-  },
-  answerContainer: {
-    padding: 20
-  },
-  answer: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    border: '1px solid #ddd',
-    marginBottom: 10
-  },
-  multi: {
-    option: {
-      backgroundColor: '#444',
-      fontSize: '16px',
-      padding: 8,
-      color: 'white'
-    }
-  },
-  text: {
-    lineHeight: '1.3em'
   }
 }

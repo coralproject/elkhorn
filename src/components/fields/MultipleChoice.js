@@ -241,7 +241,8 @@ const styles = {
     textAlign: 'left',
     position: 'relative',
     width: '49%',
-    'float': 'left'
+    'float': 'left',
+    borderRadius: '4px'
   },
   clicked: {
     background: '#222',
