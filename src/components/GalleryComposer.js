@@ -59,13 +59,13 @@ export default class GalleryComposer extends Component {
     return (
       <div className='askGallery'>
         {
-          this.props.headline
-          ? <div className='askGallery__title'>{this.props.headline}</div>
+          this.props.galleryTitle
+          ? <h1 className='askGallery__title'>{this.props.galleryTitle}</h1>
           : null
         }
         {
-          this.props.description
-          ? <div className='askGallery__description'>{this.props.description}</div>
+          this.props.galleryDescription
+          ? <h4 className='askGallery__description'>{this.props.galleryDescription}</h4>
           : null
         }
         <div className='askGallery__answers'>
