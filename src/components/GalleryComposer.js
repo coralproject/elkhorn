@@ -5,6 +5,7 @@ export default class GalleryComposer extends Component {
 
   renderAnswers () {
     const {answers} = this.props
+    let theme = this.getTheme()
     return answers.map(a => {
       // is this answer multiple choice?
 
@@ -25,7 +26,9 @@ export default class GalleryComposer extends Component {
       }
 
       return (
-        <div className='askGallery__answer'>
+        <div 
+          className='askGallery__answer'
+          style={theme.askGalleryAnswer}>
           {
             this.props.config.placement === 'above'
             ? this.renderIdentityInfo(a, 'above')
@@ -44,8 +47,11 @@ export default class GalleryComposer extends Component {
 
   renderIdentityInfo (answer, placement) {
     console.log('renderIdentityInfo', this.props)
+    let theme = getTheme()
     return answer.identity_answers && this.props.config.identifiableIds.length
-    ? <p className={`askGallery__pii askGallery__pii-${placement}`}>
+    ? <p 
+      className={`askGallery__pii askGallery__pii-${placement}`}
+      style={theme.askGalleryPii}>
       {answer.identity_answers.map(idAnswer => {
         const displayable = this.props.config.identifiableIds.indexOf(idAnswer.widget_id) !== -1
         return displayable ? idAnswer.answer.text : ''
@@ -54,24 +60,64 @@ export default class GalleryComposer extends Component {
     : null
   }
 
+  getTheme() {
+    return this.props.theme || defaultTheme;
+  }
+
   render () {
     console.log('render elkhorn', this.props)
+    let theme = this.getTheme()
     return (
-      <div className='askGallery'>
+      <div 
+        className='askGallery'
+        style={theme.base}>
+        <div 
+          className='askGallery__header'
+          style={theme.askGalleryHeader}>
         {
           this.props.galleryTitle
-          ? <h1 className='askGallery__title'>{this.props.galleryTitle}</h1>
+          ? <h1 
+              className='askGallery__title'
+              style={theme.askGalleryTitle}>
+                {this.props.galleryTitle}
+            </h1>
           : null
         }
         {
           this.props.galleryDescription
-          ? <h4 className='askGallery__description'>{this.props.galleryDescription}</h4>
+          ? <h4 
+            className='askGallery__description'
+            style={theme.askGalleryDescription}>{this.props.galleryDescription}</h4>
           : null
         }
-        <div className='askGallery__answers'>
+        </div>
+        <div 
+          className='askGallery__answers'
+          style={theme.askGalleryAnswers}>
           {this.renderAnswers()}
         </div>
       </div>
     )
+  }
+}
+
+//Adding a stub defaultTheme in case one is wanted later.
+const defaultTheme = {
+  base:{
+    display:'relative'
+  },
+  askGalleryHeader:{
+    padding: '40px'
+  },
+  askGalleryAnswers:{
+    padding:'40px'
+  },
+  askGalleryAnswer:{
+    marginBottom:'20px'
+  },
+  askGalleryPii:{
+    fontStyle:'italic',
+    fontSize:'12pt',
+    fontColor:'#808080'
   }
 }
