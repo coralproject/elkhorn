@@ -47,7 +47,7 @@ export default class GalleryComposer extends Component {
 
   renderIdentityInfo (answer, placement) {
     console.log('renderIdentityInfo', this.props)
-    let theme = getTheme()
+    let theme = this.getTheme()
     return answer.identity_answers && this.props.config.identifiableIds.length
     ? <p 
       className={`askGallery__pii askGallery__pii-${placement}`}
