@@ -46,7 +46,7 @@ app.set('view engine', 'pug')
 app.set('views', './templates')
 
 // set base url
-var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : 'http://localhost:4444/widgets/'
+var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : '/widgets/' // relative
 
 app.get('/iframe/:id', function (req, res) {
   res.render('iframe-form', { base: base, id: req.params.id })

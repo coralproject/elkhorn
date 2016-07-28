@@ -19,7 +19,7 @@ if (isS3) {
 }
 
 // set base url
-var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : 'http://localhost:4444/widgets/'
+var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : '/widgets/'
 
 // expose the uploader
 module.exports = function (id, code) {
