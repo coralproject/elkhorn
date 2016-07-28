@@ -12,12 +12,13 @@ class MultipleChoice extends AskField {
       focused: -1,
       value: [],
       otherSelected: false,
-      otherValue: ''
+      otherValue: false
     }
   }
 
   onOtherClick (e) {
-    this.setState({ otherSelected: !this.state.otherSelected, value: this.props.multipleChoice ? this.state.value : [ this.state.otherValue ] })
+    var otherValue = this.state.otherValue ? [ this.state.otherValue ] : []
+    this.setState({ otherSelected: !this.state.otherSelected, value: this.props.multipleChoice ? this.state.value : otherValue })
     this.validate()
     this.update({ moveForward: false })
   }
@@ -132,7 +133,7 @@ class MultipleChoice extends AskField {
     var selectedOptions = []
     var optionTitle
 
-    if (this.state.value.length) {
+    if (!!this.state.value && this.state.value.length) {
       this.state.value.map((index) => {
         optionTitle = this.props.options[index].title
         selectedOptions.push({
@@ -145,7 +146,7 @@ class MultipleChoice extends AskField {
     if (this.state.otherSelected) {
       selectedOptions.push({
         title: this.state.otherValue,
-        index: this.props.options.length + 1
+        index: this.props.options.length
       })
     }
 
