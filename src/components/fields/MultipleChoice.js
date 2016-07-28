@@ -12,12 +12,13 @@ class MultipleChoice extends AskField {
       focused: -1,
       value: [],
       otherSelected: false,
-      otherValue: ''
+      otherValue: false
     }
   }
 
   onOtherClick (e) {
-    this.setState({ otherSelected: e.target.checked, value: this.props.multipleChoice ? this.state.value : this.state.otherValue })
+    var otherValue = this.state.otherValue ? [ this.state.otherValue ] : []
+    this.setState({ otherSelected: !this.state.otherSelected, value: this.props.multipleChoice ? this.state.value : otherValue })
     this.validate()
     this.update({ moveForward: false })
   }
@@ -50,7 +51,7 @@ class MultipleChoice extends AskField {
       newValue.splice(newValue.indexOf(i), 1)
     }
     // If it's not multiple choice, unset otherSelected when choosing an option from the list
-    var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false };
+    var newState = { focused: i, value: newValue, otherSelected: this.props.multipleChoice ? this.state.otherSelected : false }
     if (this.state.value.length >= 0) {
       newState = Object.assign({}, newState, { completed: true, isValid: true })
     } else {
@@ -102,7 +103,7 @@ class MultipleChoice extends AskField {
           style={styles.optionCheck}
           onClick={this.onClick.bind(this, i)}
           tabindex='0'
-          name={!this.props.multipleChoice ? this.props.title : false}
+          name={'field-' + this.props.id}
           type={this.props.multipleChoice ? 'checkbox' : 'radio'}
           key={i}
           />
@@ -131,9 +132,8 @@ class MultipleChoice extends AskField {
   getValue () {
     var selectedOptions = []
     var optionTitle
-    var valueCopy = this.state.value.slice()
 
-    if (this.state.value.length) {
+    if (!!this.state.value && this.state.value.length) {
       this.state.value.map((index) => {
         optionTitle = this.props.options[index].title
         selectedOptions.push({
@@ -146,7 +146,7 @@ class MultipleChoice extends AskField {
     if (this.state.otherSelected) {
       selectedOptions.push({
         title: this.state.otherValue,
-        index: this.props.options.length + 1
+        index: this.props.options.length
       })
     }
 
@@ -168,27 +168,27 @@ class MultipleChoice extends AskField {
             ? <div style={styles.optionsWrapper}>
                 {this.getOptions()}
                 {
-                  this.props.otherAllowed ?
-                    <div>
-                      <label
-                          //onMouseOver={ this.onHover.bind(this, i) }
-                          style={ this.getOtherStyle() }
-                          key={ this.props.options.length }
-                        ><input
-                            style={ styles.optionCheck }
-                            onClick={ this.onOtherClick.bind(this) }
-                            tabindex="0"
-                            name={ this.props.multipleChoice ? false : this.props.title }
-                            type={ this.props.multipleChoice ? 'checkbox' : 'radio' }
-                            key={ this.props.options.length }
-                          />
-                            { this.getCharIndex(this.props.options.length) }. Other
-                            {this.state.otherSelected
-                              ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
-                              : null
-                            }
-                          </label>
-                    </div>
+                  this.props.otherAllowed
+                  ? <div>
+                    <label
+                      // onMouseOver={ this.onHover.bind(this, i) }
+                      style={this.getOtherStyle()}
+                      key={this.props.options.length}
+                    ><input
+                      style={styles.optionCheck}
+                      onClick={this.onOtherClick.bind(this)}
+                      tabindex='0'
+                      name={'field-' + this.props.id}
+                      type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+                      key={this.props.options.length}
+                      />
+                        {this.getCharIndex(this.props.options.length)}. Other
+                        {this.state.otherSelected
+                          ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
+                          : null
+                        }
+                    </label>
+                  </div>
                   : null
                 }
 
