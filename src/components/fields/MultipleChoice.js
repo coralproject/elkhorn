@@ -146,7 +146,7 @@ class MultipleChoice extends AskField {
     if (this.state.otherSelected) {
       selectedOptions.push({
         title: this.state.otherValue,
-        index: this.props.options.length + 1
+        index: this.props.options.length
       })
     }
 
