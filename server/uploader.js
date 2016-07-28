@@ -48,9 +48,9 @@ function s3Upload (id, code, resolve, reject) {
 
 function fileUpload (id, code, resolve, reject) {
   var key = id + '.js'
-  fs.writeFile(path.join(__dirname, key), code, function (err) {
+  fs.writeFile(path.join(__dirname, 'widgets', key), code, function (err) {
     if (err) {
-      log('Error writing to local file: ' + path.join(__dirname, key))
+      log('Error writing to local file: ' + path.join(__dirname, 'widgets', key))
       log(err)
       return reject(new Error('Error while saving file to local filesystem'))
     }
