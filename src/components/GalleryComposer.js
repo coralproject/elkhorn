@@ -54,7 +54,11 @@ export default class GalleryComposer extends Component {
       style={theme.askGalleryPii}>
       {answer.identity_answers.map(idAnswer => {
         const displayable = this.props.config.identifiableIds.indexOf(idAnswer.widget_id) !== -1
-        return displayable ? idAnswer.answer.text : ''
+        if (!displayable) {
+          return ''
+        } else {
+          return idAnswer.edited ? idAnswer.edited : idAnswer.answer.text
+        }
       }).join(' ')}
     </p>
     : null
@@ -75,19 +79,19 @@ export default class GalleryComposer extends Component {
           className='askGallery__header'
           style={theme.askGalleryHeader}>
         {
-          this.props.galleryTitle
+          this.props.headline
           ? <h1 
               className='askGallery__title'
               style={theme.askGalleryTitle}>
-                {this.props.galleryTitle}
+                {this.props.headline}
             </h1>
           : null
         }
         {
-          this.props.galleryDescription
+          this.props.description
           ? <h4 
             className='askGallery__description'
-            style={theme.askGalleryDescription}>{this.props.galleryDescription}</h4>
+            style={theme.askGalleryDescription}>{this.props.description}</h4>
           : null
         }
         </div>
@@ -107,10 +111,12 @@ const defaultTheme = {
     display:'relative'
   },
   askGalleryHeader:{
-    padding: '40px'
+    padding: '40px',
+    fontSize: '24px'
   },
   askGalleryAnswers:{
-    padding:'40px'
+    padding:'40px',
+    paddingTop: '20px'
   },
   askGalleryAnswer:{
     marginBottom:'20px'
