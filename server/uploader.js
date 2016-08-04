@@ -4,6 +4,7 @@ var path = require('path')
 var AWS = require('aws-sdk')
 var log = require('./logger')
 var config = require('../config.json')
+var pug = require('pug')
 
 var isS3 = config.s3 && config.s3.bucket
 var s3bucket
@@ -33,28 +34,75 @@ module.exports = function (id, code) {
 }
 
 function s3Upload (id, code, resolve, reject) {
-  var key = id + '.js'
-  var params = {Bucket: config.s3.bucket, Key: key, Body: code}
-  s3bucket.upload(params, function (err, data) {
-    if (err) {
-      log('Error writing to s3')
-      log(err)
-      return reject(new Error('Error writing to s3'))
-    }
+  var jsKey = id + '.js'
+  var jsParams = {Bucket: config.s3.bucket, Key: jsKey, Body: code, ContentType: 'text/html'}
+  var iframeContent = pug.renderFile('./templates/iframe-form.pug', { code })
+  var iframeKey = id + '.html'
+  var iframeParams = {Bucket: config.s3.bucket, Key: iframeKey, Body: iframeContent, ContentType: 'text/html'}
 
-    return resolve(`${base}${key}`)
+  var jsPromise = new Promise((resolve, reject) => {
+    s3bucket.upload(jsParams, function (err, data) {
+      if (err) {
+        log('Error writing js bundle to s3')
+        log(err)
+        return reject(new Error('Error writing js bundle to s3'))
+      }
+      return resolve(`${base}${jsKey}`)
+    })
+  })
+
+  var htmlPromise = new Promise((resolve, reject) => {
+    s3bucket.upload(iframeParams, function (err, data) {
+      if (err) {
+        log('Error writing html file to s3')
+        log(err)
+        return reject(new Error('Error writing html file to s3'))
+      }
+      return resolve(`${base}${iframeKey}`)
+    })
+  })
+
+  return Promise.all([jsPromise, htmlPromise]).then(value => {
+    return resolve(`${base}${jsKey}`)
+  }, reason => {
+    log('Error while uploading files to S3')
+    log(reason)
+    return reject(new Error('Error while uploading files'))
   })
 }
 
 function fileUpload (id, code, resolve, reject) {
-  var key = id + '.js'
-  fs.writeFile(path.join(__dirname, 'widgets', key), code, function (err) {
-    if (err) {
-      log('Error writing to local file: ' + path.join(__dirname, 'widgets', key))
-      log(err)
-      return reject(new Error('Error while saving file to local filesystem'))
-    }
+  var jsFile = id + '.js'
+  var iframeContent = pug.renderFile('./templates/iframe-form.pug', { code })
+  var iframeFile = id + '.html'
 
-    resolve(`${base}${key}`)
+  var jsPromise = new Promise((resolve, reject) => {
+    fs.writeFile(path.join(__dirname, 'widgets', jsFile), code, function (err) {
+      if (err) {
+        log('Error writing JS bundle to local file: ' + path.join(__dirname, 'widgets', jsFile))
+        log(err)
+        return reject(new Error('Error while saving JS bundle to local filesystem'))
+      }
+      return resolve(`${base}${jsFile}`)
+    })
+  })
+
+  var htmlPromise = new Promise((resolve, reject) => {
+    fs.writeFile(path.join(__dirname, 'widgets', iframeFile), iframeContent, function (err) {
+      if (err) {
+        log('Error writing iframe template to local file: ' + path.join(__dirname, 'widgets', iframeFile))
+        log(err)
+        return reject(new Error('Error while saving iframe template to local filesystem'))
+      }
+      return resolve(`${base}${iframeFile}`)
+    })
+  })
+
+  return Promise.all([jsPromise, htmlPromise]).then(value => {
+    return resolve(`${base}${jsFile}`)
+  }, reason => {
+    log('Error while saving local files')
+    log(reason)
+    return reject(new Error('Error while uploading files'))
   })
 }
