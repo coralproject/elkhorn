@@ -47,7 +47,7 @@ function s3Upload (id, code, resolve, reject, template) {
         log(err)
         return reject(new Error('Error writing js bundle to s3'))
       }
-      return resolve(`${base}${jsKey}`)
+      return resolve()
     })
   })
 
@@ -58,12 +58,12 @@ function s3Upload (id, code, resolve, reject, template) {
         log(err)
         return reject(new Error('Error writing html file to s3'))
       }
-      return resolve(`${base}${iframeKey}`)
+      return resolve()
     })
   })
 
   return Promise.all([jsPromise, htmlPromise]).then(value => {
-    return resolve(`${base}${jsKey}`)
+    return resolve({ bundle: `${base}${jsKey}`, iframe: `${base}${iframeKey}` })
   }, reason => {
     log('Error while uploading files to S3')
     log(reason)
@@ -83,7 +83,7 @@ function fileUpload (id, code, resolve, reject) {
         log(err)
         return reject(new Error('Error while saving JS bundle to local filesystem'))
       }
-      return resolve(`${base}${jsFile}`)
+      return resolve()
     })
   })
 
@@ -94,12 +94,12 @@ function fileUpload (id, code, resolve, reject) {
         log(err)
         return reject(new Error('Error while saving iframe template to local filesystem'))
       }
-      return resolve(`${base}${iframeFile}`)
+      return resolve()
     })
   })
 
   return Promise.all([jsPromise, htmlPromise]).then(value => {
-    return resolve(`${base}${jsFile}`)
+    return resolve({ bundle: `${base}${jsFile}`, iframe: `${base}${iframeFile}` })
   }, reason => {
     log('Error while saving local files')
     log(reason)

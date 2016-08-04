@@ -78,11 +78,13 @@ app.post('/create', function (req, res) {
       log('Response received from pillar:')
       log(response)
 
-      builder.buildWidget(req.body, false).then(function (code) {
-        return upload(response.data.id, code, './templates/iframe-form.pug')
+      builder.buildWidget(req.body, false).then(code => {
+        return Promise.all([upload(response.data.id, code, './templates/iframe-form.pug'), code])
       })
-      .then(function () {
-        res.send(response.data)
+      .then(results => {
+        const urls = results[0]
+        const data = response.data
+        res.json({urls, data})
       })
       .catch(function (err) { res.status(500).send(err.message) })
     })
@@ -106,10 +108,10 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
     builder.buildGallery(req.body).then(build => {
       return Promise.all([upload(req.params.galleryId, build.code, './templates/iframe-gallery.pug'), build])
     }).then(results => {
-      const url = results[0]
+      const urls = results[0]
       const build = results[1]
 
-      res.json({url, build})
+      res.json({urls, build})
     })
     .catch(error => {
       console.error(error.stack)
