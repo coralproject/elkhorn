@@ -79,7 +79,7 @@ app.post('/create', function (req, res) {
       log(response)
 
       builder.buildWidget(req.body, false).then(function (code) {
-        return upload(response.data.id, code)
+        return upload(response.data.id, code, './templates/iframe-form.pug')
       })
       .then(function () {
         res.send(response.data)
@@ -104,7 +104,7 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
     log(response)
 
     builder.buildGallery(req.body).then(build => {
-      return Promise.all([upload(req.params.galleryId, build.code), build])
+      return Promise.all([upload(req.params.galleryId, build.code, './templates/iframe-gallery.pug'), build])
     }).then(results => {
       const url = results[0]
       const build = results[1]
