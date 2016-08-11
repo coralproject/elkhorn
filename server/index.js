@@ -102,6 +102,7 @@ app.post('/create', function (req, res) {
 app.post('/gallery/:galleryId/publish', (req, res) => {
   log(`Route /gallery/${req.params.galleryId}/publish`)
   log(req.body)
+  req.body.config.baseUrl = base
   request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
   .then(function (response) {
     log('Response received from pillar:')
