@@ -73,6 +73,8 @@ app.get('/preview.js', function (req, res) {
 // create a form
 app.post('/create', function (req, res) {
   log('Route /create: Forwarding form to pillar')
+  // Inject base URL into form settings
+  req.body.settings.baseUrl = base
   request.post('/api/form', req.body)
     .then(function (response) {
       log('Response received from pillar:')

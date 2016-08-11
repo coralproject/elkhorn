@@ -23,21 +23,21 @@ if (isS3) {
 var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : '/widgets/'
 
 // expose the uploader
-module.exports = function (id, code, template) {
+module.exports = function (fileName, code, template) {
   return new Promise(function (resolve, reject) {
     if (isS3) {
-      return s3Upload(id, code, resolve, reject, template)
+      return s3Upload(fileName, code, resolve, reject, template)
     } else {
-      return fileUpload(id, code, resolve, reject, template)
+      return fileUpload(fileName, code, resolve, reject, template)
     }
   })
 }
 
-function s3Upload (id, code, resolve, reject, template) {
-  var jsKey = id + '.js'
+function s3Upload (fileName, code, resolve, reject, template) {
+  var jsKey = fileName + '.js'
   var jsParams = {Bucket: config.s3.bucket, Key: jsKey, Body: code, ContentType: 'text/html'}
   var iframeContent = pug.renderFile(template, { code })
-  var iframeKey = id + '.html'
+  var iframeKey = fileName + '.html'
   var iframeParams = {Bucket: config.s3.bucket, Key: iframeKey, Body: iframeContent, ContentType: 'text/html'}
 
   var jsPromise = new Promise((resolve, reject) => {
@@ -71,10 +71,10 @@ function s3Upload (id, code, resolve, reject, template) {
   })
 }
 
-function fileUpload (id, code, resolve, reject) {
-  var jsFile = id + '.js'
+function fileUpload (fileName, code, resolve, reject) {
+  var jsFile = fileName + '.js'
   var iframeContent = pug.renderFile('./templates/iframe-form.pug', { code })
-  var iframeFile = id + '.html'
+  var iframeFile = fileName + '.html'
 
   var jsPromise = new Promise((resolve, reject) => {
     fs.writeFile(path.join(__dirname, 'widgets', jsFile), code, function (err) {
