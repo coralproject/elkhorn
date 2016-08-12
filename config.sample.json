@@ -6,5 +6,6 @@
     "region": "",
     "accessKeyId": "",
     "secretAccessKey": ""
-  }
+  },
+  "minimalWidgets": false
 }

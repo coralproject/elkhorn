@@ -8,6 +8,7 @@ var replace = require('rollup-plugin-replace')
 var commonjs = require('rollup-plugin-commonjs')
 var babelConf = require('./babel.json')
 var log = require('./logger')
+var config = require('../config.json')
 
 var defaultBundle
 createFormBundle().then(function (bundle) {
@@ -68,7 +69,7 @@ module.exports = {
     log(JSON.stringify(props))
     return new Promise(function (resolve, reject) {
       log('Starting rollup')
-      var getBundle = isPreview ? getDefaultBundle : createFormBundle
+      var getBundle = isPreview || !config.minimalWidgets ? getDefaultBundle : createFormBundle
       getBundle(props)
       .then(function (bundle) {
         log('Built bundle')
