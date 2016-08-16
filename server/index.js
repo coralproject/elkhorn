@@ -79,8 +79,7 @@ app.post('/create', function (req, res) {
     .then(function (response) {
       log('Response received from pillar:')
       log(response)
-
-      builder.buildWidget(req.body, false).then(code => {
+      builder.buildWidget(Object.assign(req.body, {id: response.data.id}), false).then(code => {
         return Promise.all([upload(response.data.id, code, './templates/iframe-form.pug'), code])
       })
       .then(results => {
