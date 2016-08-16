@@ -73,16 +73,20 @@ app.get('/preview.js', function (req, res) {
 // create a form
 app.post('/create', function (req, res) {
   log('Route /create: Forwarding form to pillar')
+  // Inject base URL into form settings
+  req.body.settings.baseUrl = base
   request.post('/api/form', req.body)
     .then(function (response) {
       log('Response received from pillar:')
       log(response)
 
-      builder.buildWidget(req.body, false).then(function (code) {
-        return upload(response.data.id, code)
+      builder.buildWidget(req.body, false).then(code => {
+        return Promise.all([upload(response.data.id, code, './templates/iframe-form.pug'), code])
       })
-      .then(function () {
-        res.send(response.data)
+      .then(results => {
+        const urls = results[0]
+        const data = response.data
+        res.json({urls, data})
       })
       .catch(function (err) { res.status(500).send(err.message) })
     })
@@ -98,18 +102,19 @@ app.post('/create', function (req, res) {
 app.post('/gallery/:galleryId/publish', (req, res) => {
   log(`Route /gallery/${req.params.galleryId}/publish`)
   log(req.body)
+  req.body.config.baseUrl = base
   request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
   .then(function (response) {
     log('Response received from pillar:')
     log(response)
 
     builder.buildGallery(req.body).then(build => {
-      return Promise.all([upload(req.params.galleryId, build.code), build])
+      return Promise.all([upload(req.params.galleryId, build.code, './templates/iframe-gallery.pug'), build])
     }).then(results => {
-      const url = results[0]
+      const urls = results[0]
       const build = results[1]
 
-      res.json({url, build})
+      res.json({urls, build})
     })
     .catch(error => {
       console.error(error.stack)
