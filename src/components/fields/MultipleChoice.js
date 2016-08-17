@@ -182,7 +182,7 @@ class MultipleChoice extends AskField {
                       type={this.props.multipleChoice ? 'checkbox' : 'radio'}
                       key={this.props.options.length}
                       />
-                        {this.getCharIndex(this.props.options.length)}. Other
+                        {this.getCharIndex(this.props.options.length)}. { this.props.otherText ? this.props.otherText : 'Other' }
                         {this.state.otherSelected
                           ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
                           : null
@@ -286,7 +286,8 @@ const styles = {
     border: '1px solid #ccc',
     margin: '20px 0',
     display: 'block',
-    width: '100%'
+    width: '100%',
+    fontSize: '10pt'
   },
   optionsWrapper: {
     marginRight: '-1%'
