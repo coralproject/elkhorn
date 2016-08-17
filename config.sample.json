@@ -7,5 +7,6 @@
     "accessKeyId": "",
     "secretAccessKey": ""
   },
-  "minimalWidgets": false
+  "minimalWidgets": false,
+  "recaptcha": ""
 }
