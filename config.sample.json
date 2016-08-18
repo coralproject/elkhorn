@@ -5,7 +5,10 @@
     "bucket": "",
     "region": "",
     "accessKeyId": "",
-    "secretAccessKey": ""
+    "secretAccessKey": "",
+    "baseURL": ""
   },
-  "minimalWidgets": false
+  "minimalWidgets": false,
+  "host": "http://localhost",
+  "port": 4444
 }
