@@ -45,7 +45,15 @@ app.set('view engine', 'pug')
 app.set('views', './templates')
 
 // set base url
-var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
+function getS3BaseURL () {
+  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
+}
+
+function getLocalBaseURL() {
+  return config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
+}
+
+var base = isS3 ? getS3BaseURL() : getLocalBaseURL()
 
 app.get('/iframe/:id', function (req, res) {
   res.render('iframe-form', { base: base, id: req.params.id })

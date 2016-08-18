@@ -5,7 +5,8 @@
     "bucket": "",
     "region": "",
     "accessKeyId": "",
-    "secretAccessKey": ""
+    "secretAccessKey": "",
+    "baseURL": ""
   },
   "minimalWidgets": false,
   "host": "http://localhost",
