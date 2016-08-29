@@ -6,9 +6,4 @@ html
   body
     #ask-gallery
     script
-      | var head = document.getElementsByTagName('head')[0];
-      | var script = document.createElement('script');
-      | script.type = 'text/javascript';
-      | script.charset = 'utf-8';
-      | script.src = '!{base}#{id}.js';
-      | head.appendChild(script);
+      | !{code}

@@ -100,8 +100,7 @@ class AskComposer extends Component {
       }
     })
     console.info('Payload to be sent to the server', payload)
-    // FIXME: UGLY hack, for demoing purposes.
-    var formId = location.href.indexOf('/iframe/') ? location.href.split('iframe/')[1] : this.props.id
+    var formId = this.props.id
     xhr(
       `${this.props.settings.saveDestination}${formId}`,
       'POST',

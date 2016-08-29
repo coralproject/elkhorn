@@ -7,7 +7,6 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var compress = require('compression')
 var builder = require('./builder')
-
 var AWS = require('aws-sdk')
 
 var isS3 = config.s3 && config.s3.bucket
@@ -46,7 +45,15 @@ app.set('view engine', 'pug')
 app.set('views', './templates')
 
 // set base url
-var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : '/widgets/' // relative
+function getS3BaseURL () {
+  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
+}
+
+function getLocalBaseURL() {
+  return config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
+}
+
+var base = isS3 ? getS3BaseURL() : getLocalBaseURL()
 
 app.get('/iframe/:id', function (req, res) {
   res.render('iframe-form', { base: base, id: req.params.id })
@@ -73,16 +80,19 @@ app.get('/preview.js', function (req, res) {
 // create a form
 app.post('/create', function (req, res) {
   log('Route /create: Forwarding form to pillar')
+  // Inject base URL into form settings
+  req.body.settings.baseUrl = base
   request.post('/api/form', req.body)
     .then(function (response) {
       log('Response received from pillar:')
       log(response)
-
-      builder.buildWidget(req.body, false).then(function (code) {
-        return upload(response.data.id, code)
+      builder.buildWidget(Object.assign(req.body, {id: response.data.id}), false).then(code => {
+        return Promise.all([upload(response.data.id, code, './templates/iframe-form.pug'), code])
       })
-      .then(function () {
-        res.send(response.data)
+      .then(results => {
+        const urls = results[0]
+        const data = response.data
+        res.json({urls, data})
       })
       .catch(function (err) { res.status(500).send(err.message) })
     })
@@ -98,18 +108,19 @@ app.post('/create', function (req, res) {
 app.post('/gallery/:galleryId/publish', (req, res) => {
   log(`Route /gallery/${req.params.galleryId}/publish`)
   log(req.body)
+  req.body.config.baseUrl = base
   request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
   .then(function (response) {
     log('Response received from pillar:')
     log(response)
 
     builder.buildGallery(req.body).then(build => {
-      return Promise.all([upload(req.params.galleryId, build.code), build])
+      return Promise.all([upload(req.params.galleryId, build.code, './templates/iframe-gallery.pug'), build])
     }).then(results => {
-      const url = results[0]
+      const urls = results[0]
       const build = results[1]
 
-      res.json({url, build})
+      res.json({urls, build})
     })
     .catch(error => {
       console.error(error.stack)
@@ -123,7 +134,7 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
   })
 })
 
-app.listen(4444, function () {
+app.listen(config.port || 4444, function () {
   log('Running at port 4444')
   log('Pillar host: ' + config.pillarHost)
 })

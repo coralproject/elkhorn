@@ -1,4 +1,5 @@
 
+var marked = require('marked')
 var rollup = require('rollup')
 var babel = require('rollup-plugin-babel')
 var nodeResolve = require('rollup-plugin-node-resolve')
@@ -8,6 +9,9 @@ var replace = require('rollup-plugin-replace')
 var commonjs = require('rollup-plugin-commonjs')
 var babelConf = require('./babel.json')
 var log = require('./logger')
+var config = require('../config.json')
+
+marked.setOptions({ sanitize: true })
 
 var defaultBundle
 createFormBundle().then(function (bundle) {
@@ -66,9 +70,13 @@ module.exports = {
   buildWidget: function (props, isPreview) {
     log('Route /buildWidget: isPreview:' + isPreview)
     log(JSON.stringify(props))
+
+    // convert policy from markdown
+    props.footer.conditions = marked(props.footer.conditions)
+
     return new Promise(function (resolve, reject) {
       log('Starting rollup')
-      var getBundle = isPreview ? getDefaultBundle : createFormBundle
+      var getBundle = isPreview || !config.minimalWidgets ? getDefaultBundle : createFormBundle
       getBundle(props)
       .then(function (bundle) {
         log('Built bundle')
