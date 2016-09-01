@@ -12,9 +12,12 @@ class TextArea extends AskField {
       isValid: true,
       height: '100px' // min textarea height,
     }
+
+    this.onBlur = this.onBlur.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
   }
 
-  onKeyDown (e) {
+  onKeyUp (e) {
     if (e.keyCode === 13 && !e.shiftKey) { // ENTER
       this.update({ moveForward: true })
     } else {
@@ -66,8 +69,8 @@ class TextArea extends AskField {
           style={this.getStyles()}
           placeholder={this.props.placeholder}
           defaultValue={this.state.value}
-          onBlur={this.onBlur.bind(this)}
-          onKeyDown={this.onKeyDown.bind(this)}
+          onBlur={this.onBlur}
+          onKeyUp={this.onKeyUp}
           maxLength={this.props.maxLength ? this.props.maxLength : false}
         ></textarea>
         {

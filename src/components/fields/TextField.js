@@ -15,11 +15,15 @@ class TextField extends AskField {
         isValid: true
       }
     )
+
+    this.onBlur = this.onBlur.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   // Event listeners
 
-  onKeyDown (e) {
+  onKeyUp (e) {
     switch (e.keyCode) {
       case 13: // Enter
         this.validateAndSave()
@@ -91,9 +95,9 @@ class TextField extends AskField {
           style={this.getStyles()}
           placeholder={this.props.placeholder}
           defaultValue={this.state.value}
-          onBlur={this.onBlur.bind(this)}
-          onChange={this.onChange.bind(this)}
-          onKeyDown={this.onKeyDown.bind(this)}
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          onKeyUp={this.onKeyUp}
           maxLength={this.props.maxLength ? this.props.maxLength : false}
         />
         {
