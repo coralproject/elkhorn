@@ -89,10 +89,10 @@ class NumberField extends AskField {
       helpMessage = `This number cannot be higher than ${this.props.maxValue} or lower than ${this.props.minValue}.`
     } else {
       if (this.props.maxValue) {
-        helpMessage = `Please type a number below ${this.props.maxValue}`
+        helpMessage = `Please type a number below ${ this.props.maxValue + 1 }`
       }
       if (this.props.minValue) {
-        helpMessage = `Please type a number above ${this.props.minValue}`
+        helpMessage = `Please type a number above ${ this.props.minValue - 1 }`
       }
     }
     return helpMessage
