@@ -12,6 +12,8 @@ var log = require('./logger')
 var config = require('../config.json')
 
 marked.setOptions({ sanitize: true })
+var renderer = new marked.Renderer()
+renderer.link = ( href, title, text ) => `<a target="_blank" href="${ href }" title="${ title }">${ text }</a>`
 
 var defaultBundle
 createFormBundle().then(function (bundle) {
@@ -72,7 +74,7 @@ module.exports = {
     log(JSON.stringify(props))
 
     // convert policy from markdown
-    props.footer.conditions = marked(props.footer.conditions)
+    props.footer.conditions = marked(props.footer.conditions, { renderer: renderer })
 
     return new Promise(function (resolve, reject) {
       log('Starting rollup')
