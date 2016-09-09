@@ -16,7 +16,7 @@ marked.setOptions({ sanitize: true })
 var defaultBundle
 createFormBundle().then(function (bundle) {
   defaultBundle = bundle
-})
+}).catch(err => console.log(err))
 
 var defaultGalleryBundle
 createGalleryBundle().then(bundle => {

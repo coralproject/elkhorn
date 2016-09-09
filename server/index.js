@@ -86,7 +86,13 @@ app.post('/create', function (req, res) {
     .then(function (response) {
       log('Response received from pillar:')
       log(response)
-      builder.buildWidget(Object.assign(req.body, {id: response.data.id}), false).then(code => {
+      var extras = {};
+      extras.id = response.data.id;
+      if (config.recaptcha && req.body.settings.recaptcha) {
+        extras.recaptcha = config.recaptcha;
+      }
+
+      builder.buildWidget(Object.assign(req.body, extras), false).then(code => {
         return Promise.all([upload(response.data.id, code, './templates/iframe-form.pug'), code])
       })
       .then(results => {

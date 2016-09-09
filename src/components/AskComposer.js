@@ -67,6 +67,11 @@ class AskComposer extends Component {
       }
     })
 
+    var recaptchaElem = document.getElementById('g-recaptcha-response') || {}
+    if (this.props.recaptcha && !recaptchaElem.value) {
+      askIsValid = false
+    }
+
     return askIsValid
   }
 
@@ -99,12 +104,17 @@ class AskComposer extends Component {
         })
       }
     })
+
     console.info('Payload to be sent to the server', payload)
+    var recaptchaElem = document.getElementById('g-recaptcha-response') || {}
     var formId = this.props.id
     xhr(
       `${this.props.settings.saveDestination}${formId}`,
       'POST',
-      JSON.stringify({ replies: payload }),
+      JSON.stringify({
+        replies: payload,
+        recaptcha: recaptchaElem.value || undefined
+      }),
       (err, data, xhr) => {
         if (xhr.status === 200) {
           this.setState({ finished: true })
@@ -145,6 +155,7 @@ class AskComposer extends Component {
         </ul>
 
         <Footer
+          recaptcha={this.props.recaptcha}
           theme={theme}
           completedCount={completedCount}
           fieldCount={fieldCount}

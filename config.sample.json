@@ -9,6 +9,7 @@
     "baseURL": ""
   },
   "minimalWidgets": false,
+  "recaptcha": "",
   "host": "http://localhost",
   "port": 4444
 }
