@@ -102,7 +102,7 @@ class AskComposer extends Component {
     console.info('Payload to be sent to the server', payload)
     var formId = this.props.id
     xhr(
-      `${this.props.settings.saveDestination}${formId}`,
+      `${this.props.settings.saveDestination}`,
       'POST',
       JSON.stringify({ replies: payload }),
       (err, data, xhr) => {
