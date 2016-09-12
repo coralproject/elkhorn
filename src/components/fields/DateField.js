@@ -8,15 +8,17 @@ import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
 
 class DateField extends AskField {
-
   constructor (props, context) {
     super(props, context)
     // extend the state from AskWidget
 
     this.state = {
-      value: ''
+      value: '',
+      isValid: false,
+      isCompleted: false
     };
 
+    this.onDateChange = this.onDateChange.bind(this);
   }
   componentDidMount() {
     this.datepicker = flatpickr(this._calendarGroup, { utc: true })
@@ -24,7 +26,14 @@ class DateField extends AskField {
   }
   onFlatPickrChange(timestamp) {
     var flatPickrDate = new Date(timestamp);
-    this.setState({ value: timestamp, day: flatPickrDate.getDate(), month: (flatPickrDate.getMonth() + 1), year: flatPickrDate.getFullYear() });
+
+    this.setState({
+      value: timestamp,
+      day: flatPickrDate.getDate(),
+      month: (flatPickrDate.getMonth() + 1),
+      year: flatPickrDate.getFullYear()
+    });
+
     this.validateAndSave();
   }
   getStyles () {
@@ -37,92 +46,113 @@ class DateField extends AskField {
   }
   validateAndSave(options) {
     if (this.validate()) {
-      this.setState({ value: this.buildValue() });
+      console.log('is valid!!!');
+      this.setState({
+        value: this.buildValue()
+      });
     } else {
-      this.setState({ value: '--' });
+      this.setState({
+        value: '--'
+      });
     }
     this.update(options);
   }
   validate() {
-    let isValid = true, isCompleted = false;
-    isValid = this.dateIsValid();
-    isCompleted = !!this.state.value.length;
-    this.setState({ isValid: isValid, completed: isCompleted });
+    const isValid = this.isDateValid(),
+          isCompleted = this.isCompleted();
+
+    console.log('isValid = ', isValid);
+    console.log('isCompleted = ', isCompleted);
+    console.log(this.state.value);
+
+    this.setState({
+      isValid,
+      isCompleted
+    });
+
     return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
   }
   buildValue() {
-    return this.state.month + "-" + this.state.day + "-" + this.state.year;
+    const { month, day, year } = this.state;
+    return `${month}-${day}-${year}`;
   }
   getValue() {
     return { value: this.buildValue() };
   }
-
-
   daysInMonth(month, year) {
-    // Using 1-based months with 0
     return new Date(year, month, 0).getDate();
   }
-
   onDateChange() {
-    var year = this._year.value
-    var month = this._month.value
-    var day = this._day.value
-    this.setState({ year: year, month: month, day: day })
+    const year = this._year.value
+    const month = this._month.value
+    const day = this._day.value
+
+    this.setState({
+      year,
+      month,
+      day
+    })
+
     this.validateAndSave()
   }
+  isCompleted() {
+    return !!(this._year.value && this._month.value && this._day.value)
+  }
+  isDateValid() {
+    let isValid = true;
+    const { year, month, day } = this.state;
 
-  dateIsValid() {
-    var isValid = true;
-    var { year, month, day } = this.state;
-
-    if (year < 1916 || year > 2056) {
+    if ( !year || (year < 1916 || year > 2056)) {
       isValid = false;
     }
 
-    if (month < 1 || month > 12) {
+    if ( !month || (month < 1 || month > 12)) {
       isValid = false;
     }
 
-    var daysInMonth = this.daysInMonth(month, year);
-
-    if (day < 1 || day > daysInMonth) {
+    if ( !day || (day < 1 || day > this.daysInMonth(month, year))) {
       isValid = false;
     }
 
     return isValid;
   }
-
   getDateInputStyles(part) {
     return Object.assign({},
       styles.dateInput,
       styles[part]
     )
   }
-
   render() {
     return (
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
           <input
             ref={el => this._month = el}
-            type="text"
+            type="number"
+            step="1"
             placeholder="MM"
+            min="1"
+            max="12"
             value={ this.state.month }
-            onChange={ this.onDateChange.bind(this) }
+            onChange={ this.onDateChange }
             style={ this.getDateInputStyles('month') } />
           <input
+            min="1"
+            max={this.daysInMonth()}
             ref={el => this._day = el}
-            type="text"
+            type="number"
+            step="1"
             placeholder="DD"
             value={ this.state.day }
-            onChange={ this.onDateChange.bind(this) }
+            onChange={ this.onDateChange }
             style={ this.getDateInputStyles('day') } />
           <input
             ref={el => this._year = el}
-            type="text"
+            type="number"
+            step="1"
             placeholder="YYYY"
             value={ this.state.year }
-            onChange={ this.onDateChange.bind(this) }
+            onChange={ this.onDateChange }
             style={ this.getDateInputStyles('year') } />
         </div>
         <div style={ styles.calendarButton } ref={el => this._calendarGroup = el} data-wrap data-clickOpens="false">
