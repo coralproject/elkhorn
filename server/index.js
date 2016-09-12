@@ -82,7 +82,7 @@ app.post('/create', function (req, res) {
   log('Route /create: Forwarding form to the Ask service')
   // Inject base URL into form settings
   req.body.settings.baseUrl = base
-  request.post('/api/form', req.body)
+  request.post('/v1/form', req.body)
     .then(function (response) {
       log('Response received from the Ask service:')
       log(response)
@@ -109,7 +109,7 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
   log(`Route /gallery/${req.params.galleryId}/publish`)
   log(req.body)
   req.body.config.baseUrl = base
-  request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
+  request.put(`/v1/form_gallery/${req.params.galleryId}`, req.body)
   .then(function (response) {
     log('Response received from the Ask service:')
     log(response)
