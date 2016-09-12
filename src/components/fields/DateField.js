@@ -13,24 +13,20 @@ class DateField extends AskField {
     super(props, context)
     // extend the state from AskWidget
 
-    this.state = Object.assign(
-      this.state,
-      { value: '' }
-    )
-  }
+    this.state = {
+      value: ''
+    };
 
+  }
   componentDidMount() {
     this.datepicker = flatpickr(this._calendarGroup, { utc: true })
     this.datepicker.set('onChange', d => this.onFlatPickrChange(d))
   }
-
   onFlatPickrChange(timestamp) {
     var flatPickrDate = new Date(timestamp);
     this.setState({ value: timestamp, day: flatPickrDate.getDate(), month: (flatPickrDate.getMonth() + 1), year: flatPickrDate.getFullYear() });
     this.validateAndSave();
   }
-
-  // Compute styles for different field states
   getStyles () {
     return Object.assign({},
       styles.base,
@@ -39,7 +35,6 @@ class DateField extends AskField {
       { backgroundColor: this.props.theme.inputBackground }
     )
   }
-
   validateAndSave(options) {
     if (this.validate()) {
       this.setState({ value: this.buildValue() });
@@ -48,9 +43,6 @@ class DateField extends AskField {
     }
     this.update(options);
   }
-
-  // Interface methods
-
   validate() {
     let isValid = true, isCompleted = false;
     isValid = this.dateIsValid();
@@ -58,23 +50,13 @@ class DateField extends AskField {
     this.setState({ isValid: isValid, completed: isCompleted });
     return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
   }
-
   buildValue() {
     return this.state.month + "-" + this.state.day + "-" + this.state.year;
   }
-
   getValue() {
     return { value: this.buildValue() };
   }
 
-  getStyles() {
-    return Object.assign({},
-      styles.textInput,
-      this.props.isValid ? styles.valid : styles.error,
-      this.state.focused ? styles.focused : {},
-      { backgroundColor: this.props.theme.inputBackground }
-    );
-  }
 
   daysInMonth(month, year) {
     // Using 1-based months with 0
@@ -90,7 +72,6 @@ class DateField extends AskField {
   }
 
   dateIsValid() {
-
     var isValid = true;
     var { year, month, day } = this.state;
 
@@ -109,7 +90,6 @@ class DateField extends AskField {
     }
 
     return isValid;
-
   }
 
   getDateInputStyles(part) {
