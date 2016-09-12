@@ -15,7 +15,7 @@ class DateField extends AskField {
     this.state = {
       value: '',
       isValid: false,
-      isCompleted: false
+      completed: false
     };
 
     this.onDateChange = this.onDateChange.bind(this);
@@ -46,7 +46,6 @@ class DateField extends AskField {
   }
   validateAndSave(options) {
     if (this.validate()) {
-      console.log('is valid!!!');
       this.setState({
         value: this.buildValue()
       });
@@ -59,18 +58,14 @@ class DateField extends AskField {
   }
   validate() {
     const isValid = this.isDateValid(),
-          isCompleted = this.isCompleted();
-
-    console.log('isValid = ', isValid);
-    console.log('isCompleted = ', isCompleted);
-    console.log(this.state.value);
+          completed = this.isCompleted();
 
     this.setState({
       isValid,
-      isCompleted
+      completed
     });
 
-    return !!this.props.wrapper.required ? isValid && isCompleted : isValid;
+    return !!this.props.wrapper.required ? isValid && completed : isValid;
   }
   buildValue() {
     const { month, day, year } = this.state;
