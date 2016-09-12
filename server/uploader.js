@@ -20,7 +20,15 @@ if (isS3) {
 }
 
 // set base url
-var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : '/widgets/'
+function getS3BaseURL () {
+  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
+}
+
+function getLocalBaseURL() {
+  return config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
+}
+
+var base = isS3 ? getS3BaseURL() : getLocalBaseURL()
 
 // expose the uploader
 module.exports = function (fileName, code, template) {

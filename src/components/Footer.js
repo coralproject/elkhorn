@@ -3,10 +3,20 @@ const { h, Component } = preact
 
 class Footer extends Component {
 
+  renderRecaptcha() {
+    return (
+      <div>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <div class="g-recaptcha" data-sitekey={this.props.recaptcha}></div>
+      </div>
+    );
+  }
+
   render () {
     return (
       <footer style={styles.footer}>
         <div style={styles.footerContent}>
+          { this.props.recaptcha ? this.renderRecaptcha() : '' }
           <div tabindex='0' style={styles.footerConditions} dangerouslySetInnerHTML={{ __html: this.props.conditions }}></div>
           <div style={styles.footerActions}>
             <button
