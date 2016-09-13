@@ -65,7 +65,8 @@ class DateField extends AskField {
       completed
     });
 
-    return !!this.props.wrapper.required ? isValid && completed : isValid;
+    // If it's required: I'll check if it's valid and completed. If not, just needs to be valid.
+    return this.props.wrapper.required ? isValid && completed : isValid;
   }
   buildValue() {
     const { month, day, year } = this.state;
