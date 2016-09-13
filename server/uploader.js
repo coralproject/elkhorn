@@ -79,9 +79,9 @@ function s3Upload (fileName, code, resolve, reject, template) {
   })
 }
 
-function fileUpload (fileName, code, resolve, reject) {
+function fileUpload (fileName, code, resolve, reject, template) {
   var jsFile = fileName + '.js'
-  var iframeContent = pug.renderFile('./templates/iframe-form.pug', { code })
+  var iframeContent = pug.renderFile(template, { code })
   var iframeFile = fileName + '.html'
 
   var jsPromise = new Promise((resolve, reject) => {

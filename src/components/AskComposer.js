@@ -109,7 +109,7 @@ class AskComposer extends Component {
     var recaptchaElem = document.getElementById('g-recaptcha-response') || {}
     var formId = this.props.id
     xhr(
-      `${this.props.settings.saveDestination}${formId}`,
+      `${this.props.settings.saveDestination}`,
       'POST',
       JSON.stringify({
         replies: payload,
