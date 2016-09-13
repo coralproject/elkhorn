@@ -79,12 +79,12 @@ app.get('/preview.js', function (req, res) {
 
 // create a form
 app.post('/create', function (req, res) {
-  log('Route /create: Forwarding form to pillar')
+  log('Route /create: Forwarding form to the Ask service')
   // Inject base URL into form settings
   req.body.settings.baseUrl = base
-  request.post('/api/form', req.body)
+  request.post('/v1/form', req.body)
     .then(function (response) {
-      log('Response received from pillar:')
+      log('Response received from the Ask service:')
       log(response)
       var extras = {};
       extras.id = response.data.id;
@@ -104,7 +104,7 @@ app.post('/create', function (req, res) {
     })
     .catch(function (err) {
       console.log(err)
-      log('Error saving form to Pillar')
+      log('Error saving form to the Ask service')
       log(err.data.message)
       res.status(400).send(err.data.message)
     })
@@ -115,9 +115,9 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
   log(`Route /gallery/${req.params.galleryId}/publish`)
   log(req.body)
   req.body.config.baseUrl = base
-  request.put(`/api/form_gallery/${req.params.galleryId}`, req.body)
+  request.put(`/v1/form_gallery/${req.params.galleryId}`, req.body)
   .then(function (response) {
-    log('Response received from pillar:')
+    log('Response received from the Ask service:')
     log(response)
 
     builder.buildGallery(req.body).then(build => {
@@ -134,7 +134,7 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
   })
   .catch(function (err) {
     console.log(err)
-    log('Error saving form to Pillar')
+    log('Error saving form to the Ask service')
     log(err.data.message)
     res.status(400).send(err.data.message)
   })
@@ -142,5 +142,5 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
 
 app.listen(config.port || 4444, function () {
   log('Running at port 4444')
-  log('Pillar host: ' + config.pillarHost)
+  log('Ask service host: ' + config.askHost)
 })

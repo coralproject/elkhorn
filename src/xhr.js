@@ -23,7 +23,7 @@ export default (url, method, post, cb, contenttype = 'application/json') => {
   }
 
   xhr.open(method ? method.toUpperCase() : 'GET', url, true)
-  xhr.withCredentials = true
+  xhr.withCredentials = false
 
   if (post) {
     xhr.setRequestHeader('Content-type', contenttype)
