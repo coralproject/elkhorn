@@ -114,7 +114,7 @@ const defaultTheme = {
     margin: '0 auto',
     fontSize: '24px',
     lineHeight: '28px',
-    marginBottom: '10px'
+    marginBottom: '5px'
   },
   askGalleryDescription: {
     margin: '0 auto',
