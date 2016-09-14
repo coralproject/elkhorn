@@ -110,14 +110,21 @@ const defaultTheme = {
   base:{
     display:'relative'
   },
+  askGalleryTitle: {
+    margin: '0 auto',
+    fontSize: '24px',
+    lineHeight: '28px',
+    marginBottom: '10px'
+  },
   askGalleryDescription: {
+    margin: '0 auto',
+    lineHeight: '24px',
+    fontSize: '20px',
     fontWeight: 400,
-    color: '#444',
-    lineHeight: '1.3em',
-    fontSize: '18px'
+    color: '#444'
   },
   askGalleryHeader:{
-    padding: '10px 40px',
+    padding: '20px 40px 10px',
     fontSize: '24px'
   },
   askGalleryAnswers:{
@@ -133,7 +140,6 @@ const defaultTheme = {
   askGalleryPii:{
     fontStyle:'italic',
     fontSize:'12pt',
-    fontColor:'#808080',
-    fontWeight: 600
+    fontColor:'#808080'
   }
 }
