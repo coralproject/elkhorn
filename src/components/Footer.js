@@ -3,20 +3,11 @@ const { h, Component } = preact
 
 class Footer extends Component {
 
-  renderRecaptcha() {
-    return (
-      <div>
-        <script src='https://www.google.com/recaptcha/api.js'></script>
-        <div class="g-recaptcha" data-sitekey={this.props.recaptcha}></div>
-      </div>
-    );
-  }
-
   render () {
     return (
       <footer style={styles.footer}>
         <div style={styles.footerContent}>
-          { this.props.recaptcha ? this.renderRecaptcha() : '' }
+          { this.props.recaptcha ? <Recaptcha recaptcha={this.props.recaptcha} /> : '' }
           <div tabindex='0' style={styles.footerConditions} dangerouslySetInnerHTML={{ __html: this.props.conditions }}></div>
           <div style={styles.footerActions}>
             <button
@@ -33,6 +24,23 @@ class Footer extends Component {
       </footer>
     )
   }
+}
+
+class Recaptcha extends Component {
+
+  shouldComponentUpdate() {
+    return false
+  }
+
+  render() {
+    return (
+      <div>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <div class="g-recaptcha" data-sitekey={this.props.recaptcha}></div>
+      </div>
+    )
+  }
+
 }
 
 const styles = {
