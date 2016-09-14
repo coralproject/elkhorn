@@ -8,6 +8,7 @@ import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
 
 class DateField extends AskField {
+
   constructor (props, context) {
     super(props, context)
     // extend the state from AskWidget
@@ -23,10 +24,12 @@ class DateField extends AskField {
 
     this.onDateChange = this.onDateChange.bind(this);
   }
+
   componentDidMount() {
     this.datepicker = flatpickr(this._calendarGroup, { utc: true })
     this.datepicker.set('onChange', d => this.onFlatPickrChange(d))
   }
+
   onFlatPickrChange(timestamp) {
     var flatPickrDate = new Date(timestamp);
 
@@ -39,6 +42,7 @@ class DateField extends AskField {
 
     this.validateAndSave();
   }
+
   getStyles () {
     return Object.assign({},
       styles.base,
@@ -47,6 +51,7 @@ class DateField extends AskField {
       { backgroundColor: this.props.theme.inputBackground }
     )
   }
+
   validateAndSave(options) {
     if (this.validate()) {
       this.setState({
@@ -59,6 +64,7 @@ class DateField extends AskField {
     }
     this.update(options);
   }
+
   validate() {
     const isValid = this.isDateValid(),
           completed = this.isCompleted();
@@ -71,16 +77,20 @@ class DateField extends AskField {
     // If it's required: I'll check if it's valid and completed. If not, just needs to be valid.
     return this.props.wrapper.required ? isValid && completed : isValid;
   }
+
   buildValue() {
     const { month, day, year } = this.state;
     return `${month}-${day}-${year}`;
   }
+
   getValue() {
     return { value: this.buildValue() };
   }
+
   daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
   }
+
   onDateChange() {
     const year = this._year.value
     const month = this._month.value
@@ -94,9 +104,11 @@ class DateField extends AskField {
 
     this.validateAndSave()
   }
+
   isCompleted() {
     return !!(this._year.value && this._month.value && this._day.value)
   }
+
   isDateValid() {
     let isValid = true;
     const { year, month, day } = this.state;
@@ -115,12 +127,14 @@ class DateField extends AskField {
 
     return isValid;
   }
+
   getDateInputStyles(part) {
     return Object.assign({},
       styles.dateInput,
       styles[part]
     )
   }
+
   render() {
     return (
       <div style={ styles.base }>
@@ -163,6 +177,7 @@ class DateField extends AskField {
       </div>
     )
   }
+
 }
 
 const styles = {
