@@ -113,15 +113,15 @@ class DateField extends AskField {
     let isValid = true;
     const { year, month, day } = this.state;
 
-    if ( year && (year < 1916 || year > 2056)) {
+    if (year && (year < 1916 || year > 2056)) {
       isValid = false;
     }
 
-    if ( month && (month < 1 || month > 12)) {
+    if (month && (month < 1 || month > 12)) {
       isValid = false;
     }
 
-    if ( day && (day < 1 || day > this.daysInMonth(month, year))) {
+    if (day && (day < 1 || day > this.daysInMonth(month, year))) {
       isValid = false;
     }
 
