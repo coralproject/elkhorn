@@ -3,10 +3,6 @@ const { h, Component } = preact
 
 class Footer extends Component {
 
-  shouldComponentUpdate() {
-    return false
-  }
-
   renderRecaptcha() {
     return (
       <div>
