@@ -1,11 +1,11 @@
 {
  "askHost": "{{ .Env.ASK_URL }}",
  "basicAuthorization": "Basic {{ .Env.AUTH_TOKEN }}",
-   "s3": {
+ "recaptcha": "{{ .Env.RECAPTCHA }}", 
+  "s3": {
     "bucket": "{{ .Env.S3_BUCKET }}",
     "region": "{{ .Env.AWS_REGION }}",
     "accessKeyId": "{{ .Env.AWS_ACCESS_KEY_ID }}",
     "secretAccessKey": "{{ .Env.AWS_ACCESS_KEY }}",
-    "recaptcha": "{{ .Env.RECAPTCHA }}"
   }
 }
