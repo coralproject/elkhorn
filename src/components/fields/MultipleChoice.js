@@ -98,26 +98,26 @@ class MultipleChoice extends AskField {
 
   getOptions () {
     return this.props.options.map((option, i) => (
-        <label
-          className="ask-form-option"
-          style={this.getOptionStyle(i)}
+      <label
+        className='ask-form-option'
+        style={this.getOptionStyle(i)}
+        key={i}
+      >
+        <input
+          style={styles.optionCheck}
+          onClick={this.onClick.bind(this, i)}
+          tabindex='0'
+          name={'field-' + this.props.id}
+          type={this.props.multipleChoice ? 'checkbox' : 'radio'}
           key={i}
-        >
-          <input
-            style={styles.optionCheck}
-            onClick={this.onClick.bind(this, i)}
-            tabindex='0'
-            name={'field-' + this.props.id}
-            type={this.props.multipleChoice ? 'checkbox' : 'radio'}
-            key={i}
-          />
+        />
 
-          {this.getCharIndex(i)}. {option.title}
-          {this.state.value.indexOf(i) > -1
-            ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
-            : null
-          }
-        </label>
+        {this.getCharIndex(i)}. {option.title}
+        {this.state.value.indexOf(i) > -1
+          ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
+          : null
+        }
+      </label>
     ))
   }
 
