@@ -14,6 +14,9 @@ class MultipleChoice extends AskField {
       otherSelected: false,
       otherValue: false
     }
+
+    this.onOtherClick = this.onOtherClick.bind(this)
+    this.onOtherChange = this.onOtherChange.bind(this)
   }
 
   onOtherClick (e) {
@@ -94,26 +97,28 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
-    return this.props.options.map((option, i) => {
-      return <label
-          // onMouseOver={ this.onHover.bind(this, i) }
+    return this.props.options.map((option, i) => (
+      <label
+        className='ask-form-option'
         style={this.getOptionStyle(i)}
         key={i}
-        ><input
+      >
+        <input
           style={styles.optionCheck}
           onClick={this.onClick.bind(this, i)}
           tabindex='0'
           name={'field-' + this.props.id}
           type={this.props.multipleChoice ? 'checkbox' : 'radio'}
           key={i}
-          />
-          {this.getCharIndex(i)}. {option.title}
-          {this.state.value.indexOf(i) > -1
-            ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
-            : null
-          }
+        />
+
+        {this.getCharIndex(i)}. {option.title}
+        {this.state.value.indexOf(i) > -1
+          ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
+          : null
+        }
       </label>
-    })
+    ))
   }
 
   // Interface Methods
@@ -176,7 +181,7 @@ class MultipleChoice extends AskField {
                       key={this.props.options.length}
                     ><input
                       style={styles.optionCheck}
-                      onClick={this.onOtherClick.bind(this)}
+                      onClick={this.onOtherClick}
                       tabindex='0'
                       name={'field-' + this.props.id}
                       type={this.props.multipleChoice ? 'checkbox' : 'radio'}
@@ -194,7 +199,7 @@ class MultipleChoice extends AskField {
 
               {
                 this.props.otherAllowed && this.state.otherSelected
-                ? <input type='text' placeholder='Please specify...' onChange={this.onOtherChange.bind(this)} style={styles.otherInput} />
+                ? <input type='text' placeholder='Please specify...' onChange={this.onOtherChange} style={styles.otherInput} />
                 : null
               }
 
@@ -240,7 +245,6 @@ const styles = {
     margin: '0 1% 10px 0',
     textAlign: 'left',
     position: 'relative',
-    width: '49%',
     'float': 'left',
     borderRadius: '4px'
   },
