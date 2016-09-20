@@ -13,7 +13,7 @@
 }
 
 #ask-form .ask-form-option {
-	width: 100%;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -22,5 +22,3 @@
     width: 49%;
   }
 }
-
-

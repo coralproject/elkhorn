@@ -14,6 +14,9 @@ class MultipleChoice extends AskField {
       otherSelected: false,
       otherValue: false
     }
+
+    this.onOtherClick = this.onOtherClick.bind(this)
+    this.onOtherChange = this.onOtherChange.bind(this)
   }
 
   onOtherClick (e) {
@@ -178,7 +181,7 @@ class MultipleChoice extends AskField {
                       key={this.props.options.length}
                     ><input
                       style={styles.optionCheck}
-                      onClick={this.onOtherClick.bind(this)}
+                      onClick={this.onOtherClick}
                       tabindex='0'
                       name={'field-' + this.props.id}
                       type={this.props.multipleChoice ? 'checkbox' : 'radio'}
@@ -196,7 +199,7 @@ class MultipleChoice extends AskField {
 
               {
                 this.props.otherAllowed && this.state.otherSelected
-                ? <input type='text' placeholder='Please specify...' onChange={this.onOtherChange.bind(this)} style={styles.otherInput} />
+                ? <input type='text' placeholder='Please specify...' onChange={this.onOtherChange} style={styles.otherInput} />
                 : null
               }
 
