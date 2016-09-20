@@ -94,26 +94,28 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
-    return this.props.options.map((option, i) => {
-      return <label
-          // onMouseOver={ this.onHover.bind(this, i) }
-        style={this.getOptionStyle(i)}
-        key={i}
-        ><input
-          style={styles.optionCheck}
-          onClick={this.onClick.bind(this, i)}
-          tabindex='0'
-          name={'field-' + this.props.id}
-          type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+    return this.props.options.map((option, i) => (
+        <label
+          className="ask-form-option"
+          style={this.getOptionStyle(i)}
           key={i}
+        >
+          <input
+            style={styles.optionCheck}
+            onClick={this.onClick.bind(this, i)}
+            tabindex='0'
+            name={'field-' + this.props.id}
+            type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+            key={i}
           />
+
           {this.getCharIndex(i)}. {option.title}
           {this.state.value.indexOf(i) > -1
             ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
             : null
           }
-      </label>
-    })
+        </label>
+    ))
   }
 
   // Interface Methods
@@ -240,7 +242,6 @@ const styles = {
     margin: '0 1% 10px 0',
     textAlign: 'left',
     position: 'relative',
-    width: '49%',
     'float': 'left',
     borderRadius: '4px'
   },

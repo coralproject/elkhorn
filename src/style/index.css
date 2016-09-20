@@ -11,3 +11,16 @@
 	margin: 0 0 10px 0 ;
 	color: #999;
 }
+
+#ask-form .ask-form-option {
+	width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+  #ask-form .ask-form-option {
+    width: 49%;
+  }
+}
+
+
