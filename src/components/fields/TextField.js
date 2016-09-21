@@ -12,7 +12,8 @@ class TextField extends AskField {
       this.state,
       {
         value: this.props.text || '',
-        isValid: true
+        isValid: true,
+        error: {}
       }
     )
 
@@ -35,7 +36,9 @@ class TextField extends AskField {
   }
 
   onChange (e) {
-    this.setState({ value: e.target.value })
+    this.setState({
+      value: e.target.value
+    })
   }
 
   onBlur () {
@@ -64,6 +67,14 @@ class TextField extends AskField {
     let isValid = true
     let isCompleted = false
 
+    if (this.props.maxLength) {
+      isValid = (this.state.value.length < this.props.maxLength)
+    }
+
+    if (this.props.minLength) {
+      isValid = (this.state.value.length > this.props.minLength)
+    }
+
     isCompleted = !!this.state.value.length
 
     if (isCompleted && this.props.validateAs) {
@@ -78,7 +89,10 @@ class TextField extends AskField {
       }
     }
 
-    this.setState({ isValid: isValid, completed: isCompleted })
+    this.setState({
+      isValid: isValid,
+      completed: isCompleted
+    })
 
     return this.props.wrapper.required ? isValid && isCompleted : isValid
   }
@@ -88,17 +102,30 @@ class TextField extends AskField {
   }
 
   render () {
+    const { title, placeholder, maxLength, minLength } = this.props;
+    const { value } = this.state;
+
     return (
       <div>
-        <input type='text'
-          title={this.props.title}
+        <input
+          className="text-field"
+          type="text"
+          title={title}
           style={this.getStyles()}
-          placeholder={this.props.placeholder}
-          defaultValue={this.state.value}
+          placeholder={placeholder}
+          defaultValue={value}
           onBlur={this.onBlur}
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}
+          maxLength={maxLength ? maxLength : false}
         />
+
+        {
+          maxLength
+          ? <div style={styles.remaining}>{maxLength - value.length} chars remaining.</div>
+          : null
+        }
+
       </div>
     )
   }

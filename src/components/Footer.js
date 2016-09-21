@@ -11,6 +11,7 @@ class Footer extends Component {
           <div tabindex='0' style={styles.footerConditions} dangerouslySetInnerHTML={{ __html: this.props.conditions }}></div>
           <div style={styles.footerActions}>
             <button
+              className="submit-button"
               style={Object.assign({},
                 styles.submit,
                 {
