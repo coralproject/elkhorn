@@ -66,11 +66,11 @@ class TextArea extends AskField {
     let isCompleted = this.state.value.length
 
     if (this.props.maxLength) {
-      isValid = (this.state.value.length < this.props.maxLength)
+      isValid = (this.state.value.length <= this.props.maxLength)
     }
 
     if (this.props.minLength) {
-      isValid = (this.state.value.length > this.props.minLength)
+      isValid = (this.state.value.length >= this.props.minLength)
     }
 
     this.setState({
@@ -88,20 +88,23 @@ class TextArea extends AskField {
   }
 
   render () {
+    const { title, placeholder, maxLength, minLength } = this.props;
+    const { value } = this.state;
+
     return (
       <div>
         <textarea
-          title={this.props.title}
+          title={title}
           style={this.getStyles()}
-          placeholder={this.props.placeholder}
-          defaultValue={this.state.value}
+          placeholder={placeholder}
+          defaultValue={value}
           onBlur={this.onBlur}
           onKeyUp={this.onKeyUp}
-          maxLength={this.props.maxLength ? this.props.maxLength : false}
+          maxLength={maxLength ? maxLength : false}
         ></textarea>
         {
-          this.props.maxLength
-          ? <div style={styles.remaining}>{this.props.maxLength - this.state.value.length} chars remaining.</div>
+          maxLength
+          ? <div style={styles.remaining}>{maxLength - value.length} chars remaining.</div>
           : null
         }
       </div>

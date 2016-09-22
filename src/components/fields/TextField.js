@@ -67,11 +67,11 @@ class TextField extends AskField {
     let isCompleted = false
 
     if (this.props.maxLength) {
-      isValid = (this.state.value.length < this.props.maxLength)
+      isValid = (this.state.value.length <= this.props.maxLength)
     }
 
     if (this.props.minLength) {
-      isValid = (this.state.value.length > this.props.minLength)
+      isValid = (this.state.value.length >= this.props.minLength)
     }
 
     isCompleted = !!this.state.value.length
