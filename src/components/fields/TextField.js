@@ -30,14 +30,13 @@ class TextField extends AskField {
         this.validateAndSave()
         break
       default:
-        this.setState({ value: e.target.value })
         break
     }
   }
 
   onChange (e) {
     this.setState({
-      value: e.target.value
+      value: (e.target.value).trim()
     })
   }
 
