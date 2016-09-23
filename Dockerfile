@@ -17,4 +17,4 @@ RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VE
 ADD /assets /assets
 
 EXPOSE 4444
-CMD [ "dockerize", "-template", "/assets/config.json.tmpl:/usr/src/app/config.json",  "npm", "run", "server" ]
+CMD [ "dockerize", "-template", "/assets/config.json.tmpl:/usr/src/app/config.json",  "npm", "start", "server" ]
