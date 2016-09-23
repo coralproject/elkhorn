@@ -6,11 +6,12 @@ import AskField from '../AskField'
 class TextArea extends AskField {
   constructor (props, context) {
     super(props, context)
+
     this.state = {
       focused: false,
       value: this.props.text || '',
       isValid: true,
-      height: '100px' // min textarea height,
+      height: '100px'
     }
 
     this.onBlur = this.onBlur.bind(this)
@@ -22,17 +23,29 @@ class TextArea extends AskField {
       this.update({ moveForward: true })
     } else {
       var height = Math.max(parseInt(e.target.style.height), e.target.scrollHeight - 40)
-      this.setState({ value: e.target.value, height: height })
+      this.setState({
+        value: e.target.value,
+        height: height
+      })
     }
   }
 
   onBlur () {
     if (this.state.value.length) {
-      this.setState({ focused: false, completed: true, isValid: true })
+      this.setState({
+        focused: false,
+        completed: true,
+        isValid: true
+      })
     } else {
-      this.setState({ focused: false, completed: false })
+      this.setState({
+        focused: false,
+        completed: false
+      })
     }
-    this.update({ moveForward: true })
+    this.update({
+      moveForward: true
+    })
   }
 
   getStyles () {
@@ -52,26 +65,48 @@ class TextArea extends AskField {
     let isValid = true
     let isCompleted = this.state.value.length
 
-    this.setState({ isValid: isValid, completed: isCompleted })
+    if (this.props.maxLength) {
+      isValid = (this.state.value.length <= this.props.maxLength)
+    }
+
+    if (this.props.minLength) {
+      isValid = (this.state.value.length >= this.props.minLength)
+    }
+
+    this.setState({
+      isValid: isValid,
+      completed: isCompleted
+    })
 
     return this.props.wrapper.required ? isValid && isCompleted : isValid
   }
 
   getValue () {
-    return { text: this.state.value.length ? this.state.value : '' }
+    return {
+      text: this.state.value.length ? this.state.value : ''
+    }
   }
 
   render () {
+    const { title, placeholder, maxLength, minLength } = this.props;
+    const { value } = this.state;
+
     return (
       <div>
         <textarea
-          title={this.props.title}
+          title={title}
           style={this.getStyles()}
-          placeholder={this.props.placeholder}
-          defaultValue={this.state.value}
+          placeholder={placeholder}
+          defaultValue={value}
           onBlur={this.onBlur}
           onKeyUp={this.onKeyUp}
+          maxLength={maxLength ? maxLength : false}
         ></textarea>
+        {
+          maxLength
+          ? <div style={styles.remaining}>{maxLength - value.length} chars remaining.</div>
+          : null
+        }
       </div>
     )
   }
