@@ -48,7 +48,13 @@ class AskComposer extends Component {
       <div style={ styles.footer } ref={ (footer) => this._footer = footer }>
         <div style={ styles.footerContent }>
           <div style={ styles.footerActions }>
-            <button onClick={ this.props.onSubmit } style={ styles.submit }>Send</button>
+            <button
+              className="send-button"
+              style={ styles.submit }
+              onClick={ this.props.onSubmit }
+            >
+              Send
+            </button>
           </div>
         </div>
       </div>

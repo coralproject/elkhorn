@@ -9,7 +9,10 @@ class FinishedScreen extends Component {
 
   render () {
     return (
-      <div style={styles.finishedScreen}>
+      <div
+        className="final-screen"
+        style={styles.finishedScreen}
+      >
         <h1>{this.props.title}</h1>
         <p>{this.props.description}</p>
       </div>

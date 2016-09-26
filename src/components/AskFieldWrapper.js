@@ -36,6 +36,7 @@ class AskFieldWrapper extends Component {
   getTitleStyles () {
     return Object.assign({},
       styles.fieldTitle,
+      this.state.showOutline ? {} : styles.noOutline,
       this.props.hasFocus ? styles.focusedTitle : {},
       this.state.completed && !this.state.isValid ? styles.invalidTitle : {},
       { color: this.props.theme.fieldTitleText }
@@ -48,6 +49,16 @@ class AskFieldWrapper extends Component {
 
   setValidationMessage (message) {
     this.setState({ validationMessage: message })
+  }
+
+  onMouseDown (e) {
+    // as recommended by The Paciello Group:
+    // https://www.paciellogroup.com/blog/2012/04/how-to-remove-css-outlines-in-an-accessible-manner/
+    this.setState({ showOutline: false })
+  }
+
+  onKeyDown (e) {
+    this.setState({ showOutline: true })
   }
 
   render () {
@@ -74,7 +85,7 @@ class AskFieldWrapper extends Component {
           {
             this.props.type === 'field'
             ? <div>
-              <h3 title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
+              <h3 onMouseDown={this.onMouseDown.bind(this)} onKeyDown={this.onKeyDown.bind(this)} title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
                   {
                     this.props.type === 'field' && this.props.settings.showFieldNumbers
                     ? <span style={styles.fieldNumber}>{this.props.fieldNumber}.</span>
@@ -196,6 +207,9 @@ const styles = {
     fontSize: '10pt',
     lineHeight: '10px',
     marginTop: 10
+  },
+  noOutline: {
+    outline: 'none'
   }
 }
 

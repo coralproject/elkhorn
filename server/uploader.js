@@ -20,7 +20,15 @@ if (isS3) {
 }
 
 // set base url
-var base = isS3 ? 'https://s3.amazonaws.com/' + config.s3.bucket + '/' : '/widgets/'
+function getS3BaseURL () {
+  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
+}
+
+function getLocalBaseURL() {
+  return config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
+}
+
+var base = isS3 ? getS3BaseURL() : getLocalBaseURL()
 
 // expose the uploader
 module.exports = function (fileName, code, template) {
@@ -71,9 +79,9 @@ function s3Upload (fileName, code, resolve, reject, template) {
   })
 }
 
-function fileUpload (fileName, code, resolve, reject) {
+function fileUpload (fileName, code, resolve, reject, template) {
   var jsFile = fileName + '.js'
-  var iframeContent = pug.renderFile('./templates/iframe-form.pug', { code })
+  var iframeContent = pug.renderFile(template, { code })
   var iframeFile = fileName + '.html'
 
   var jsPromise = new Promise((resolve, reject) => {

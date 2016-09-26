@@ -12,26 +12,32 @@ class TextField extends AskField {
       this.state,
       {
         value: this.props.text || '',
-        isValid: true
+        isValid: true,
+        error: {}
       }
     )
+
+    this.onBlur = this.onBlur.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   // Event listeners
 
-  onKeyDown (e) {
+  onKeyUp (e) {
     switch (e.keyCode) {
       case 13: // Enter
         this.validateAndSave()
         break
       default:
-        this.setState({ value: e.target.value })
         break
     }
   }
 
   onChange (e) {
-    this.setState({ value: e.target.value })
+    this.setState({
+      value: (e.target.value).trim()
+    })
   }
 
   onBlur () {
@@ -60,6 +66,14 @@ class TextField extends AskField {
     let isValid = true
     let isCompleted = false
 
+    if (this.props.maxLength) {
+      isValid = (this.state.value.length <= this.props.maxLength)
+    }
+
+    if (this.props.minLength) {
+      isValid = (this.state.value.length >= this.props.minLength)
+    }
+
     isCompleted = !!this.state.value.length
 
     if (isCompleted && this.props.validateAs) {
@@ -74,7 +88,10 @@ class TextField extends AskField {
       }
     }
 
-    this.setState({ isValid: isValid, completed: isCompleted })
+    this.setState({
+      isValid: isValid,
+      completed: isCompleted
+    })
 
     return this.props.wrapper.required ? isValid && isCompleted : isValid
   }
@@ -84,23 +101,30 @@ class TextField extends AskField {
   }
 
   render () {
+    const { title, placeholder, maxLength, minLength } = this.props;
+    const { value } = this.state;
+
     return (
       <div>
-        <input type='text'
-          title={this.props.title}
+        <input
+          className="text-field"
+          type="text"
+          title={title}
           style={this.getStyles()}
-          placeholder={this.props.placeholder}
-          defaultValue={this.state.value}
-          onBlur={this.onBlur.bind(this)}
-          onChange={this.onChange.bind(this)}
-          onKeyDown={this.onKeyDown.bind(this)}
-          maxLength={this.props.maxLength ? this.props.maxLength : false}
+          placeholder={placeholder}
+          defaultValue={value}
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          onKeyUp={this.onKeyUp}
+          maxLength={maxLength ? maxLength : false}
         />
+
         {
-          this.props.maxLength
-          ? <div style={styles.remaining}>{this.props.maxLength - this.state.value.length} chars remaining.</div>
+          maxLength
+          ? <div style={styles.remaining}>{maxLength - value.length} chars remaining.</div>
           : null
         }
+
       </div>
     )
   }
