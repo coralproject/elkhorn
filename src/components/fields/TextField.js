@@ -80,7 +80,7 @@ class TextField extends AskField {
       isValid = (this.state.value.length <= this.props.maxLength)
     }
 
-    if (this.props.minLength) {
+    if (this.state.value.length && this.props.minLength) {
       isValid = (this.state.value.length >= this.props.minLength)
     }
 
