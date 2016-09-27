@@ -1,6 +1,8 @@
 import preact from 'preact'
 const { h, Component } = preact
 
+import WarningIcon from './WarningIcon'
+
 class Footer extends Component {
 
   render () {
@@ -20,6 +22,11 @@ class Footer extends Component {
                 }
               )}
               onClick={this.props.onSubmit}>Submit</button>
+            {
+              this.props.hasErrors ?
+                <div style={styles.footerError}><WarningIcon /> There are one or more errors with your responses. Please see above.</div>
+              : null
+            }
           </div>
         </div>
       </footer>
@@ -74,6 +81,12 @@ const styles = {
   },
   footerConditions: {
     margin: '0 0 20px 0'
+  },
+  footerError: {
+    color: '#D0021B',
+    fontSize: '.9em',
+    textAlign: 'left',
+    marginTop: '10px'
   },
   submit: {
     background: '#F67D6E',

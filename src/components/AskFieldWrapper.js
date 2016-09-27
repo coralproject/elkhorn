@@ -4,7 +4,7 @@ import preact from 'preact'
 import __WIDGETS__ from './fields/Types'
 const Types = __WIDGETS__
 
-import InfoIcon from './InfoIcon'
+import WarningIcon from './WarningIcon'
 
 const { h, Component } = preact
 
@@ -114,18 +114,6 @@ class AskFieldWrapper extends Component {
             </div>
             : wrappedField
           }
-          {
-            this.props.wrapper.required
-            ? <p
-              style={
-                  Object.assign({},
-                    styles.requiredAsteriskBottom,
-                    { color: this.props.theme.requiredAsteriskBottom }
-                  )
-              }>* Required</p>
-              : null
-            }
-
           {/* TODO: move this alerts into a component */}
         <div role='alert' aria-atomic='true'>
           {
@@ -133,7 +121,7 @@ class AskFieldWrapper extends Component {
             ? <div
               tabindex='0'
               style={styles.validation}>
-              {this.state.validationMessage}
+              <WarningIcon /> {this.state.validationMessage}
             </div>
             : null
           }
@@ -145,7 +133,7 @@ class AskFieldWrapper extends Component {
             ? <div
               tabindex='0'
               style={styles.validation}>
-              The field <strong>{this.props.title}</strong> is required.
+              <WarningIcon /> This question is required.
             </div>
             : null
           }
@@ -185,9 +173,9 @@ const styles = {
     color: '#900'
   },
   validation: {
-    color: 'red',
+    color: '#D0021B',
     padding: '10px 0',
-    fontSize: '11pt'
+    fontSize: '.9em'
   },
   fieldsetReset: {
     border: '0',

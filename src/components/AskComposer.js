@@ -128,6 +128,7 @@ class AskComposer extends Component {
     let fieldCount = 0
     let completedCount = 0
     let theme = this.props.theme || defaultTheme
+    let hasErrors = false
 
     return !this.state.finished ? (
       <div>
@@ -138,6 +139,7 @@ class AskComposer extends Component {
                 fieldCount++
               }
               if (child.completed && child.isValid) completedCount++
+              if (child.completed && !child.isValid) hasErrors = true;
 
               return <AskFieldWrapper
                 key={index}
@@ -155,6 +157,7 @@ class AskComposer extends Component {
         </ul>
 
         <Footer
+          hasErrors={hasErrors}
           recaptcha={this.props.recaptcha}
           theme={theme}
           completedCount={completedCount}
