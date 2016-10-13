@@ -66,7 +66,7 @@ class NumberField extends AskField {
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
         case 'number':
-          isValid = !isNaN(num) && isFinite(num) && !!this.state.value.match(/^\d+$/)
+          isValid = !isNaN(num) && isFinite(num) && !!this.state.value.match(/^(\-)?\d+$/)
 
           if (!isValid) {
             this.props.setValidationMessage('Please, type a valid number.')
