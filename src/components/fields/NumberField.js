@@ -66,7 +66,12 @@ class NumberField extends AskField {
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
         case 'number':
-          isValid = !isNaN(num) && isFinite(num)
+          isValid = !isNaN(num) && isFinite(num) && !!this.state.value.match(/^\d+$/)
+
+          if (!isValid) {
+            this.props.setValidationMessage('Please, type a valid number.')
+          }
+
           break
       }
     }
@@ -106,9 +111,7 @@ class NumberField extends AskField {
     return (
       <div>
         <input
-          type='number'
-          min={this.props.minValue ? this.props.minValue : ''}
-          max={this.props.maxValue ? this.props.maxValue : ''}
+          type='text'
           title={this.props.title}
           style={this.getStyles()}
           placeholder={this.props.placeholder}
