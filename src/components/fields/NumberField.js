@@ -14,6 +14,10 @@ class NumberField extends AskField {
         value: this.props.text || ''
       }
     )
+
+    this.onBlur = this.onBlur.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   // Event listeners
@@ -62,7 +66,12 @@ class NumberField extends AskField {
     if (isCompleted && this.props.validateAs) {
       switch (this.props.validateAs) {
         case 'number':
-          isValid = !isNaN(num) && isFinite(num)
+          isValid = !isNaN(num) && isFinite(num) && !!this.state.value.match(/^(\-)?\d+$/)
+
+          if (!isValid) {
+            this.props.setValidationMessage('Please, type a valid number.')
+          }
+
           break
       }
     }
@@ -101,21 +110,16 @@ class NumberField extends AskField {
   render () {
     return (
       <div>
-        <input type='text'
+        <input
+          type='text'
           title={this.props.title}
           style={this.getStyles()}
           placeholder={this.props.placeholder}
           defaultValue={this.state.value}
-          onBlur={this.onBlur.bind(this)}
-          onChange={this.onChange.bind(this)}
-          onKeyDown={this.onKeyDown.bind(this)}
-          maxLength={this.props.maxLength ? this.props.maxLength : false}
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
         />
-        {
-          this.props.maxLength
-          ? <div style={styles.remaining}>{this.props.maxLength - this.state.value.length} chars remaining.</div>
-          : null
-        }
       </div>
     )
   }
