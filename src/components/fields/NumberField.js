@@ -1,5 +1,6 @@
 import preact from 'preact'
 const { h, Component } = preact
+import { Helpers } from '../../helpers'
 
 import AskField from '../AskField'
 
@@ -111,8 +112,8 @@ class NumberField extends AskField {
     return (
       <div>
         <input
+          id={Helpers.toCamelCase(title)}
           type='text'
-          title={this.props.title}
           style={this.getStyles()}
           placeholder={this.props.placeholder}
           defaultValue={this.state.value}
