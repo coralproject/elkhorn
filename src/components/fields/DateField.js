@@ -143,7 +143,7 @@ class DateField extends AskField {
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
           <fieldset id={Helpers.toCamelCase(title)}>
-            <label for={`${Helpers.toCamelCase(title)}_month`} class="offset">Month</label>
+            <label for={`${Helpers.toCamelCase(title)}_month`} hidden>Month</label>
             <input
               id={`${Helpers.toCamelCase(title)}_month`}
               ref={el => this._month = el}
@@ -157,7 +157,7 @@ class DateField extends AskField {
               style={ this.getDateInputStyles('month') }
             />
 
-            <label for={`${Helpers.toCamelCase(title)}_day`} class="offset">Day</label>
+            <label for={`${Helpers.toCamelCase(title)}_day`} hidden>Day</label>
             <input
               id={`${Helpers.toCamelCase(title)}_day`}
               min="1"
@@ -171,7 +171,7 @@ class DateField extends AskField {
               style={ this.getDateInputStyles('day') }
             />
 
-            <label for={`${Helpers.toCamelCase(title)}_year`} class="offset">Year</label>
+            <label for={`${Helpers.toCamelCase(title)}_year`} hidden>Year</label>
             <input
               id={`${Helpers.toCamelCase(title)}_year`}
               ref={el => this._year = el}
