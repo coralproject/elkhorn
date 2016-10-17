@@ -143,7 +143,7 @@ class DateField extends AskField {
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
           <fieldset id={fieldIdentifier}>
-            <label for={`${fieldIdentifier}__month`} hidden>Month</label>
+            <label for={`${fieldIdentifier}__month`} style={styles.visuallyhidden}>Month</label>
             <input
               id={`${fieldIdentifier}__month`}
               ref={el => this._month = el}
@@ -157,7 +157,7 @@ class DateField extends AskField {
               style={ this.getDateInputStyles('month') }
             />
 
-            <label for={`${fieldIdentifier}__day`} hidden>Day</label>
+            <label for={`${fieldIdentifier}__day`} style={styles.visuallyhidden}>Day</label>
             <input
               id={`${fieldIdentifier}__day`}
               min="1"
@@ -171,7 +171,7 @@ class DateField extends AskField {
               style={ this.getDateInputStyles('day') }
             />
 
-            <label for={`${fieldIdentifier}__year`} hidden>Year</label>
+            <label for={`${fieldIdentifier}__year`} style={styles.visuallyhidden}>Year</label>
             <input
               id={`${fieldIdentifier}__year`}
               ref={el => this._year = el}
@@ -266,6 +266,16 @@ const styles = {
     width: '0',
     margin: '0',
     padding: '0'
+  },
+  visuallyhidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    width: 1
   }
 }
 
