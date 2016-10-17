@@ -1,6 +1,5 @@
 import preact from 'preact'
 const { h, Component } = preact
-
 import { Helpers } from '../../helpers'
 
 import AskField from '../AskField'
@@ -108,10 +107,8 @@ class TextField extends AskField {
       <div>
         <input
           id={Helpers.toCamelCase(title)}
-          name={Helpers.toCamelCase(title)}
           className="text-field"
           type="text"
-          title={title}
           style={this.getStyles()}
           placeholder={placeholder}
           defaultValue={value}
