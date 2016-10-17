@@ -173,6 +173,7 @@ class MultipleChoice extends AskField {
     return (
       <div>
         <fieldset
+          id={`${component}--${fieldNumber}`}
           style={styles.base}>
           <legend style={styles.accesibleLegend}>{this.props.title}</legend>
           {

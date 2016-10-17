@@ -1,6 +1,5 @@
 import preact from 'preact'
 const { h, Component } = preact
-import { Helpers } from '../../helpers'
 
 import AskField from '../AskField'
 
