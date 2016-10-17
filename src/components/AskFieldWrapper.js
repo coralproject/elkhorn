@@ -8,8 +8,6 @@ import WarningIcon from './WarningIcon'
 
 const { h, Component } = preact
 
-import { Helpers } from '../helpers'
-
 class AskFieldWrapper extends Component {
 
   constructor (props, context) {
@@ -80,7 +78,7 @@ class AskFieldWrapper extends Component {
       )
     )
 
-    const { title } = this.props
+    const { title, component, fieldNumber } = this.props
 
     return (
       <li
@@ -90,7 +88,7 @@ class AskFieldWrapper extends Component {
           {
             this.props.type === 'field'
             ? <label
-                for={Helpers.toCamelCase(title)}
+                for={`${component}--${fieldNumber}`}
                 style={styles.label}
               >
               <h3

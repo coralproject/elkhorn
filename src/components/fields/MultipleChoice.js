@@ -97,7 +97,7 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
-    const { component, fieldNumber, options} = this.props
+    const { component, fieldNumber, options } = this.props
 
     return options.map((option, i) => (
       <label

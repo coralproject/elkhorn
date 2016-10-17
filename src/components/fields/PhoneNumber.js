@@ -1,5 +1,6 @@
 import preact from 'preact'
 const { h, Component } = preact
+import { Helpers } from '../../helpers'
 
 import AskField from '../AskField'
 
@@ -14,6 +15,10 @@ class PhoneNumber extends AskField {
         value: this.props.text || ''
       }
     )
+
+    this.onBlur = this.onBlur.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   // Event listeners
@@ -75,16 +80,20 @@ class PhoneNumber extends AskField {
   }
 
   render () {
+    const { title, component, fieldNumber } = this.props
+
     return (
       <div>
-        <input type='text'
+        <input
+          type='text'
+          id={`${component}--${fieldNumber}`}
           title={this.props.title}
           style={this.getStyles()}
           placeholder={this.props.placeholder}
           defaultValue={this.state.value}
-          onBlur={this.onBlur.bind(this)}
-          onChange={this.onChange.bind(this)}
-          onKeyDown={this.onKeyDown.bind(this)}
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           maxLength={this.props.maxLength ? this.props.maxLength : false}
         />
         {

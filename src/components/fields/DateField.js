@@ -1,6 +1,5 @@
 import preact from 'preact'
 const { h, Component } = preact
-import { Helpers } from '../../helpers'
 
 import AskField from '../AskField';
 import CalendarIcon from '../CalendarIcon';
@@ -137,15 +136,16 @@ class DateField extends AskField {
   }
 
   render() {
-    const { title } = this.props
+    const { title, component, fieldNumber } = this.props
+    const fieldIdentifier = `${component}--${fieldNumber}`
 
     return (
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
-          <fieldset id={Helpers.toCamelCase(title)}>
-            <label for={`${Helpers.toCamelCase(title)}_month`} hidden>Month</label>
+          <fieldset id={fieldIdentifier}>
+            <label for={`${fieldIdentifier}__month`} hidden>Month</label>
             <input
-              id={`${Helpers.toCamelCase(title)}_month`}
+              id={`${fieldIdentifier}__month`}
               ref={el => this._month = el}
               type="number"
               step="1"
@@ -157,9 +157,9 @@ class DateField extends AskField {
               style={ this.getDateInputStyles('month') }
             />
 
-            <label for={`${Helpers.toCamelCase(title)}_day`} hidden>Day</label>
+            <label for={`${fieldIdentifier}__day`} hidden>Day</label>
             <input
-              id={`${Helpers.toCamelCase(title)}_day`}
+              id={`${fieldIdentifier}__day`}
               min="1"
               max={this.daysInMonth()}
               ref={el => this._day = el}
@@ -171,9 +171,9 @@ class DateField extends AskField {
               style={ this.getDateInputStyles('day') }
             />
 
-            <label for={`${Helpers.toCamelCase(title)}_year`} hidden>Year</label>
+            <label for={`${fieldIdentifier}__year`} hidden>Year</label>
             <input
-              id={`${Helpers.toCamelCase(title)}_year`}
+              id={`${fieldIdentifier}__year`}
               ref={el => this._year = el}
               type="number"
               step="1"

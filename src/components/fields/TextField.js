@@ -1,6 +1,5 @@
 import preact from 'preact'
 const { h, Component } = preact
-import { Helpers } from '../../helpers'
 
 import AskField from '../AskField'
 
@@ -100,13 +99,13 @@ class TextField extends AskField {
   }
 
   render () {
-    const { title, placeholder, maxLength, minLength } = this.props;
+    const { title, placeholder, maxLength, minLength, component, fieldNumber} = this.props;
     const { value } = this.state;
 
     return (
       <div>
         <input
-          id={Helpers.toCamelCase(title)}
+          id={`${component}--${fieldNumber}`}
           className="text-field"
           type="text"
           style={this.getStyles()}
