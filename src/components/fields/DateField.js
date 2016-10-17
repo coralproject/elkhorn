@@ -1,5 +1,6 @@
 import preact from 'preact'
 const { h, Component } = preact
+import { Helpers } from '../../helpers'
 
 import AskField from '../AskField';
 import CalendarIcon from '../CalendarIcon';
@@ -136,37 +137,52 @@ class DateField extends AskField {
   }
 
   render() {
+    const { title } = this.props
+
     return (
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
-          <input
-            ref={el => this._month = el}
-            type="number"
-            step="1"
-            placeholder="MM"
-            min="1"
-            max="12"
-            value={ this.state.month }
-            onChange={ this.onDateChange }
-            style={ this.getDateInputStyles('month') } />
-          <input
-            min="1"
-            max={this.daysInMonth()}
-            ref={el => this._day = el}
-            type="number"
-            step="1"
-            placeholder="DD"
-            value={ this.state.day }
-            onChange={ this.onDateChange }
-            style={ this.getDateInputStyles('day') } />
-          <input
-            ref={el => this._year = el}
-            type="number"
-            step="1"
-            placeholder="YYYY"
-            value={ this.state.year }
-            onChange={ this.onDateChange }
-            style={ this.getDateInputStyles('year') } />
+          <fieldset id={Helpers.toCamelCase(title)}>
+            <label for={`${Helpers.toCamelCase(title)}_month`} class="offset">Month</label>
+            <input
+              id={`${Helpers.toCamelCase(title)}_month`}
+              ref={el => this._month = el}
+              type="number"
+              step="1"
+              placeholder="MM"
+              min="1"
+              max="12"
+              value={ this.state.month }
+              onChange={ this.onDateChange }
+              style={ this.getDateInputStyles('month') }
+            />
+
+            <label for={`${Helpers.toCamelCase(title)}_day`} class="offset">Day</label>
+            <input
+              id={`${Helpers.toCamelCase(title)}_day`}
+              min="1"
+              max={this.daysInMonth()}
+              ref={el => this._day = el}
+              type="number"
+              step="1"
+              placeholder="DD"
+              value={ this.state.day }
+              onChange={ this.onDateChange }
+              style={ this.getDateInputStyles('day') }
+            />
+
+            <label for={`${Helpers.toCamelCase(title)}_year`} class="offset">Year</label>
+            <input
+              id={`${Helpers.toCamelCase(title)}_year`}
+              ref={el => this._year = el}
+              type="number"
+              step="1"
+              placeholder="YYYY"
+              value={ this.state.year }
+              onChange={ this.onDateChange }
+              style={ this.getDateInputStyles('year') }
+            />
+          </fieldset>
         </div>
         <div style={ styles.calendarButton } ref={el => this._calendarGroup = el} data-wrap data-clickOpens="false">
           {/* This input needs to be displayed, not hidden, due to a flatpickr bug */}
