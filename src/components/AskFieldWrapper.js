@@ -8,6 +8,8 @@ import WarningIcon from './WarningIcon'
 
 const { h, Component } = preact
 
+import { Helpers } from '../helpers'
+
 class AskFieldWrapper extends Component {
 
   constructor (props, context) {
@@ -77,6 +79,9 @@ class AskFieldWrapper extends Component {
         }
       )
     )
+
+    const { title } = this.props
+
     return (
       <li
         key={this.props.index}
@@ -84,8 +89,17 @@ class AskFieldWrapper extends Component {
         >
           {
             this.props.type === 'field'
-            ? <div>
-              <h3 onMouseDown={this.onMouseDown.bind(this)} onKeyDown={this.onKeyDown.bind(this)} title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
+            ? <label
+                for={Helpers.toCamelCase(title)}
+                style={styles.label}
+              >
+              <h3
+                onMouseDown={this.onMouseDown.bind(this)}
+                onKeyDown={this.onKeyDown.bind(this)}
+                title={'Field number ' + this.props.fieldNumber}
+                tabindex='0'
+                style={this.getTitleStyles()}
+              >
                   {
                     this.props.type === 'field' && this.props.settings.showFieldNumbers
                     ? <span style={styles.fieldNumber}>{this.props.fieldNumber}.</span>
@@ -111,7 +125,7 @@ class AskFieldWrapper extends Component {
                 : null
               }
               {wrappedField}
-            </div>
+            </label>
             : wrappedField
           }
           {/* TODO: move this alerts into a component */}
@@ -138,14 +152,15 @@ class AskFieldWrapper extends Component {
             : null
           }
         </div>
-
       </li>
     )
   }
-
 }
 
 const styles = {
+  label: {
+    display: 'block'
+  },
   formFieldWrapper: {
     position: 'relative',
     background: 'white'
