@@ -97,13 +97,17 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
-    return this.props.options.map((option, i) => (
+    const { component, fieldNumber, options} = this.props
+
+    return options.map((option, i) => (
       <label
         className='ask-form-option'
         style={this.getOptionStyle(i)}
         key={i}
+        for={`${component}--${fieldNumber}__field--${i}`}
       >
         <input
+          id={`${component}--${fieldNumber}__field--${i}`}
           style={styles.optionCheck}
           onClick={this.onClick.bind(this, i)}
           tabindex='0'
@@ -163,6 +167,9 @@ class MultipleChoice extends AskField {
   }
 
   render () {
+    const { component, fieldNumber } = this.props
+    console.log(this.props)
+
     return (
       <div>
         <fieldset
@@ -176,10 +183,11 @@ class MultipleChoice extends AskField {
                   this.props.otherAllowed
                   ? <div>
                     <label
-                      // onMouseOver={ this.onHover.bind(this, i) }
                       style={this.getOtherStyle()}
                       key={this.props.options.length}
+                      for={`${component}--${fieldNumber}__field--other`}
                     ><input
+                      id={`${component}--${fieldNumber}__field--other`}
                       style={styles.optionCheck}
                       onClick={this.onOtherClick}
                       tabindex='0'
