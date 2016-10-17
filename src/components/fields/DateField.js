@@ -184,7 +184,13 @@ class DateField extends AskField {
             />
           </fieldset>
         </div>
-        <div style={ styles.calendarButton } ref={el => this._calendarGroup = el} data-wrap data-clickOpens="false">
+        <div
+          role="button"
+          tabIndex="0"
+          style={ styles.calendarButton }
+          ref={el => this._calendarGroup = el}
+          data-wrap data-clickOpens="false"
+        >
           {/* This input needs to be displayed, not hidden, due to a flatpickr bug */}
           <input type="text" data-input style={ styles.hideInput } />
           <a data-toggle><CalendarIcon /></a>
