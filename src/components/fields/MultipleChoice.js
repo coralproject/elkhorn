@@ -100,28 +100,30 @@ class MultipleChoice extends AskField {
     const { component, fieldNumber, options } = this.props
 
     return options.map((option, i) => (
-      <label
-        className='ask-form-option'
-        style={this.getOptionStyle(i)}
-        key={i}
-        for={`${component}--${fieldNumber}__field--${i}`}
-      >
-        <input
-          id={`${component}--${fieldNumber}__field--${i}`}
-          style={styles.optionCheck}
-          onClick={this.onClick.bind(this, i)}
-          tabindex='0'
-          name={'field-' + this.props.id}
-          type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+      <div>
+        <label
+          className='ask-form-option'
+          style={this.getOptionStyle(i)}
           key={i}
-        />
+          for={`${component}--${fieldNumber}__field--${i}`}
+        >
+          <input
+            id={`${component}--${fieldNumber}__field--${i}`}
+            style={styles.optionCheck}
+            onClick={this.onClick.bind(this, i)}
+            tabindex='0'
+            name={'field-' + this.props.id}
+            type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+            key={i}
+          />
 
-        {this.getCharIndex(i)}. {option.title}
-        {this.state.value.indexOf(i) > -1
-          ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
-          : null
-        }
-      </label>
+          {this.getCharIndex(i)}. {option.title}
+          {this.state.value.indexOf(i) > -1
+            ? <span style={styles.selectedMark} title={option.title + ' is selected.'} aria-hidden="true">&times;</span>
+            : null
+          }
+        </label>
+      </div>
     ))
   }
 
@@ -198,7 +200,7 @@ class MultipleChoice extends AskField {
                       />
                         {this.getCharIndex(this.props.options.length)}. { this.props.otherText ? this.props.otherText : 'Other' }
                         {this.state.otherSelected
-                          ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
+                          ? <span style={styles.selectedMark} title={'Other is selected.'} aria-hidden="true">&times;</span>
                           : null
                         }
                     </label>

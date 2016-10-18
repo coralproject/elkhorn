@@ -190,6 +190,7 @@ class DateField extends AskField {
           style={ styles.calendarButton }
           ref={el => this._calendarGroup = el}
           data-wrap data-clickOpens="false"
+          aria-hidden="true"
         >
           {/* This input needs to be displayed, not hidden, due to a flatpickr bug */}
           <input type="text" data-input style={ styles.hideInput } />
