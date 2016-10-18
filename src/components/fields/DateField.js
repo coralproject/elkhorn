@@ -185,8 +185,7 @@ class DateField extends AskField {
           </fieldset>
         </div>
         <div
-          role="button"
-          tabIndex="0"
+          tabIndex="-1"
           style={ styles.calendarButton }
           ref={el => this._calendarGroup = el}
           data-wrap data-clickOpens="false"
