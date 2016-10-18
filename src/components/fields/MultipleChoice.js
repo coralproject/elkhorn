@@ -111,7 +111,6 @@ class MultipleChoice extends AskField {
             id={`${component}--${fieldNumber}__field--${i}`}
             style={styles.optionCheck}
             onClick={this.onClick.bind(this, i)}
-            tabindex='0'
             name={'field-' + this.props.id}
             type={this.props.multipleChoice ? 'checkbox' : 'radio'}
             key={i}
@@ -119,7 +118,7 @@ class MultipleChoice extends AskField {
 
           {this.getCharIndex(i)}. {option.title}
           {this.state.value.indexOf(i) > -1
-            ? <span style={styles.selectedMark} title={option.title + ' is selected.'} aria-hidden="true">&times;</span>
+            ? <span style={styles.selectedMark} aria-hidden="true">&times;</span>
             : null
           }
         </label>
@@ -183,7 +182,7 @@ class MultipleChoice extends AskField {
                 {this.getOptions()}
                 {
                   this.props.otherAllowed
-                  ? <div>
+                  ?
                     <label
                       style={this.getOtherStyle()}
                       key={this.props.options.length}
@@ -192,18 +191,17 @@ class MultipleChoice extends AskField {
                       id={`${component}--${fieldNumber}__field--other`}
                       style={styles.optionCheck}
                       onClick={this.onOtherClick}
-                      tabindex='0'
+                      tabIndex='0'
                       name={'field-' + this.props.id}
                       type={this.props.multipleChoice ? 'checkbox' : 'radio'}
                       key={this.props.options.length}
                       />
                         {this.getCharIndex(this.props.options.length)}. { this.props.otherText ? this.props.otherText : 'Other' }
                         {this.state.otherSelected
-                          ? <span style={styles.selectedMark} title={'Other is selected.'} aria-hidden="true">&times;</span>
+                          ? <span style={styles.selectedMark} aria-hidden="true">&times;</span>
                           : null
                         }
                     </label>
-                  </div>
                   : null
                 }
 
@@ -238,11 +236,10 @@ const styles = {
     padding: '0'
   },
   accesibleLegend: {
-    position: 'fixed',
-    left: '-5000px'
+
   },
   option: {
-    display: 'block',
+    display: 'inline-block',
     fontSize: '14pt',
     cursor: 'pointer',
     color: '#777',
@@ -254,8 +251,6 @@ const styles = {
     outline: 'none',
     margin: '0 1% 10px 0',
     textAlign: 'left',
-    position: 'relative',
-    'float': 'left',
     borderRadius: '4px'
   },
   clicked: {
