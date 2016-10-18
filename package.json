@@ -77,7 +77,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.3.16",
-    "axios": "^0.11.1",
     "babel-helpers": "^6.8.0",
     "babel-plugin-transform-object-assign": "^6.5.0",
     "body-parser": "^1.15.0",
@@ -94,6 +93,8 @@
     "proptypes": "^0.14.3",
     "pug": "^2.0.0-beta2",
     "react-gmaps": "^1.5.0",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
     "rollup": "^0.25.8",
     "rollup-plugin-postcss": "0.0.27",
     "standard": "^7.1.2",

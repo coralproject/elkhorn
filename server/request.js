@@ -1,9 +1,17 @@
+const request = require('request-promise')
+const config = require('../config.json')
 
-var axios = require('axios')
-var config = require('../config.json')
+module.exports = (req) => {
+  let headers = {}
 
-// Configure axios
-axios.defaults.baseURL = config.askHost
-axios.defaults.headers.common['Authorization'] = config.basicAuthorization
+  let authorizationHeader = req.get('Authorization')
+  if (authorizationHeader && authorizationHeader.length > 0) {
+    headers['Authorization'] = authorizationHeader
+  }
 
-module.exports = axios
+  return request.defaults({
+    baseUrl: config.askHost,
+    headers: headers,
+    json: true
+  })
+}
