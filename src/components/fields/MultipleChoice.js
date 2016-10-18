@@ -170,7 +170,6 @@ class MultipleChoice extends AskField {
 
   render () {
     const { component, fieldNumber } = this.props
-    console.log(this.props)
 
     return (
       <div>
