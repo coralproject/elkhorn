@@ -4,6 +4,7 @@ var path = require('path')
 var AWS = require('aws-sdk')
 var log = require('./logger')
 var config = require('../config.json')
+var base = require('./base')
 var pug = require('pug')
 
 var isS3 = config.s3 && config.s3.bucket
@@ -18,17 +19,6 @@ if (isS3) {
   })
   s3bucket = new AWS.S3({params: {Bucket: config.s3.bucket}})
 }
-
-// set base url
-function getS3BaseURL () {
-  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
-}
-
-function getLocalBaseURL() {
-  return config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
-}
-
-var base = isS3 ? getS3BaseURL() : getLocalBaseURL()
 
 // expose the uploader
 module.exports = function (fileName, code, template) {
