@@ -142,7 +142,7 @@ class DateField extends AskField {
     return (
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
-          <fieldset id={fieldIdentifier}>
+          <fieldset style={styles.fieldset} id={fieldIdentifier}>
             <label for={`${fieldIdentifier}__month`} style={styles.visuallyhidden}>Month</label>
             <input
               id={`${fieldIdentifier}__month`}
@@ -206,6 +206,11 @@ const styles = {
   base: {
     maxWidth: '600px',
     position: 'relative'
+  },
+  fieldset: {
+    border: 'none',
+    padding: 0,
+    margin: 0
   },
   textInput: {
     display: 'block',

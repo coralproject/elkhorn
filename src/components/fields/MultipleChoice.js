@@ -235,9 +235,6 @@ const styles = {
     minHeight: '100px',
     padding: '0'
   },
-  accesibleLegend: {
-
-  },
   option: {
     display: 'inline-block',
     fontSize: '14pt',
