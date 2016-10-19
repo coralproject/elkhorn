@@ -100,7 +100,6 @@ class MultipleChoice extends AskField {
     const { component, fieldNumber, options } = this.props
 
     return options.map((option, i) => (
-      <div>
         <label
           className='ask-form-option'
           style={this.getOptionStyle(i)}
@@ -108,6 +107,7 @@ class MultipleChoice extends AskField {
           for={`${component}--${fieldNumber}__field--${i}`}
         >
           <input
+            tabIndex={i}
             id={`${component}--${fieldNumber}__field--${i}`}
             style={styles.optionCheck}
             onClick={this.onClick.bind(this, i)}
@@ -122,7 +122,6 @@ class MultipleChoice extends AskField {
             : null
           }
         </label>
-      </div>
     ))
   }
 
@@ -230,7 +229,6 @@ const styles = {
     display: 'block',
     color: '#888',
     width: '100%',
-    outline: 'none',
     border: 'none',
     minHeight: '100px',
     padding: '0'
@@ -245,7 +243,6 @@ const styles = {
     background: 'white',
     border: '1px solid #ccc',
     padding: '0px 20px',
-    outline: 'none',
     margin: '0 1% 10px 0',
     textAlign: 'left',
     borderRadius: '4px'
