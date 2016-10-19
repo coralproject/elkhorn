@@ -1,6 +1,5 @@
 {
   "askHost": "https://my-ask-service.com",
-  "basicAuthorization": "Basic 123123123123213",
   "s3": {
     "bucket": "",
     "region": "",
