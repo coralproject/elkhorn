@@ -97,27 +97,31 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
-    return this.props.options.map((option, i) => (
-      <label
-        className='ask-form-option'
-        style={this.getOptionStyle(i)}
-        key={i}
-      >
-        <input
-          style={styles.optionCheck}
-          onClick={this.onClick.bind(this, i)}
-          tabindex='0'
-          name={'field-' + this.props.id}
-          type={this.props.multipleChoice ? 'checkbox' : 'radio'}
-          key={i}
-        />
+    const { component, fieldNumber, options } = this.props
 
-        {this.getCharIndex(i)}. {option.title}
-        {this.state.value.indexOf(i) > -1
-          ? <span style={styles.selectedMark} title={option.title + ' is selected.'}>&times;</span>
-          : null
-        }
-      </label>
+    return options.map((option, i) => (
+        <label
+          className='ask-form-option'
+          style={this.getOptionStyle(i)}
+          key={i}
+          for={`${component}--${fieldNumber}__field--${i}`}
+        >
+          <input
+            tabIndex={i}
+            id={`${component}--${fieldNumber}__field--${i}`}
+            style={styles.optionCheck}
+            onClick={this.onClick.bind(this, i)}
+            name={'field-' + this.props.id}
+            type={this.props.multipleChoice ? 'checkbox' : 'radio'}
+            key={i}
+          />
+
+          {this.getCharIndex(i)}. {option.title}
+          {this.state.value.indexOf(i) > -1
+            ? <span style={styles.selectedMark} aria-hidden="true">&times;</span>
+            : null
+          }
+        </label>
     ))
   }
 
@@ -163,9 +167,12 @@ class MultipleChoice extends AskField {
   }
 
   render () {
+    const { component, fieldNumber } = this.props
+
     return (
       <div>
         <fieldset
+          id={`${component}--${fieldNumber}`}
           style={styles.base}>
           <legend style={styles.accesibleLegend}>{this.props.title}</legend>
           {
@@ -174,26 +181,26 @@ class MultipleChoice extends AskField {
                 {this.getOptions()}
                 {
                   this.props.otherAllowed
-                  ? <div>
+                  ?
                     <label
-                      // onMouseOver={ this.onHover.bind(this, i) }
                       style={this.getOtherStyle()}
                       key={this.props.options.length}
+                      for={`${component}--${fieldNumber}__field--other`}
                     ><input
+                      id={`${component}--${fieldNumber}__field--other`}
                       style={styles.optionCheck}
                       onClick={this.onOtherClick}
-                      tabindex='0'
+                      tabIndex='0'
                       name={'field-' + this.props.id}
                       type={this.props.multipleChoice ? 'checkbox' : 'radio'}
                       key={this.props.options.length}
                       />
                         {this.getCharIndex(this.props.options.length)}. { this.props.otherText ? this.props.otherText : 'Other' }
                         {this.state.otherSelected
-                          ? <span style={styles.selectedMark} title={'Other is selected.'}>&times;</span>
+                          ? <span style={styles.selectedMark} aria-hidden="true">&times;</span>
                           : null
                         }
                     </label>
-                  </div>
                   : null
                 }
 
@@ -222,17 +229,12 @@ const styles = {
     display: 'block',
     color: '#888',
     width: '100%',
-    outline: 'none',
     border: 'none',
     minHeight: '100px',
     padding: '0'
   },
-  accesibleLegend: {
-    position: 'fixed',
-    left: '-5000px'
-  },
   option: {
-    display: 'block',
+    display: 'inline-block',
     fontSize: '14pt',
     cursor: 'pointer',
     color: '#777',
@@ -241,11 +243,8 @@ const styles = {
     background: 'white',
     border: '1px solid #ccc',
     padding: '0px 20px',
-    outline: 'none',
     margin: '0 1% 10px 0',
     textAlign: 'left',
-    position: 'relative',
-    'float': 'left',
     borderRadius: '4px'
   },
   clicked: {

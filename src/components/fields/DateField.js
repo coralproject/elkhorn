@@ -136,39 +136,61 @@ class DateField extends AskField {
   }
 
   render() {
+    const { title, component, fieldNumber } = this.props
+    const fieldIdentifier = `${component}--${fieldNumber}`
+
     return (
       <div style={ styles.base }>
         <div style={ styles.dateFields }>
-          <input
-            ref={el => this._month = el}
-            type="number"
-            step="1"
-            placeholder="MM"
-            min="1"
-            max="12"
-            value={ this.state.month }
-            onChange={ this.onDateChange }
-            style={ this.getDateInputStyles('month') } />
-          <input
-            min="1"
-            max={this.daysInMonth()}
-            ref={el => this._day = el}
-            type="number"
-            step="1"
-            placeholder="DD"
-            value={ this.state.day }
-            onChange={ this.onDateChange }
-            style={ this.getDateInputStyles('day') } />
-          <input
-            ref={el => this._year = el}
-            type="number"
-            step="1"
-            placeholder="YYYY"
-            value={ this.state.year }
-            onChange={ this.onDateChange }
-            style={ this.getDateInputStyles('year') } />
+          <fieldset style={styles.fieldset} id={fieldIdentifier}>
+            <label for={`${fieldIdentifier}__month`} style={styles.visuallyhidden}>Month</label>
+            <input
+              id={`${fieldIdentifier}__month`}
+              ref={el => this._month = el}
+              type="number"
+              step="1"
+              placeholder="MM"
+              min="1"
+              max="12"
+              value={ this.state.month }
+              onChange={ this.onDateChange }
+              style={ this.getDateInputStyles('month') }
+            />
+
+            <label for={`${fieldIdentifier}__day`} style={styles.visuallyhidden}>Day</label>
+            <input
+              id={`${fieldIdentifier}__day`}
+              min="1"
+              max={this.daysInMonth()}
+              ref={el => this._day = el}
+              type="number"
+              step="1"
+              placeholder="DD"
+              value={ this.state.day }
+              onChange={ this.onDateChange }
+              style={ this.getDateInputStyles('day') }
+            />
+
+            <label for={`${fieldIdentifier}__year`} style={styles.visuallyhidden}>Year</label>
+            <input
+              id={`${fieldIdentifier}__year`}
+              ref={el => this._year = el}
+              type="number"
+              step="1"
+              placeholder="YYYY"
+              value={ this.state.year }
+              onChange={ this.onDateChange }
+              style={ this.getDateInputStyles('year') }
+            />
+          </fieldset>
         </div>
-        <div style={ styles.calendarButton } ref={el => this._calendarGroup = el} data-wrap data-clickOpens="false">
+        <div
+          tabIndex="-1"
+          style={ styles.calendarButton }
+          ref={el => this._calendarGroup = el}
+          data-wrap data-clickOpens="false"
+          aria-hidden="true"
+        >
           {/* This input needs to be displayed, not hidden, due to a flatpickr bug */}
           <input type="text" data-input style={ styles.hideInput } />
           <a data-toggle><CalendarIcon /></a>
@@ -184,6 +206,11 @@ const styles = {
   base: {
     maxWidth: '600px',
     position: 'relative'
+  },
+  fieldset: {
+    border: 'none',
+    padding: 0,
+    margin: 0
   },
   textInput: {
     display: 'block',
@@ -244,6 +271,16 @@ const styles = {
     width: '0',
     margin: '0',
     padding: '0'
+  },
+  visuallyhidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    width: 1
   }
 }
 
