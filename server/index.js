@@ -7,6 +7,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var compress = require('compression')
 var builder = require('./builder')
+var publishAggregations = require('./aggregations/publish')
 
 var isS3 = config.s3 && config.s3.bucket
 
@@ -64,6 +65,9 @@ app.get('/preview.js', function (req, res) {
     res.status(400).send('Bad request')
   }
 })
+
+app.get('/publish/aggregations/form/:id', publishAggregations)
+
 
 // create a form
 app.post('/create', function (req, res) {
