@@ -9,8 +9,6 @@ var AWS = require('aws-sdk')
 var config = require('../../config.json')
 
 
-
-
 const writeJSON = function (fileName, content) {
 
   var isS3 = config.s3 && config.s3.bucket
@@ -44,27 +42,24 @@ const writeJSON = function (fileName, content) {
 
   } else {
 
-    var pathFileName = path.join(__dirname, '../widgets', fileName, ".json")
+    var pathFileName = path.join(__dirname, '../widgets', fileName + ".json")
 
 
     fs.writeFile(pathFileName, JSON.stringify(content), function (err) {
-      console.log("in write", err)
+
       if (err) {
         log('Error writing JSON file to local file: ' + path.join(__dirname, 'widgets', fileName))
         log(err)
         return new Error('Error while saving JSON file to local filesystem')
       }
+
     })
- 
-
   }
-
-
 }
 
 
-
-
+// ***************************************************
+// Load Aggregations
 
 module.exports = function (req, res) {
   log('Route /publish/aggregations/form/' + req.params.id)
@@ -73,6 +68,8 @@ module.exports = function (req, res) {
       aggData = {}
 
 
+  // *************************  
+  // Get the form digest
   request(req)
     .get({
       uri: '/v1/form/' + formId + '/digest'
@@ -86,6 +83,8 @@ module.exports = function (req, res) {
 
       aggData.questions = response.questions
 
+    // *************************  
+    // Get the form aggregations 
     request(req)
       .get({
         uri: '/v1/form/' + formId + '/aggregate'
@@ -95,6 +94,65 @@ module.exports = function (req, res) {
         aggData.aggregations = response.aggregations
 
 
+        // *************************************************************************
+        // Loop through the aggregations to get submissions for each Grouping answer
+
+        var qId, oId
+        for (qId in aggData.questions) {
+
+          if (aggData.questions[qId].group_by === true) {
+
+            for (oId in aggData.questions[qId].options) {
+
+              var groupId = aggData.questions[qId].options[oId].id
+
+              // If this group aggregation does not exist, 
+              // there are no submissions, so skip it.
+              if (! aggData.aggregations[groupId]) {
+                continue;
+              }
+
+              var groupCount = aggData.aggregations[groupId].count
+
+              var uri = '/v1/form/' + formId + '/aggregate/' + groupId + '/submission?orderby=dsc&limit=10'
+
+              var fetchAndWriteSubmissions = function (formId, groupId) {
+
+                // get the submissions for this group
+                request(req)
+                  .get({
+                    uri: uri
+                  })
+                  .then(function (response) {
+                    log(uri + ': Success')
+                    
+                    writeJSON("form-"+formId+"-group-"+groupId+"-submissions", response)
+
+                    
+                  })
+                  .catch(function (response) {
+                    log(uri + ': Error')
+                    console.log("Catch: ", response)
+                    res.status(500).send(response)
+                  })
+
+              }
+
+              fetchAndWriteSubmissions(formId, groupId)
+
+            }
+
+          }
+
+        }
+
+
+
+        // end loop for grouped submissions
+
+
+    // *************************  
+    // Get the form submissions 
       request(req)
         .get({
           uri: '/v1/form/' + formId + '/aggregate/all/submission?orderby=dsc&limit=10'
@@ -105,7 +163,6 @@ module.exports = function (req, res) {
 
           writeJSON("form-"+formId+"-aggregation-digest", aggData)
 
-          res.status(200).send(aggData)
           
         })
         .catch(function (response) {
@@ -118,14 +175,18 @@ module.exports = function (req, res) {
       })
       .catch(function (response) {
         log('Ask -> /v1/form/' + formId + '/aggregation: Error')
+        console.log("Catch: ", response)
         res.status(500).send(response)
       })
 
     })
     .catch(function (response) {
       log('Ask -> /v1/form/' + formId + '/digest: Error')
+      console.log("Catch: ", response)
       res.status(500).send(response)
     })
+
+
 
 
 }
