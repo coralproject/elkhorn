@@ -88,13 +88,13 @@ class TextArea extends AskField {
   }
 
   render () {
-    const { title, placeholder, maxLength, minLength } = this.props;
+    const { title, placeholder, maxLength, minLength, component, fieldNumber } = this.props;
     const { value } = this.state;
 
     return (
       <div>
         <textarea
-          title={title}
+          id={`${component}--${fieldNumber}`}
           style={this.getStyles()}
           placeholder={placeholder}
           defaultValue={value}

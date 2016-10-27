@@ -108,11 +108,13 @@ class NumberField extends AskField {
   }
 
   render () {
+    const { title, component, fieldNumber } = this.props
+
     return (
       <div>
         <input
+          id={`${component}--${fieldNumber}`}
           type='text'
-          title={this.props.title}
           style={this.getStyles()}
           placeholder={this.props.placeholder}
           defaultValue={this.state.value}

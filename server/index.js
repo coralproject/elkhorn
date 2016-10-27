@@ -7,9 +7,9 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var compress = require('compression')
 var builder = require('./builder')
-var publishAggregations = require('./aggregations/publish')
+var base = require('./base')
 
-var isS3 = config.s3 && config.s3.bucket
+var publishAggregations = require('./aggregations/publish')
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
@@ -32,17 +32,6 @@ app.use(bodyParser.json())
 app.use('/widgets', express.static('widgets'))
 app.set('view engine', 'pug')
 app.set('views', './templates')
-
-// set base url
-function getS3BaseURL () {
-  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
-}
-
-function getLocalBaseURL () {
-  return config.host + (config.port === 80 ? '' : ':' + config.port) + '/widgets/'
-}
-
-var base = isS3 ? getS3BaseURL() : getLocalBaseURL()
 
 app.get('/iframe/:id', function (req, res) {
   res.render('iframe-form', { base: base, id: req.params.id })

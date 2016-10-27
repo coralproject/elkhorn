@@ -13,7 +13,11 @@ class EmailField extends AskField {
       {
         value: this.props.text || ''
       }
-    );
+    )
+
+    this.onBlur = this.onBlur.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   // Event listeners
@@ -80,17 +84,20 @@ class EmailField extends AskField {
   }
 
   render() {
+    const { title, component, fieldNumber } = this.props
+
     return (
       <div>
-        <input type="text"
-          title={ this.props.title }
-          style={ this.getStyles() }
+        <input
+          id={`${component}--${fieldNumber}`}
+          type="text"
+          style={this.getStyles()}
           placeholder={this.props.placeholder}
-          defaultValue={ this.state.value }
-          onBlur={ this.onBlur.bind(this) }
-          onChange={this.onChange.bind(this)}
-          onKeyDown={this.onKeyDown.bind(this)}
-          maxLength={ !!this.props.maxLength ? this.props.maxLength : false }
+          defaultValue={this.state.value}
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
+          maxLength={!!this.props.maxLength ? this.props.maxLength : false}
         />
         {
           !!this.props.maxLength ?
