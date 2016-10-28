@@ -98,7 +98,6 @@ var fetchAndWriteSubmissions = function (req, formId, groupId) {
     .catch(function (response) {
       log(uri + ': Error')
       log("Catch: ", response)
-      res.status(500).send(response)
     })
 
 }
@@ -123,7 +122,7 @@ module.exports = function (req, res) {
   // have been returned we can be confident of a success.
   setTimeout(function () {
     res.status(200).send({'Success': 'true'})
-  }, 3000)
+  }, 2000)
 
   // *************************  
   // Get the form digest
@@ -135,9 +134,9 @@ module.exports = function (req, res) {
       log('Ask -> /v1/form/' + formId + '/digest: Success')
 
       // If digest returns an empty object it tells us that there is no aggregation
-      // to be done on this form. Exit successfully with message.
+      // to be done on this form. Exit.
       if (! Object.keys(response.questions).length) {
-        res.status(200).send({"success": "Form loaded. No data to publish."})
+        return;
       }
 
       // Set the contents into the questions key.
@@ -205,28 +204,23 @@ module.exports = function (req, res) {
 
           // Write the aggData into the form digest.
           writeJSON("form-"+formId+"-aggregation-digest", aggData)
-
           
         })
         .catch(function (response) {
           console.log("Catch: ", response)
           log('Ask -> /v1/form/' + formId + '/aggregate/all/submission: Error')
-          res.status(500).send(response)
         })
-
         
       })
       .catch(function (response) {
         log('Ask -> /v1/form/' + formId + '/aggregation: Error')
         console.log("Catch: ", response)
-        res.status(500).send(response)
       })
 
     })
     .catch(function (response) {
       log('Ask -> /v1/form/' + formId + '/digest: Error')
       console.log("Catch: ", response)
-      res.status(500).send(response)
     })
 
 }
