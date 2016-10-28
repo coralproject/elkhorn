@@ -82,7 +82,7 @@ const writeJSON = function (fileName, content) {
 var fetchAndWriteSubmissions = function (req, formId, groupId) {
 
   // Create the uri for the call.
-  var uri = '/v1/form/' + formId + '/aggregate/' + groupId + '/submission?filterby=bookmarked&orderby=dsc'
+  var uri = '/v1/form/' + formId + '/aggregate/' + groupId + '/submission?filterby=bookmarked&orderby=dsc&limit=250'
 
   // get the submissions for this group
   request(req)
@@ -195,7 +195,7 @@ module.exports = function (req, res) {
       // Get the form submissions 
       request(req)
         .get({
-          uri: '/v1/form/' + formId + '/aggregate/all/submission?orderby=dsc&limit=10'
+          uri: '/v1/form/' + formId + '/aggregate/all/submission?orderby=dsc&limit=30'
         })
         .then(function (response) {
           log('Ask -> /v1/form/' + formId + '/aggregate/all/submission: Success')
