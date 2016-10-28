@@ -70,19 +70,18 @@ function createGalleryBundle (props) {
 
 module.exports = {
   buildWidget: function (props, isPreview) {
-    log('Route /buildWidget: isPreview:' + isPreview)
-    log(JSON.stringify(props))
+    log('Route /buildWidget: isPreview:' + isPreview + " : " + props.id)
 
     // convert policy from markdown
     props.footer.conditions = marked(props.footer.conditions, { renderer: renderer })
 
     return new Promise(function (resolve, reject) {
-      log('Starting rollup')
+      log('Starting rollup: ' + props.id)
       var getBundle = isPreview || !config.minimalWidgets ? getDefaultBundle : createFormBundle
       getBundle(props)
       .then(function (bundle) {
-        log('Built bundle')
-        log(bundle)
+        log('Built bundle: ' + props.id)
+        
         var result = bundle.generate({
           intro: 'var props = ' + JSON.stringify(props) + ', renderTarget = "' + (props.target || '#ask-form') + '"',
           format: 'iife'
