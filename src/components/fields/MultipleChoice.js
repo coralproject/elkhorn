@@ -17,6 +17,7 @@ class MultipleChoice extends AskField {
 
     this.onOtherClick = this.onOtherClick.bind(this)
     this.onOtherChange = this.onOtherChange.bind(this)
+    this.isSelected = this.isSelected.bind(this)
   }
 
   onOtherClick (e) {
@@ -79,6 +80,10 @@ class MultipleChoice extends AskField {
     )
   }
 
+  isSelected(i) {
+    return this.state.value.indexOf(i) > -1
+  }
+
   getOtherStyle () {
     return Object.assign({},
       styles.option,
@@ -97,15 +102,16 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
+    const { isSelected } = this
     return this.props.options.map((option, i) => (
       <label
-        className='ask-form-option'
+        className={`askForm__option ${isSelected(i)? 'selected' : ''}`}
         style={this.getOptionStyle(i)}
         key={i}
       >
         <input
           style={styles.optionCheck}
-          onClick={this.onClick.bind(this, i)}
+          onClick={ (e) => this.onClick(i, e)}
           tabindex='0'
           name={'field-' + this.props.id}
           type={this.props.multipleChoice ? 'checkbox' : 'radio'}
@@ -176,7 +182,6 @@ class MultipleChoice extends AskField {
                   this.props.otherAllowed
                   ? <div>
                     <label
-                      // onMouseOver={ this.onHover.bind(this, i) }
                       style={this.getOtherStyle()}
                       key={this.props.options.length}
                     ><input
