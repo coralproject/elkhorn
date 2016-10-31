@@ -105,7 +105,7 @@ class MultipleChoice extends AskField {
     const { isSelected } = this
     return this.props.options.map((option, i) => (
       <label
-        className={`askForm__option ${isSelected(i)? 'selected' : ''}`}
+        className={`ask-form__option ${isSelected(i)? 'selected' : ''}`}
         style={this.getOptionStyle(i)}
         key={i}
       >
@@ -172,6 +172,7 @@ class MultipleChoice extends AskField {
     return (
       <div>
         <fieldset
+	        className={`ask-form__multiple-choice__container`}
           style={styles.base}>
           <legend style={styles.accesibleLegend}>{this.props.title}</legend>
           {
@@ -182,6 +183,7 @@ class MultipleChoice extends AskField {
                   this.props.otherAllowed
                   ? <div>
                     <label
+	                    className={`ask-form__option--other`}
                       style={this.getOtherStyle()}
                       key={this.props.options.length}
                     ><input
