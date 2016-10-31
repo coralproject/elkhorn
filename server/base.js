@@ -2,9 +2,11 @@ var config = require('../config.json')
 
 var isS3 = config.s3 && config.s3.bucket
 
+// config.s3.baseURL is sourced from https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+
 // set base url
 function getS3BaseURL () {
-  return (config.s3.baseURL || 'https://s3.amazonaws.com/') + config.s3.bucket + '/'
+  return `https://${config.s3.baseURL || 's3.amazonaws.com'}/${config.s3.bucket}/`
 }
 
 function getLocalBaseURL() {
