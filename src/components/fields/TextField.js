@@ -99,15 +99,15 @@ class TextField extends AskField {
   }
 
   render () {
-    const { title, placeholder, maxLength, minLength } = this.props;
+    const { title, placeholder, maxLength, minLength, component, fieldNumber} = this.props;
     const { value } = this.state;
 
     return (
       <div>
         <input
+          id={`${component}--${fieldNumber}`}
           className="text-field"
           type="text"
-          title={title}
           style={this.getStyles()}
           placeholder={placeholder}
           defaultValue={value}

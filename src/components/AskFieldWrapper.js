@@ -14,6 +14,11 @@ class AskFieldWrapper extends Component {
     super(props, context)
     this._field = null
     this.state = { validationMessage: props.props.validationMessage }
+
+    this.onMouseDown = this.onMouseDown.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.saveRef = this.saveRef.bind(this)
+    this.setValidationMessage = this.setValidationMessage.bind(this)
   }
 
   getStyles () {
@@ -72,11 +77,14 @@ class AskFieldWrapper extends Component {
         // What? See: https://github.com/developit/preact/blob/4de2fb9be5201b84f281d0f9d2fcef1017bedd11/src/vdom/component.js#L65
         //    ...and: https://github.com/developit/preact/blob/master/src/hooks.js
         {
-          ref: this.saveRef.bind(this),
-          setValidationMessage: this.setValidationMessage.bind(this)
+          ref: this.saveRef,
+          setValidationMessage: this.setValidationMessage
         }
       )
     )
+
+    const { title, component, fieldNumber } = this.props
+
     return (
       <li
         key={this.props.index}
@@ -84,8 +92,17 @@ class AskFieldWrapper extends Component {
         >
           {
             this.props.type === 'field'
-            ? <div>
-              <h3 onMouseDown={this.onMouseDown.bind(this)} onKeyDown={this.onKeyDown.bind(this)} title={'Field number ' + this.props.fieldNumber} tabindex='0' style={this.getTitleStyles()}>
+            ? <label
+                for={`${component}--${fieldNumber}`}
+                style={styles.label}
+              >
+              <h3
+                onMouseDown={this.onMouseDown}
+                onKeyDown={this.onKeyDown}
+                title={'Field number ' + this.props.fieldNumber}
+                tabindex='0'
+                style={this.getTitleStyles()}
+              >
                   {
                     this.props.type === 'field' && this.props.settings.showFieldNumbers
                     ? <span style={styles.fieldNumber}>{this.props.fieldNumber}.</span>
@@ -111,7 +128,7 @@ class AskFieldWrapper extends Component {
                 : null
               }
               {wrappedField}
-            </div>
+            </label>
             : wrappedField
           }
           {/* TODO: move this alerts into a component */}
@@ -138,14 +155,15 @@ class AskFieldWrapper extends Component {
             : null
           }
         </div>
-
       </li>
     )
   }
-
 }
 
 const styles = {
+  label: {
+    display: 'block'
+  },
   formFieldWrapper: {
     position: 'relative',
     background: 'white'
