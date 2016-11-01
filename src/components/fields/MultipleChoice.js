@@ -174,14 +174,13 @@ class MultipleChoice extends AskField {
 
   render () {
     const { component, fieldNumber } = this.props
-
     return (
       <div>
         <fieldset
           className={'ask-form__multiple-choice__container'}
           id={`${component}--${fieldNumber}`}
           style={styles.base}>
-          <legend style={styles.accesibleLegend}>{this.props.title}</legend>
+          <legend style={styles.visuallyhidden}>{this.props.title}</legend>
           {
             this.props.options && !!this.props.options.length
             ? <div style={styles.optionsWrapper}>
@@ -307,6 +306,16 @@ const styles = {
     fontWeight: 'bold',
     paddingLeft: '5px',
     fontSize: '14pt'
+  },
+  visuallyhidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    width: 1
   }
 }
 
