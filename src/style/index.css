@@ -12,13 +12,13 @@
 	color: #999;
 }
 
-#ask-form .ask-form-option {
+#ask-form .ask-form__option {
   width: 100%;
   box-sizing: border-box;
 }
 
 @media (min-width: 480px) {
-  #ask-form .ask-form-option {
+  #ask-form .ask-form__option {
     width: 49%;
   }
 }
