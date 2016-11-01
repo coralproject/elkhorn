@@ -102,7 +102,9 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
+	  const { component, fieldNumber, options } = this.props
     const { isSelected } = this
+	  
     return this.props.options.map((option, i) => (
       <label
         className={`ask-form__option ${isSelected(i)? 'selected' : ''}`}
