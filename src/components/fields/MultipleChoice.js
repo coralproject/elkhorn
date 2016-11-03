@@ -17,6 +17,7 @@ class MultipleChoice extends AskField {
 
     this.onOtherClick = this.onOtherClick.bind(this)
     this.onOtherChange = this.onOtherChange.bind(this)
+    this.isSelected = this.isSelected.bind(this)
   }
 
   onOtherClick (e) {
@@ -79,6 +80,10 @@ class MultipleChoice extends AskField {
     )
   }
 
+  isSelected (i) {
+    return this.state.value.indexOf(i) > -1
+  }
+
   getOtherStyle () {
     return Object.assign({},
       styles.option,
@@ -97,14 +102,15 @@ class MultipleChoice extends AskField {
   // Template partials
 
   getOptions () {
-    const { component, fieldNumber, options } = this.props
+    const { component, fieldNumber } = this.props
+    const { isSelected } = this
 
-    return options.map((option, i) => (
-        <label
-          className='ask-form-option'
-          style={this.getOptionStyle(i)}
-          key={i}
-          for={`${component}--${fieldNumber}__field--${i}`}
+    return this.props.options.map((option, i) => (
+      <label
+        className={`ask-form__option ${isSelected(i) ? 'selected' : ''}`}
+        style={this.getOptionStyle(i)}
+        key={i}
+        for={`${component}--${fieldNumber}__field--${i}`}
         >
           <input
             tabIndex={i}
@@ -118,7 +124,7 @@ class MultipleChoice extends AskField {
 
           {this.getCharIndex(i)}. {option.title}
           {this.state.value.indexOf(i) > -1
-            ? <span style={styles.selectedMark} aria-hidden="true">&times;</span>
+            ? <span style={styles.selectedMark} aria-hidden='true'>&times;</span>
             : null
           }
         </label>
@@ -168,13 +174,13 @@ class MultipleChoice extends AskField {
 
   render () {
     const { component, fieldNumber } = this.props
-
     return (
       <div>
         <fieldset
+          className={'ask-form__multiple-choice__container'}
           id={`${component}--${fieldNumber}`}
           style={styles.base}>
-          <legend style={styles.accesibleLegend}>{this.props.title}</legend>
+          <legend style={styles.visuallyhidden}>{this.props.title}</legend>
           {
             this.props.options && !!this.props.options.length
             ? <div style={styles.optionsWrapper}>
@@ -183,6 +189,7 @@ class MultipleChoice extends AskField {
                   this.props.otherAllowed
                   ?
                     <label
+                      className={'ask-form__option--other'}
                       style={this.getOtherStyle()}
                       key={this.props.options.length}
                       for={`${component}--${fieldNumber}__field--other`}
@@ -195,9 +202,9 @@ class MultipleChoice extends AskField {
                       type={this.props.multipleChoice ? 'checkbox' : 'radio'}
                       key={this.props.options.length}
                       />
-                        {this.getCharIndex(this.props.options.length)}. { this.props.otherText ? this.props.otherText : 'Other' }
+                        {this.getCharIndex(this.props.options.length)}. {this.props.otherText ? this.props.otherText : 'Other'}
                         {this.state.otherSelected
-                          ? <span style={styles.selectedMark} aria-hidden="true">&times;</span>
+                          ? <span style={styles.selectedMark} aria-hidden='true'>&times;</span>
                           : null
                         }
                     </label>
@@ -299,6 +306,16 @@ const styles = {
     fontWeight: 'bold',
     paddingLeft: '5px',
     fontSize: '14pt'
+  },
+  visuallyhidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    width: 1
   }
 }
 

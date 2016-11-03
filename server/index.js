@@ -9,6 +9,8 @@ var compress = require('compression')
 var builder = require('./builder')
 var base = require('./base')
 
+var publishAggregations = require('./aggregations/publish')
+
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
@@ -53,10 +55,12 @@ app.get('/preview.js', function (req, res) {
   }
 })
 
+app.get('/publish/aggregations/form/:id', publishAggregations)
+
+
 // create a form
 app.post('/create', function (req, res) {
-  log('Route /create: Forwarding form to the Ask service')
-  log(req.body)
+  log('Route /create: Forwarding form to the Ask service: ID: ' + req.body.id)
 
   // Inject base URL into form settings
   req.body.settings.baseUrl = base
@@ -67,8 +71,7 @@ app.post('/create', function (req, res) {
       body: req.body
     })
     .then(function (response) {
-      log('Response received from the Ask service:')
-      log(response)
+      log('Route /create: Askd responsed. Success: Saved Form ' + response.id)
 
       var extras = {}
       extras.id = response.id
@@ -89,21 +92,23 @@ app.post('/create', function (req, res) {
           })
         })
         .catch(function (err) {
+          log('Elkhorn: Write file error. Could not upload (publish) form ' + response.id)
           console.log(err)
-          log('Error saving form to the Ask service')
           log(err.message)
           res.status(400).send(err.message)
         })
     })
     .catch(function (err) {
+      log('Route /create: Askd responded with Error: ' + err.message)
+      log('Could not save form ' + req.body.id)
+      log(err)
       res.status(500).send(err.message)
     })
 })
 
 // publish a gallery
 app.post('/gallery/:galleryId/publish', (req, res) => {
-  log(`Route /gallery/${req.params.galleryId}/publish`)
-  log(req.body)
+  log(`Publish Gallery: Route /gallery/${req.params.galleryId}/publish ` + req.body.id)
 
   req.body.config.baseUrl = base
 
@@ -113,8 +118,7 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
       body: req.body
     })
     .then(function (response) {
-      log('Response received from the Ask service:')
-      log(response)
+      log('Response from askd: Success. Gallery Saved: ' + response.id)
 
       return builder.buildGallery(req.body)
     })
@@ -130,7 +134,7 @@ app.post('/gallery/:galleryId/publish', (req, res) => {
     })
     .catch(function (err) {
       console.log(err)
-      log('Error saving form to the Ask service')
+      log('Error Publishing form ' + req.body.id)
       log(err.data.message)
       res.status(400).send(err.data.message)
     })
