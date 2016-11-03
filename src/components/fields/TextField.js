@@ -13,7 +13,8 @@ class TextField extends AskField {
       {
         value: this.props.text || '',
         isValid: true,
-        error: {}
+        error: {},
+        isCompleted: false
       }
     )
 
@@ -36,7 +37,8 @@ class TextField extends AskField {
 
   onChange (e) {
     this.setState({
-      value: (e.target.value).trim()
+      value: (e.target.value).trim(),
+      isCompleted: !!e.target.value.length
     })
   }
 
