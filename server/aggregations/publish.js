@@ -146,10 +146,10 @@ module.exports = function (req, res) {
       // Get the form aggregations 
       request(req)
         .get({
-          uri: '/v1/form/' + formId + '/aggregate'
+          uri: '/v1/form/' + formId + '/aggregate?filterby=bookmarked'
         })
         .then(function (response) {
-          log('Ask -> /v1/form/' + formId + '/aggregation: Success')
+          log('Ask -> /v1/form/' + formId + '/aggregation?filterby=bookmarked: Success')
           aggData.aggregations = response.aggregations
 
 
@@ -194,7 +194,7 @@ module.exports = function (req, res) {
       // Get the form submissions 
       request(req)
         .get({
-          uri: '/v1/form/' + formId + '/aggregate/all/submission?orderby=dsc&limit=30'
+          uri: '/v1/form/' + formId + '/aggregate/all/submission?filterby=bookmarked&orderby=dsc&limit=30'
         })
         .then(function (response) {
           log('Ask -> /v1/form/' + formId + '/aggregate/all/submission: Success')
