@@ -242,17 +242,19 @@ const styles = {
   },
   option: {
     display: 'inline-block',
-    fontSize: '14pt',
     cursor: 'pointer',
     color: '#777',
-    lineHeight: '50px',
+    lineHeight: '1.2em',
     transition: 'background .2s',
     background: 'white',
     border: '1px solid #ccc',
-    padding: '0px 20px',
     margin: '0 1% 10px 0',
     textAlign: 'left',
-    borderRadius: '4px'
+    borderRadius: '4px',
+		minWidth: '100%',
+		padding: '14px 20px',
+		verticalAlign: 'top',
+		fontSize: '0.9em'
   },
   clicked: {
     background: '#222',
