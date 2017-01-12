@@ -254,7 +254,7 @@ const styles = {
     minWidth: '100%',
     padding: '14px 20px',
     verticalAlign: 'top',
-    fontSize: '0.9em'
+    fontSize: '1em'
   },
   clicked: {
     background: '#222',
