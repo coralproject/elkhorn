@@ -251,10 +251,10 @@ const styles = {
     margin: '0 1% 10px 0',
     textAlign: 'left',
     borderRadius: '4px',
-		minWidth: '100%',
-		padding: '14px 20px',
-		verticalAlign: 'top',
-		fontSize: '0.9em'
+    minWidth: '100%',
+    padding: '14px 20px',
+    verticalAlign: 'top',
+    fontSize: '0.9em'
   },
   clicked: {
     background: '#222',
