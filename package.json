@@ -1,6 +1,6 @@
 {
   "name": "elkhorn",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Coral Project Ask End-User Embeddables",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --progress",
