@@ -1,0 +1,6 @@
+{
+  "extends": ["standard", "standard-jsx"],
+  "rules": {
+    "no-unused-vars": [2, {"varsIgnorePattern": "h"}]
+  }
+}
