@@ -141,7 +141,8 @@ const styles = {
     resize: 'none',
     border: '1px solid #ccc',
     transition: 'border .5s',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    minWidth: '100%'
   },
   focused: {
     // borderBottom: '2px solid #009688'
