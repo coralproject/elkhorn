@@ -16,4 +16,4 @@ If you're interested in using or contributing to Ask, get started with our User 
 
 # Questions/feedback?
 
-Create an issue in this repo, or contact jeffn@mozillafoundation.org
+Create an issue in this repo, or contact jeff@mozillafoundation.org
