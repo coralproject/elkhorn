@@ -21,7 +21,7 @@ class Footer extends Component {
                   text: this.props.theme.submitButtonText
                 }
               )}
-              onClick={this.props.onSubmit}>Submit</button>
+              onClick={this.props.onSubmit}>{this.props.cta}</button>
             {
               this.props.hasErrors ?
                 <div style={styles.footerError}><WarningIcon /> There are one or more errors with your responses. Please see above.</div>
