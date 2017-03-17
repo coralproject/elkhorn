@@ -157,6 +157,7 @@ class AskComposer extends Component {
         </ul>
 
         <Footer
+          cta={this.props.footer.cta}
           hasErrors={hasErrors}
           recaptcha={this.props.recaptcha}
           theme={theme}
