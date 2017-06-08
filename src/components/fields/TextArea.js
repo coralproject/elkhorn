@@ -63,7 +63,7 @@ class TextArea extends AskField {
 
   validate () {
     let isValid = true
-    let isCompleted = this.state.value.length
+    let isCompleted = !!this.state.value.length
 
     if (this.props.maxLength) {
       isValid = (this.state.value.length <= this.props.maxLength)
