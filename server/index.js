@@ -28,7 +28,7 @@ var app = express()
 app.use(cors())
 app.use(allowCrossDomain) // explicit header sets for cors
 app.use(compress())
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '50mb'}))
 app.use('/widgets', express.static('widgets'))
 app.set('view engine', 'pug')
 app.set('views', './templates')
